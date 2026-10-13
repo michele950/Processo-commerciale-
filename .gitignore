@@ -1,0 +1,3 @@
+# Dati grezzi scaricati dai connettori: lo snapshot in data/snapshots/ contiene già tutto il necessario
+data/raw/
+__pycache__/

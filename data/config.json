@@ -1,0 +1,105 @@
+{
+  "owner": {
+    "name": "Michele Tomassini",
+    "role": "Account Executive",
+    "company": "Agendoo AI"
+  },
+  "hubspot": {
+    "portal": 146860563,
+    "pipeline": "3234496704",
+    "owner_id": "35273657",
+    "properties": [
+      "dealname",
+      "dealstage",
+      "amount_in_home_currency",
+      "closedate",
+      "createdate",
+      "hs_lastmodifieddate",
+      "closed_lost_reason",
+      "hubspot_owner_id"
+    ]
+  },
+  "timezone": "Europe/Rome",
+  "stages": {
+    "4984102085": {
+      "label": "Demo Scheduled",
+      "group": "open",
+      "order": 1
+    },
+    "5637822650": {
+      "label": "Demo show-up (to follow-up)",
+      "group": "open",
+      "order": 2
+    },
+    "5637009636": {
+      "label": "Demo no-show",
+      "group": "noshow",
+      "order": 3
+    },
+    "4984091861": {
+      "label": "Trial Setup",
+      "group": "open",
+      "order": 4
+    },
+    "4431898873": {
+      "label": "Trial Live",
+      "group": "open",
+      "order": 5
+    },
+    "4431899834": {
+      "label": "Negotiation",
+      "group": "open",
+      "order": 6
+    },
+    "4431899835": {
+      "label": "Closed Won",
+      "group": "won",
+      "order": 7
+    },
+    "4961139914": {
+      "label": "Closed Won Paid",
+      "group": "won",
+      "order": 8
+    },
+    "5340451029": {
+      "label": "Closed Lost",
+      "group": "lost",
+      "order": 9
+    },
+    "6012495041": {
+      "label": "Riattivazione",
+      "group": "reactivation",
+      "order": 10
+    }
+  },
+  "cycle": {
+    "_note": "Ciclo demo -> firma 24-30 gg: demo -> attivazione (~7 gg) -> prova (14 gg) -> valutazione -> firma (2-3 gg)",
+    "demo_to_activation_days": 7,
+    "trial_days": 14,
+    "evaluation_to_signature_days": 3,
+    "late_evaluation_day": 27
+  },
+  "forecast_probability": {
+    "_note": "Probabilità di firma per stage, usate per il forecast pesato per MESE DI INCASSO. Valori iniziali da calibrare.",
+    "4984102085": 0.15,
+    "5637822650": 0.25,
+    "4984091861": 0.4,
+    "4431898873": 0.55,
+    "4431899834": 0.75
+  },
+  "targets": {
+    "_note": "Target mensile di chiuso (EUR) per mese di incasso, formato YYYY-MM. Da compilare.",
+    "monthly": {}
+  },
+  "stale_days": 10,
+  "calendar": {
+    "_note": "Regex (case-insensitive) per classificare gli eventi del calendario primario. Ordine di valutazione: cancelled, exclude, valutazione, attivazione, demo, demo_inferred.",
+    "cancelled": "^\\s*cancellat[oa]",
+    "exclude": "placeholder|final demo|contratto|playbook|prep |pranzo|team meeting|daily sales|crm update|deal forecast|chiudere il chiudibile|kick off|^\\s*riattivazion|follow up|mandare|fissare|richiamare|chiamare|scrivere|preparare|vedere",
+    "valutazione": "valutazion",
+    "attivazione": "attivazion|onboarding",
+    "demo": "\\bdemo\\b",
+    "demo_inferred": "^\\s*hello\\s?(smile|vet)\\s+(per|x|&|e)\\s",
+    "demo_inferred_exclude": "prossimi passi|follow|setting|info|decision|ottimizzazion|proposta|allineamento|partnership|whatsapp|feedback|call |numero"
+  }
+}

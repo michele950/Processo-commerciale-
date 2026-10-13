@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KPI Commerciali</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect x=%222%22 y=%228%22 width=%223%22 height=%226%22 fill=%22%232a78d6%22/%3E%3Crect x=%227%22 y=%225%22 width=%223%22 height=%229%22 fill=%22%232a78d6%22/%3E%3Crect x=%2212%22 y=%222%22 width=%223%22 height=%2212%22 fill=%22%23eb6834%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>KPI Commerciali</h1>
+    <p class="sub" id="who"></p>
+  </div>
+  <div class="snap">
+    <label>Dati al
+      <select id="snapshot"></select>
+    </label>
+    <span class="muted" id="generated"></span>
+  </div>
+</header>
+
+<section class="controls" aria-label="Periodo">
+  <div class="ctl">
+    <span class="ctl-label">Periodo</span>
+    <div class="seg" id="ptype">
+      <button data-v="week">Settimana</button>
+      <button data-v="month" class="on">Mese</button>
+      <button data-v="quarter">Trimestre</button>
+      <button data-v="custom">Custom</button>
+    </div>
+    <button class="nav" id="prev" aria-label="Periodo precedente">‹</button>
+    <input type="date" id="aFrom"> – <input type="date" id="aTo">
+    <button class="nav" id="next" aria-label="Periodo successivo">›</button>
+  </div>
+  <div class="ctl">
+    <span class="ctl-label">Confronta con</span>
+    <div class="seg" id="ctype">
+      <button data-v="prev" class="on" title="Se il periodo è in corso, il confronto è a pari giorni trascorsi">Periodo precedente</button>
+      <button data-v="custom">Custom</button>
+    </div>
+    <input type="date" id="bFrom"> – <input type="date" id="bTo">
+  </div>
+</section>
+
+<main>
+  <section class="block">
+    <div class="block-head">
+      <h2>1 · Risultato</h2>
+      <p class="hint" id="resHint"></p>
+    </div>
+    <div class="tiles" id="tilesResult"></div>
+    <details class="targets">
+      <summary>Imposta target mensili</summary>
+      <div id="targetEditor"></div>
+    </details>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>2 · Forecast per mese di incasso</h2>
+      <p class="hint">Ogni deal aperto è collocato nel mese in cui <b>incassa</b>, non in quello in cui è avvenuta l'attività: demo + 24 gg (attivazione 7 + prova 14 + firma 3). Una valutazione dopo il 27 slitta al mese successivo.</p>
+    </div>
+    <div class="table-wrap"><table id="forecast"></table></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>3 · Attività del periodo</h2>
+      <p class="hint">Coorte di attività: le demo di questo periodo generano fatturato nel mese successivo. Non sommarle al chiuso del periodo.</p>
+    </div>
+    <div class="tiles" id="tilesActivity"></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>4 · Coorti: demo → incasso</h2>
+      <p class="hint">Due grafici separati, perché sono coorti diverse: le demo di un mese si vedono nel chiuso del mese dopo.</p>
+    </div>
+    <div class="charts2">
+      <figure class="chart"><figcaption>Demo svolte per mese</figcaption><div id="chDemos"></div></figure>
+      <figure class="chart"><figcaption>Chiuso per mese di incasso</figcaption><div id="chClosed"></div></figure>
+    </div>
+    <div class="table-wrap"><table id="cohorts"></table></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>5 · Pipeline per stage</h2>
+      <p class="hint" id="pipeHint"></p>
+    </div>
+    <div class="table-wrap"><table id="pipeline"></table></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>6 · Trend dagli snapshot</h2>
+      <p class="hint">Ogni aggiornamento salva una fotografia: qui si vede come evolvono pipeline e previsto nel tempo.</p>
+    </div>
+    <figure class="chart"><div id="chTrend"></div></figure>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>7 · Rischi e azioni</h2>
+    </div>
+    <ul class="risks" id="risks"></ul>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>8 · Deal aperti</h2>
+      <div class="filters" id="dealFilters"></div>
+    </div>
+    <div class="table-wrap"><table id="deals"></table></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>9 · Qualità dati</h2>
+      <p class="hint">Eventi del calendario non collegati a un deal e anomalie di HubSpot: da sistemare per avere KPI affidabili.</p>
+    </div>
+    <div id="quality"></div>
+  </section>
+</main>
+
+<div class="tooltip" id="tip" role="tooltip" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>
