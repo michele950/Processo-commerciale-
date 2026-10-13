@@ -126,7 +126,11 @@ function flowKpis(deals, events, r, today) {
   const demos = evIn('demo');
   const cohort = deals.filter((d) => d.demo_date && inRange(d.demo_date, r) && d.demo_date <= today);
   const noshow = cohort.filter((d) => d.stage === STAGE.NO_SHOW).length;
-  const trial = cohort.filter((d) => TRIAL_OR_LATER.has(d.stage) || d.activation_date).length;
+  // Demo svolte: escludo i no-show e le demo passate con il deal ancora in Demo Scheduled (esito non registrato)
+  const unrecorded = cohort.filter((d) => d.stage === STAGE.DEMO_SCHEDULED).length;
+  const held = cohort.filter((d) => d.stage !== STAGE.NO_SHOW && d.stage !== STAGE.DEMO_SCHEDULED);
+  const trial = held.filter((d) => TRIAL_OR_LATER.has(d.stage) || d.activation_date).length;
+  const recorded = cohort.length - unrecorded;
   const closed = won.reduce((s, d) => s + d.amount, 0);
   const reasons = {};
   lost.forEach((d) => { const k = d.lost_reason || 'non indicato'; reasons[k] = (reasons[k] || 0) + 1; });
@@ -137,8 +141,9 @@ function flowKpis(deals, events, r, today) {
     activations: evIn('attivazione').filter(past).length, activationsPlanned: evIn('attivazione').filter((e) => !past(e)).length,
     evaluations: evIn('valutazione').filter(past).length, evaluationsPlanned: evIn('valutazione').filter((e) => !past(e)).length,
     newDeals: deals.filter((d) => inRange(d.createdate, r)).length,
-    cohortSize: cohort.length, showUp: cohort.length ? 1 - noshow / cohort.length : null,
-    demoToTrial: cohort.length ? trial / cohort.length : null,
+    cohortSize: cohort.length, unrecorded, heldCount: held.length, trialCount: trial,
+    showUp: recorded ? 1 - noshow / recorded : null,
+    demoToTrial: held.length ? trial / held.length : null,
   };
 }
 
@@ -330,8 +335,8 @@ function renderResult(latest, A, B) {
   const sa = stockKpis(snapshotAt(state.a.to)), sb = stockKpis(snapshotAt(state.b.to));
   let act = '';
   act += tile('Demo svolte', num.format(fa.demosDone), delta(fa.demosDone, fb.demosDone), fa.demosPlanned ? `+ ${fa.demosPlanned} in calendario nel periodo` : '');
-  act += tile('Show-up rate', pct(fa.showUp), delta(fa.showUp, fb.showUp, { isPct: true }), `su ${fa.cohortSize} deal con demo nel periodo`);
-  act += tile('Demo → prova', pct(fa.demoToTrial), delta(fa.demoToTrial, fb.demoToTrial, { isPct: true }), 'deal della coorte arrivati ad attivazione');
+  act += tile('Show-up rate', pct(fa.showUp), delta(fa.showUp, fb.showUp, { isPct: true }), `su ${fa.cohortSize - fa.unrecorded} demo con esito registrato${fa.unrecorded ? ` · ${fa.unrecorded} ancora in Demo Scheduled` : ''}`);
+  act += tile('Demo → prova', pct(fa.demoToTrial), delta(fa.demoToTrial, fb.demoToTrial, { isPct: true }), `${fa.trialCount} prove su ${fa.heldCount} demo svolte (esclusi no-show ed esiti non registrati)`);
   act += tile('Attivazioni prova', num.format(fa.activations), delta(fa.activations, fb.activations), fa.activationsPlanned ? `+ ${fa.activationsPlanned} in calendario` : '');
   act += tile('Valutazioni fine prova', num.format(fa.evaluations), delta(fa.evaluations, fb.evaluations), fa.evaluationsPlanned ? `+ ${fa.evaluationsPlanned} in calendario` : '');
   act += tile('Nuovi deal creati', num.format(fa.newDeals), delta(fa.newDeals, fb.newDeals));
@@ -459,6 +464,7 @@ function risksFor(latest) {
     if (d.stage === STAGE.NEGOTIATION && d.closedate && d.closedate < today) add('serious', 'Negotiation con closedate scaduta', d, `closedate ${dLabel(d.closedate)}: aggiornare o chiudere`);
     if (d.stage === STAGE.TRIAL_LIVE && !(d.evaluation_date && d.evaluation_date >= today)) add('serious', 'Prova attiva senza valutazione in calendario', d, d.activation_date ? `attivata il ${dLabel(d.activation_date)}: fissare la valutazione` : 'fissare la valutazione risultati');
     if (d.stage === STAGE.TRIAL_SETUP && !(d.activation_date && d.activation_date >= today)) add('warning', 'Trial Setup senza attivazione futura in calendario', d, 'fissare la call di attivazione');
+    if (d.stage === STAGE.DEMO_SCHEDULED && d.demo_date && d.demo_date < today) add('warning', 'Demo passata ma deal ancora in Demo Scheduled', d, `demo del ${dLabel(d.demo_date)}: aggiornare a show-up o no-show`);
     if (d.stage === STAGE.SHOW_UP && d.demo_date && D.diff(today, d.demo_date) > c.demo_to_activation_days) add('warning', `Demo fatta da oltre ${c.demo_to_activation_days} gg senza attivazione`, d, `demo del ${dLabel(d.demo_date)}`);
     if (d.stale > state.config.stale_days) add('warning', `Deal fermo da ${d.stale} gg`, d, `ultima modifica ${dLabel(d.lastmod)}`);
   });
