@@ -395,16 +395,17 @@ function renderCohorts(latest) {
     const later = won.filter((d) => d.closedate && D.month(d.closedate) > D.month(D.addMonths(m + '-01', 1))).reduce((s, d) => s + d.amount, 0);
     return { m, n: c.length, fromCal: c.filter((d) => d.demo_date_source === 'calendar').length,
       noshow: c.filter((d) => d.stage === STAGE.NO_SHOW).length,
-      trial: c.filter((d) => TRIAL_OR_LATER.has(d.stage) || d.activation_date).length,
+      held: c.filter((d) => d.demo_date && d.stage !== STAGE.NO_SHOW && d.stage !== STAGE.DEMO_SCHEDULED).length,
+      trial: c.filter((d) => d.demo_date && d.stage !== STAGE.NO_SHOW && d.stage !== STAGE.DEMO_SCHEDULED && (TRIAL_OR_LATER.has(d.stage) || d.activation_date)).length,
       open: c.filter(isOpen).length, won: won.length, lost: c.filter((d) => d.info.group === 'lost').length,
       m0: by(0), m1: by(1), later, pipeW: c.filter(isOpen).reduce((s, d) => s + d.weighted, 0) };
   });
-  let h = `<thead><tr><th>Coorte (mese demo)</th><th class="n">Deal</th><th class="n">No-show</th><th class="n">→ Prova</th><th class="n">Vinti</th><th class="n">Persi</th><th class="n">Aperti</th><th class="n">Win rate</th><th class="n">Incassato stesso mese</th><th class="n">Incassato mese +1</th><th class="n">Incassato dopo</th><th class="n">Pipeline pesata residua</th></tr></thead><tbody>`;
+  let h = `<thead><tr><th>Coorte (mese demo)</th><th class="n">Deal</th><th class="n">No-show</th><th class="n">Demo svolte</th><th class="n">→ Prova</th><th class="n">Demo → prova</th><th class="n">Vinti</th><th class="n">Persi</th><th class="n">Aperti</th><th class="n">Win rate</th><th class="n">Incassato stesso mese</th><th class="n">Incassato mese +1</th><th class="n">Incassato dopo</th><th class="n">Pipeline pesata residua</th></tr></thead><tbody>`;
   rows.forEach((r) => {
-    h += `<tr><td>${monthLabel(r.m)} <span class="muted">(${r.fromCal} da calendario)</span></td><td class="n">${r.n}</td><td class="n">${r.noshow}</td><td class="n">${r.trial}</td><td class="n">${r.won}</td><td class="n">${r.lost}</td><td class="n">${r.open}</td>
+    h += `<tr><td>${monthLabel(r.m)} <span class="muted">(${r.fromCal} da calendario)</span></td><td class="n">${r.n}</td><td class="n">${r.noshow}</td><td class="n">${r.held}</td><td class="n">${r.trial}</td><td class="n">${r.held ? pct(r.trial / r.held) : '—'}</td><td class="n">${r.won}</td><td class="n">${r.lost}</td><td class="n">${r.open}</td>
       <td class="n">${r.won + r.lost ? pct(r.won / (r.won + r.lost)) : '—'}</td><td class="n">${eur.format(r.m0)}</td><td class="n">${eur.format(r.m1)}</td><td class="n">${eur.format(r.later)}</td><td class="n">${eur.format(r.pipeW)}</td></tr>`;
   });
-  document.getElementById('cohorts').innerHTML = h + `</tbody><caption class="muted" style="caption-side:bottom;text-align:left;padding-top:6px">Mese demo = prima demo trovata in calendario; se assente, data di creazione del deal. Win rate sui deal già decisi (vinti / vinti + persi).</caption>`;
+  document.getElementById('cohorts').innerHTML = h + `</tbody><caption class="muted" style="caption-side:bottom;text-align:left;padding-top:6px">Mese demo = prima demo trovata in calendario; se assente, data di creazione del deal. Demo → prova solo sulle demo svolte trovate in calendario (esclusi no-show ed esiti non registrati). Win rate sui deal già decisi (vinti / vinti + persi).</caption>`;
 }
 
 function renderPipeline(latest) {
