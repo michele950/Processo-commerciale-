@@ -78,7 +78,7 @@ select, input[type=date], input[type=number], button {
 button { cursor: pointer; }
 
 .controls {
-  position: sticky; top: 0; z-index: 5;
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
   display: flex; flex-wrap: wrap; gap: 8px 24px;
   padding: 10px 24px; background: var(--page); border-bottom: 1px solid var(--grid);
 }

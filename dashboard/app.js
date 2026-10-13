@@ -51,7 +51,22 @@ async function getJSON(path) {
   return r.json();
 }
 
+// Versione statica (pagina condivisibile): i dati sono incorporati nella pagina da scripts/build_static.py
+const EMBEDDED = (() => { const el = document.getElementById('kpi-data'); return el ? JSON.parse(el.textContent) : null; })();
+const TARGETS_KEY = 'kpi-targets-monthly';
+
 async function load() {
+  if (EMBEDDED) {
+    state.config = EMBEDDED.config; state.index = EMBEDDED.index;
+    EMBEDDED.snapshots.forEach((s) => { state.snaps[s.snapshot_date] = s; });
+    state.asOf = state.index.latest;
+    // Nella pagina statica i target modificati restano solo in questo browser
+    try {
+      const saved = JSON.parse(localStorage.getItem(TARGETS_KEY) || 'null');
+      if (saved) state.config.targets = { ...state.config.targets, monthly: saved };
+    } catch (e) { /* storage non disponibile: si usano i target della config */ }
+    return;
+  }
   [state.config, state.index] = await Promise.all([getJSON('../data/config.json'), getJSON('../data/index.json')]);
   const list = await Promise.all(state.index.snapshots.map((d) => getJSON(`../data/snapshots/${d}.json`).catch(() => null)));
   list.filter(Boolean).forEach((s) => { state.snaps[s.snapshot_date] = s; });
@@ -529,6 +544,13 @@ function renderTargetEditor() {
     const monthly = { ...t };
     el.querySelectorAll('input[data-m]').forEach((i) => { if (i.value === '') delete monthly[i.dataset.m]; else monthly[i.dataset.m] = Number(i.value); });
     const msg = el.querySelector('#tMsg');
+    if (EMBEDDED) {
+      state.config.targets = { ...state.config.targets, monthly };
+      try { localStorage.setItem(TARGETS_KEY, JSON.stringify(monthly)); msg.textContent = 'Salvato in questo browser'; }
+      catch (e) { msg.textContent = 'Applicato fino alla chiusura della pagina'; }
+      render();
+      return;
+    }
     try {
       const r = await fetch('/api/targets', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ monthly }) });
       if (!r.ok) throw new Error(r.status);

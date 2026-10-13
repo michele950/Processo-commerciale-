@@ -12,6 +12,13 @@ python3 serve.py          # poi apri http://localhost:8000
 
 Nessuna dipendenza: solo Python 3.9+ e un browser.
 
+### Versione condivisibile (senza Python)
+
+`python3 scripts/build_static.py` genera `dist/kpi-dashboard.html`, un file unico con dati, stile e script
+incorporati. È pubblicato come pagina privata su https://claude.ai/artifact/BDDnxYwrhwSEPfBnHfQuLe e va
+ripubblicato a ogni aggiornamento dei dati. Nella versione condivisibile i target inseriti restano solo nel
+browser di chi li inserisce; i target ufficiali stanno in `data/config.json`.
+
 ## Aggiornare i dati
 
 I dati arrivano dai connettori MCP (HubSpot, Google Calendar), quindi l'aggiornamento si fa da

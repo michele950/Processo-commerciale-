@@ -19,7 +19,10 @@ Utente: Michele Tomassini, Account Executive in Agendoo AI (HelloSmile / HelloVe
    Se segnala stage non mappati, chiedi a Michele come mapparli in `data/config.json`.
 4. Controlla gli eventi non abbinati (sezione Qualità dati); se una regola di classificazione è sbagliata,
    correggi le regex in `config.json` e rilancia l'ingest.
-5. Commit di `data/snapshots/` e `data/index.json` (mai `data/raw/`) e push.
+5. `python3 scripts/build_static.py` e ripubblica `dist/kpi-dashboard.html` con lo strumento Artifact
+   sull'URL esistente `https://claude.ai/artifact/BDDnxYwrhwSEPfBnHfQuLe` (leggilo prima con `action: "read"`
+   se la conversazione non l'ha già pubblicato), così il link di Michele resta lo stesso.
+6. Commit di `data/snapshots/` e `data/index.json` (mai `data/raw/` né `dist/`) e push.
 
 ## Regole di dominio da rispettare in ogni modifica
 
