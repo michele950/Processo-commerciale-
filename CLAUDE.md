@@ -33,6 +33,13 @@ ripubblicare `dist/kpi-dashboard.html` sullo stesso URL mantenendo le capability
    se la conversazione non l'ha già pubblicato), così il link di Michele resta lo stesso.
 6. Commit di `data/snapshots/` e `data/index.json` (mai `data/raw/` né `dist/`) e push.
 
+## Creazione di deal su HubSpot (su richiesta di Michele)
+
+- Nome: `<nome struttura> - <nome referente>` (struttura dalle risposte Calendly "Nome della struttura").
+- Pipeline 3234496704, fase Demo Scheduled, proprietario 35273657, importo 1788 se non indicato.
+- **Closedate di default: data della demo (o della creazione del task) + 30 giorni.**
+- Mostrare sempre la tabella delle modifiche e attendere l'ok prima di scrivere.
+
 ## Regole di dominio da rispettare in ogni modifica
 
 - Ciclo demo → firma 24-30 gg: le demo di un mese generano fatturato nel mese **successivo**.
