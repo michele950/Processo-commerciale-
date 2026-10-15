@@ -363,6 +363,20 @@ function renderResult(latest, A, B) {
     Object.entries(fa.reasons).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${esc(k)}: ${v}`).join(' · '));
   document.getElementById('tilesResult').innerHTML = h;
 
+  // KPI chiave in testa: demo del periodo e conversioni (solo demo svolte)
+  const fk = flowKpis(latest.deals, latest.events, { from: analysisStart(), to: state.asOf }, state.asOf);
+  const sinceL = monthLabel(D.month(analysisStart()));
+  let k = '';
+  k += tile('Demo fatte', num.format(fa.demosDone), delta(fa.demosDone, fb.demosDone),
+    `+ <b>${fa.demosPlanned}</b> ancora in calendario → <b>${fa.demosDone + fa.demosPlanned}</b> demo nel periodo (eventi demo del calendario, anche senza deal)`);
+  k += tile('Tasso di presentazione', pct(fa.showUp), delta(fa.showUp, fb.showUp, { isPct: true }),
+    `${fa.cohortSize - fa.unrecorded} demo con esito registrato${fa.unrecorded ? ` · ${fa.unrecorded} ancora senza esito in HubSpot` : ''} · da ${sinceL}: <b>${pct(fk.showUp)}</b>`);
+  k += tile('Demo → trial', pct(fa.demoToTrial), delta(fa.demoToTrial, fb.demoToTrial, { isPct: true }),
+    `${fa.trialCount} attivazioni su ${fa.heldCount} demo svolte · da ${sinceL}: <b>${pct(fk.demoToTrial)}</b> (${fk.trialCount} su ${fk.heldCount})`);
+  k += tile('Demo → chiusura', pct(fa.demoToWonHeld), delta(fa.demoToWonHeld, fb.demoToWonHeld, { isPct: true }),
+    `${fa.heldWonCount} vendite su ${fa.heldCount} demo svolte${fa.cohortOpen ? ` · ${fa.cohortOpen} ancora in corso` : ''} · da ${sinceL}: <b>${pct(fk.demoToWonHeld)}</b> (${fk.heldWonCount} su ${fk.heldCount})`);
+  document.getElementById('tilesKey').innerHTML = k;
+
   // Conversione e vendite: periodo selezionato + totale dall'inizio dei dati
   const fall = flowKpis(latest.deals, latest.events, { from: analysisStart(), to: state.asOf }, state.asOf);
   const open = (k) => (k.cohortOpen ? ` · ${k.cohortOpen} ancora in trattativa` : '');

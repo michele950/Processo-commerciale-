@@ -113,6 +113,8 @@ main { padding: 8px 24px 48px; display: grid; gap: 16px; }
 .block-head .hint { flex-basis: 100%; }
 
 .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.tiles.key { margin-bottom: 12px; }
+.tiles.key .tile { border-color: var(--s1); background: var(--accent-wash); }
 .tile { border: 1px solid var(--grid); border-radius: 8px; padding: 12px; }
 .tile .k { font-size: 12px; color: var(--ink-2); }
 .tile .v { font-size: 24px; font-weight: 600; margin-top: 2px; }
