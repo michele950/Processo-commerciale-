@@ -14,12 +14,15 @@
     <p class="sub" id="who"></p>
   </div>
   <div class="snap">
+    <span class="live" id="liveStatus" data-state="saved"><i aria-hidden="true"></i><span id="liveText">Dati salvati</span></span>
+    <button id="refresh" hidden>Aggiorna ora</button>
     <label>Dati al
       <select id="snapshot"></select>
     </label>
     <span class="muted" id="generated"></span>
   </div>
 </header>
+<p class="live-msg" id="liveMsg" hidden></p>
 
 <section class="controls" aria-label="Periodo">
   <div class="ctl">
@@ -126,6 +129,7 @@
 </main>
 
 <div class="tooltip" id="tip" role="tooltip" hidden></div>
+<script src="live.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

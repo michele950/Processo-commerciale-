@@ -71,6 +71,17 @@ h2 { font-size: 16px; margin: 0; }
 }
 .top .sub { margin: 2px 0 0; }
 .snap { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.live { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-2);
+  border: 1px solid var(--ring); border-radius: 999px; padding: 3px 10px; background: var(--surface); }
+.live i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.live[data-state="live"] i { background: var(--good); }
+.live[data-state="loading"] i { background: var(--s1); animation: pulse 1.2s ease-in-out infinite; }
+.live[data-state="partial"] i { background: var(--warn); }
+.live[data-state="error"] i { background: var(--bad); }
+@keyframes pulse { 50% { opacity: .3; } }
+@media (prefers-reduced-motion: reduce) { .live[data-state="loading"] i { animation: none; } }
+.live-msg { margin: 0 24px 8px; padding: 8px 12px; border-radius: 8px; font-size: 13px;
+  background: var(--surface); border: 1px solid var(--ring); color: var(--ink-2); }
 select, input[type=date], input[type=number], button {
   font: inherit; color: var(--ink); background: var(--surface);
   border: 1px solid var(--ring); border-radius: 6px; padding: 4px 8px;
@@ -167,6 +178,7 @@ td.name a { color: inherit; }
 
 @media (max-width: 600px) {
   .top, .controls, main { padding-left: 16px; padding-right: 16px; }
+  .live-msg { margin-left: 16px; margin-right: 16px; }
   .controls { position: static; }
   .tile .v { font-size: 20px; }
 }

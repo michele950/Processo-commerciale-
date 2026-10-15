@@ -17,6 +17,7 @@ const state = {
   config: null, index: null, snaps: {}, // data -> snapshot
   asOf: null, ptype: 'month', ctype: 'prev',
   a: null, b: null, dealFilter: 'all',
+  db: null, mcp: null, live: { state: 'saved', errors: [], at: null },
 };
 
 /* ---------- utilità date (stringhe YYYY-MM-DD, nessun fuso: sono già locali Europe/Rome) ---------- */
@@ -92,9 +93,15 @@ function expectedIncasso(d, today) {
     if (D.day(ev) > late) { dt = D.max(dt, D.addMonths(ev, 1)); lateFlag = true; }
     return { date: D.max(dt, today), basis, late: lateFlag, evaluation: ev };
   };
+  // La closedate di HubSpot è la data di incasso prevista dichiarata: ha la precedenza su ogni stima.
+  if (d.closedate && d.closedate >= today) {
+    const ev = d.evaluation_date;
+    // Valutazione in calendario dopo il 27 nello stesso mese della closedate: la closedate è a rischio
+    const lateFlag = !!(ev && D.day(ev) > late && D.month(ev) === D.month(d.closedate));
+    return { date: d.closedate, basis: 'closedate HubSpot', fromHubspot: true, lateRisk: lateFlag, evaluation: ev };
+  }
   switch (d.stage) {
     case STAGE.NEGOTIATION:
-      if (d.closedate && d.closedate >= today) return { date: d.closedate, basis: 'closedate HubSpot' };
       if (d.evaluation_date && d.evaluation_date >= today) return fromEvaluation(d.evaluation_date, 'valutazione in calendario');
       return { date: D.add(today, toSign), basis: 'firma attesa entro 3 gg' };
     case STAGE.TRIAL_LIVE:
@@ -372,7 +379,7 @@ function renderForecast(latest) {
     const w = open.reduce((s, d) => s + d.weighted, 0);
     const best = closed + open.reduce((s, d) => s + d.amount, 0);
     const t = targets[m];
-    const lateIn = latest.deals.filter((d) => isOpen(d) && d.exp?.late && d.exp.evaluation && D.month(d.exp.evaluation) === m);
+    const lateIn = latest.deals.filter((d) => isOpen(d) && (d.exp?.late || d.exp?.lateRisk) && d.exp.evaluation && D.month(d.exp.evaluation) === m);
     h += `<tr class="click ${i === 0 ? 'current' : ''}" data-m="${m}"><td>${monthLabel(m)}${i === 0 ? ' (corrente)' : ''}</td>
       <td class="n">${eur.format(closed)}</td><td class="n">${eur.format(w)}</td><td class="n"><b>${eur.format(closed + w)}</b></td>
       <td class="n">${t != null ? eur.format(t) : '—'}</td>
@@ -477,7 +484,10 @@ function risksFor(latest) {
         `Valutazione ${fixed ? '' : 'stimata '}dopo il ${c.late_evaluation_day}: incassa a ${monthLabel(D.month(d.incasso))}`, d,
         `valutazione ${dLabel(d.exp.evaluation)} (${d.exp.basis}) · ${fixed ? 'anticipala' : 'fissa attivazione/valutazione in modo da chiudere entro il ' + c.late_evaluation_day} per incassare nel mese`);
     }
-    if (d.stage === STAGE.NEGOTIATION && d.closedate && d.closedate < today) add('serious', 'Negotiation con closedate scaduta', d, `closedate ${dLabel(d.closedate)}: aggiornare o chiudere`);
+    if (d.exp?.lateRisk) add('critical', `Valutazione dopo il ${c.late_evaluation_day} con closedate a ${monthLabel(D.month(d.closedate))}`, d,
+      `valutazione ${dLabel(d.exp.evaluation)}, closedate ${dLabel(d.closedate)}: rischio di incassare il mese dopo. Anticipa la valutazione o sposta la closedate`);
+    if (d.closedate && d.closedate < today) add('serious', 'Closedate scaduta su deal aperto', d, `closedate ${dLabel(d.closedate)} (${d.info.label}): aggiornare la data o chiudere il deal. Uso una stima: ${d.exp?.basis || ''}`);
+    if (!d.closedate && [STAGE.TRIAL_SETUP, STAGE.TRIAL_LIVE, STAGE.NEGOTIATION].includes(d.stage)) add('warning', 'Deal in prova senza closedate', d, `incasso stimato: ${d.exp?.basis || ''}`);
     if (d.stage === STAGE.TRIAL_LIVE && !(d.evaluation_date && d.evaluation_date >= today)) add('serious', 'Prova attiva senza valutazione in calendario', d, d.activation_date ? `attivata il ${dLabel(d.activation_date)}: fissare la valutazione` : 'fissare la valutazione risultati');
     if (d.stage === STAGE.TRIAL_SETUP && !(d.activation_date && d.activation_date >= today)) add('warning', 'Trial Setup senza attivazione futura in calendario', d, 'fissare la call di attivazione');
     if (d.stage === STAGE.DEMO_SCHEDULED && d.demo_date && d.demo_date < today) add('warning', 'Demo passata ma deal ancora in Demo Scheduled', d, `demo del ${dLabel(d.demo_date)}: aggiornare a show-up o no-show`);
@@ -526,7 +536,8 @@ function renderQuality(latest) {
   const unknown = latest.deals.filter((d) => d.info.group === 'unknown');
   const noAmount = latest.deals.filter((d) => (isOpen(d) || isWon(d)) && !d.amount);
   const wonNoDate = latest.deals.filter((d) => isWon(d) && !d.closedate);
-  let h = `<p class="muted">Fonte: HubSpot ${snap.source.hubspot_total} deal · Calendar ${snap.source.calendar_events} eventi (${dLabel(snap.source.calendar_range[0])} – ${dLabel(snap.source.calendar_range[1])}) · snapshot generato ${esc(snap.generated_at)}</p>`;
+  let h = snap.source.calendar_stale ? '<p class="muted"><b>Calendar non raggiungibile:</b> date di demo, attivazioni e valutazioni prese dall\'ultimo snapshot salvato.</p>' : '';
+  h += `<p class="muted">Fonte: HubSpot ${snap.source.hubspot_total} deal · Calendar ${snap.source.calendar_events} eventi (${dLabel(snap.source.calendar_range[0])} – ${dLabel(snap.source.calendar_range[1])}) · snapshot generato ${esc(snap.generated_at)}</p>`;
   if (wonNoDate.length) h += `<h3>Deal vinti senza closedate (${wonNoDate.length}) — esclusi dal chiuso</h3><ul>${wonNoDate.map((d) => `<li><a href="${HUBSPOT_URL(d.id)}" target="_blank" rel="noopener">${esc(d.name)}</a> · ${eur.format(d.amount)}</li>`).join('')}</ul>`;
   if (unknown.length) h += `<h3>Deal in stage non mappati (${unknown.length})</h3><ul>${unknown.map((d) => `<li><a href="${HUBSPOT_URL(d.id)}" target="_blank" rel="noopener">${esc(d.name)}</a> · stage ${esc(d.stage)}</li>`).join('')}</ul>`;
   if (noAmount.length) h += `<h3>Deal aperti/vinti senza importo (${noAmount.length})</h3><ul>${noAmount.map((d) => `<li>${esc(d.name)}</li>`).join('')}</ul>`;
@@ -544,19 +555,31 @@ function renderTargetEditor() {
     const monthly = { ...t };
     el.querySelectorAll('input[data-m]').forEach((i) => { if (i.value === '') delete monthly[i.dataset.m]; else monthly[i.dataset.m] = Number(i.value); });
     const msg = el.querySelector('#tMsg');
+    if (state.db) {
+      try {
+        await state.db.doc('settings/targets').set({ monthly });
+        state.config.targets = { ...state.config.targets, monthly };
+        render();
+        document.getElementById('tMsg').textContent = 'Salvato: lo vede chiunque apra la dashboard';
+      } catch (e) {
+        msg.textContent = e?.code === 'invalid_argument' ? 'Solo il proprietario della dashboard può modificare i target' : `Non salvato (${e?.code || 'errore'}): riprova`;
+      }
+      return;
+    }
     if (EMBEDDED) {
       state.config.targets = { ...state.config.targets, monthly };
-      try { localStorage.setItem(TARGETS_KEY, JSON.stringify(monthly)); msg.textContent = 'Salvato in questo browser'; }
-      catch (e) { msg.textContent = 'Applicato fino alla chiusura della pagina'; }
+      let note = 'Salvato in questo browser';
+      try { localStorage.setItem(TARGETS_KEY, JSON.stringify(monthly)); } catch (e) { note = 'Applicato fino alla chiusura della pagina'; }
       render();
+      document.getElementById('tMsg').textContent = note;
       return;
     }
     try {
       const r = await fetch('/api/targets', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ monthly }) });
       if (!r.ok) throw new Error(r.status);
       state.config.targets = { ...state.config.targets, monthly: (await r.json()).monthly };
-      msg.textContent = 'Salvato in data/config.json';
       render();
+      document.getElementById('tMsg').textContent = 'Salvato in data/config.json';
     } catch (e) {
       msg.textContent = 'Impossibile salvare: avvia la dashboard con python3 serve.py';
     }
@@ -600,8 +623,99 @@ function bindControls() {
   ['aFrom', 'aTo'].forEach((id) => document.getElementById(id).addEventListener('change', onA));
   ['bFrom', 'bTo'].forEach((id) => document.getElementById(id).addEventListener('change', onB));
   const sel = document.getElementById('snapshot');
-  sel.innerHTML = Object.keys(state.snaps).sort().reverse().map((d) => `<option value="${d}">${dLabel(d)} ${d.slice(0, 4)}</option>`).join('');
+  fillSnapshotSelect();
+  document.getElementById('refresh').addEventListener('click', () => startLive(true));
   sel.addEventListener('change', () => { state.asOf = sel.value; state.a = periodFor(state.ptype === 'custom' ? 'month' : state.ptype, state.asOf); if (state.ptype === 'custom') state.ptype = 'month'; recomputeB(); render(); });
+}
+
+function fillSnapshotSelect() {
+  const sel = document.getElementById('snapshot');
+  sel.innerHTML = Object.keys(state.snaps).sort().reverse()
+    .map((d) => `<option value="${d}">${dLabel(d)} ${d.slice(0, 4)}${state.snaps[d].live && d === Live.todayRome() ? ' · live' : ''}</option>`).join('');
+  sel.value = state.asOf;
+}
+
+/* ---------- dati live (connettori) e storico (database dell'artifact) ---------- */
+function renderLiveStatus() {
+  const { state: st, errors, at } = state.live;
+  const time = at ? new Date(at).toLocaleTimeString('it-IT', { timeZone: 'Europe/Rome', hour: '2-digit', minute: '2-digit' }) : '';
+  const text = {
+    saved: `Dati salvati al ${dLabel(Object.keys(state.snaps).sort().pop())}`,
+    loading: 'Aggiornamento da HubSpot e Calendar…',
+    live: `Live · aggiornato alle ${time}`,
+    partial: `Live parziale · ${time}`,
+    error: 'Connettori non raggiungibili · dati salvati',
+  }[st];
+  const el = document.getElementById('liveStatus');
+  el.dataset.state = st;
+  document.getElementById('liveText').textContent = text;
+  const msg = document.getElementById('liveMsg');
+  msg.hidden = !errors.length;
+  msg.textContent = errors.join(' ');
+  document.getElementById('refresh').hidden = !state.mcp || st === 'loading';
+}
+
+let liveRunning = false;
+async function startLive(refresh = false) {
+  if (liveRunning || !window.claude?.use) return;
+  liveRunning = true;
+  try {
+    if (!refresh) {
+      const [db, user] = await Promise.all([
+        window.claude.use('db').catch(() => null),
+        window.claude.use('user').catch(() => null),
+      ]);
+      // Solo il proprietario interroga i connettori: chi apre un link condiviso userebbe il proprio calendario
+      state.owner = user ? await user.isOwner().catch(() => false) : false;
+      state.db = db;
+      state.mcp = state.owner ? await window.claude.use('mcp').catch(() => null) : null;
+      if (db) {
+        try {
+          const hist = await Live.loadHistory(db);
+          Object.entries(hist).forEach(([d, s]) => {
+            if (!state.snaps[d] || (s.generated_at || '') > (state.snaps[d].generated_at || '')) state.snaps[d] = s;
+          });
+          const t = await db.doc('settings/targets').get();
+          if (t.exists) state.config.targets = { ...state.config.targets, monthly: t.data().monthly || {} };
+        } catch (e) { /* storico non leggibile: restano gli snapshot incorporati */ }
+      }
+    }
+    if (!state.mcp) {
+      const note = state.owner === false && state.db
+        ? `Vista condivisa: dati dell'ultimo aggiornamento del ${dLabel(Object.keys(state.snaps).sort().pop())}.`
+        : 'I connettori non sono disponibili in questa vista: mostro gli ultimi dati salvati.';
+      state.asOf = Object.keys(state.snaps).sort().pop();
+      if (state.ptype !== 'custom') { state.a = periodFor(state.ptype, state.asOf); recomputeB(); }
+      state.live = { state: 'saved', errors: [note], at: null };
+      fillSnapshotSelect(); renderLiveStatus(); render();
+      return;
+    }
+    state.live = { ...state.live, state: 'loading', errors: [] };
+    renderLiveStatus();
+    const dates = Object.keys(state.snaps).sort();
+    const previousLatest = dates[dates.length - 1];
+    const { snapshot, errors } = await Live.load(state.mcp, state.config, state.snaps[previousLatest], refresh);
+    if (!snapshot) {
+      state.live = { state: 'error', errors, at: null };
+      renderLiveStatus();
+      return;
+    }
+    const stored = state.snaps[snapshot.snapshot_date];
+    const following = state.asOf === previousLatest || state.asOf === snapshot.snapshot_date;
+    state.snaps[snapshot.snapshot_date] = snapshot;
+    if (following) {
+      state.asOf = snapshot.snapshot_date;
+      if (state.ptype !== 'custom') { state.a = periodFor(state.ptype, state.asOf); recomputeB(); }
+    }
+    state.live = { state: errors.length ? 'partial' : 'live', errors, at: snapshot.generated_at };
+    fillSnapshotSelect(); renderLiveStatus(); render();
+    // Storico: salva la fotografia del giorno (solo se cambiata). Solo il proprietario può scrivere.
+    if (state.db && !snapshot.source.calendar_stale) {
+      try { await Live.saveSnapshot(state.db, snapshot, stored); } catch (e) { /* lettore senza permessi di scrittura */ }
+    }
+  } finally {
+    liveRunning = false;
+  }
 }
 
 function render() {
@@ -625,7 +739,11 @@ load().then(() => {
   state.a = periodFor('month', state.asOf);
   recomputeB();
   bindControls();
+  renderLiveStatus();
   render();
+  // Dati live: all'apertura e ogni 15 minuti mentre la pagina è visibile
+  startLive();
+  setInterval(() => { if (document.visibilityState === 'visible') startLive(true); }, 15 * 60 * 1000);
 }).catch((e) => {
   document.querySelector('main').innerHTML = `<section class="block"><h2>Impossibile caricare i dati</h2><p>${esc(e.message)}</p><p>Avvia la dashboard con <code>python3 serve.py</code> e apri <code>http://localhost:8000</code>.</p></section>`;
 });

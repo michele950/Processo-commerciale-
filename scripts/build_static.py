@@ -30,9 +30,9 @@ def main():
     head = re.search(r"<title>.*?</title>", html, re.S).group(0)
     icon = re.search(r'<link rel="icon"[^>]*>', html)
     body = re.search(r"<body>(.*)</body>", html, re.S).group(1)
-    body = body.replace('<script src="app.js"></script>', "")
+    body = body.replace('<script src="live.js"></script>', "").replace('<script src="app.js"></script>', "")
     css = (DASH / "styles.css").read_text()
-    js = (DASH / "app.js").read_text().replace("</script", "<\\/script")
+    js = ((DASH / "live.js").read_text() + "\n" + (DASH / "app.js").read_text()).replace("</script", "<\\/script")
 
     page = "\n".join([
         head,

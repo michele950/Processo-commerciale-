@@ -2,7 +2,16 @@
 
 Utente: Michele Tomassini, Account Executive in Agendoo AI (HelloSmile / HelloVet). Lingua: italiano.
 
-## Procedura "aggiorna la dashboard KPI"
+## Dashboard live
+
+https://claude.ai/artifact/BDDnxYwrhwSEPfBnHfQuLe legge HubSpot e Google Calendar in diretta quando la apre
+Michele (capability `mcp` + `db` per lo storico giornaliero, collection `snapshots`, e `settings/targets`).
+`dashboard/live.js` replica `scripts/ingest.py`: ogni modifica alle regole di classificazione/abbinamento va
+fatta in entrambi (le liste di parole stanno in `config.json` → `matching`) e verificata con un confronto
+di parità sugli stessi dati grezzi. Dopo modifiche al codice: `python3 scripts/build_static.py` e
+ripubblicare `dist/kpi-dashboard.html` sullo stesso URL mantenendo le capability.
+
+## Procedura "aggiorna la dashboard KPI" (snapshot nel repository)
 
 1. **HubSpot** (`search_crm_objects`, objectType `DEAL`):
    filtri `pipeline = 3234496704` AND `hubspot_owner_id = 35273657`, limit 200, paginando con `offset`
@@ -30,5 +39,6 @@ Utente: Michele Tomassini, Account Executive in Agendoo AI (HelloSmile / HelloVe
   Mai sommare demo del mese e fatturato del mese: sono coorti diverse.
 - Ogni previsione di fatturato è per **mese di incasso**, non di attività.
 - Valutazione fine prova dopo il 27 → incassa il mese dopo → va segnalata come rischio.
+- La closedate HubSpot di un deal aperto è la sua data di incasso prevista (precede ogni stima).
 - Chiuso = somma `amount_in_home_currency` dei deal in Closed Won (4431899835) + Closed Won Paid
   (4961139914) con closedate nel periodo.

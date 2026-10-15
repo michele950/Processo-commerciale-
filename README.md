@@ -12,17 +12,22 @@ python3 serve.py          # poi apri http://localhost:8000
 
 Nessuna dipendenza: solo Python 3.9+ e un browser.
 
-### Versione condivisibile (senza Python)
+### Dashboard live (senza Python)
 
-`python3 scripts/build_static.py` genera `dist/kpi-dashboard.html`, un file unico con dati, stile e script
-incorporati. È pubblicato come pagina privata su https://claude.ai/artifact/BDDnxYwrhwSEPfBnHfQuLe e va
-ripubblicato a ogni aggiornamento dei dati. Nella versione condivisibile i target inseriti restano solo nel
-browser di chi li inserisce; i target ufficiali stanno in `data/config.json`.
+https://claude.ai/artifact/BDDnxYwrhwSEPfBnHfQuLe è la versione da usare tutti i giorni. Quando la apre
+Michele (proprietario), la pagina interroga **HubSpot e Google Calendar in diretta** con i suoi connettori,
+ricalcola tutte le KPI e si riaggiorna ogni 15 minuti mentre è aperta (pulsante "Aggiorna ora" per forzare).
+Ogni giorno salva la fotografia nel database della pagina: così trend e confronti tra periodi crescono da soli.
+Chi apre un link condiviso vede l'ultimo snapshot salvato, senza usare i propri connettori.
+
+La pagina si genera con `python3 scripts/build_static.py` (file unico `dist/kpi-dashboard.html` con dati,
+stile e script incorporati: `dashboard/live.js` + `dashboard/app.js`). Va ripubblicata solo quando cambia il
+codice o `data/config.json`. I target mensili si impostano dalla pagina e sono salvati nel suo database.
 
 ## Aggiornare i dati
 
-I dati arrivano dai connettori MCP (HubSpot, Google Calendar), quindi l'aggiornamento si fa da
-Claude Code: basta chiedere **"aggiorna la dashboard KPI"**. La procedura è descritta in `CLAUDE.md`:
+La dashboard live si aggiorna da sola. Lo snapshot nel repository (utile per la versione locale e come
+storico versionato) si aggiorna da Claude Code chiedendo **"aggiorna la dashboard KPI"**. La procedura è descritta in `CLAUDE.md`:
 
 1. scarica i deal della pipeline `3234496704` con owner `35273657` in `data/raw/hubspot_deals.json`;
 2. scarica gli eventi del calendario primario in `data/raw/calendar_events.json`;
@@ -30,6 +35,10 @@ Claude Code: basta chiedere **"aggiorna la dashboard KPI"**. La procedura è des
 4. fa commit dello snapshot (è la memoria storica della dashboard).
 
 ## La regola del ciclo di vendita
+
+La **closedate di HubSpot** è la data di incasso prevista: quando c'è, ha la precedenza su ogni stima.
+Senza closedate la dashboard stima l'incasso dal ciclo e dal calendario. Una closedate passata su un deal
+aperto, e una valutazione dopo il 27 nello stesso mese della closedate, finiscono tra i rischi.
 
 Il ciclo demo → firma dura 24-30 giorni (demo → attivazione ~7 gg → prova 14 gg → valutazione → firma 2-3 gg).
 Per questo la dashboard **non somma mai demo e fatturato dello stesso mese**:
@@ -62,7 +71,7 @@ Il confronto "periodo precedente" di un periodo in corso è a pari giorni trasco
 
 ## Come vengono calcolati i dati del calendario
 
-`scripts/ingest.py` classifica gli eventi del calendario con le regex di `config.json` e li abbina ai deal
+`scripts/ingest.py` (e `dashboard/live.js`, con le stesse regole e liste di `config.json` → `matching`) classifica gli eventi del calendario con le regex di `config.json` e li abbina ai deal
 confrontando le parole distintive del titolo con il nome del deal (titoli, tipologie di studio, città e nomi
 di battesimo da soli non bastano). Da qui ricava, per ogni deal, data demo, data attivazione e data valutazione.
 Gli abbinamenti mancanti finiscono nella sezione *Qualità dati*.

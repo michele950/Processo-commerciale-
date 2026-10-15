@@ -22,28 +22,6 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
-# Parole che non identificano un cliente (titoli, tipologie di studio, parole dei titoli evento).
-STOPWORDS = set("""
-studio studi dentistico dentistici dentista dentist dott dottor dottore dottoressa dssa dr drssa doc
-clinica cliniche veterinaria veterinario veterinari veterinaro vet ambulatorio ambulatori centro odontoiatrico
-odontoiatria medico medica medicina poliambulatorio hellosmile hellovet hello smile demo assistente virtuale
-per con del della delle dei degli di da la le il lo gli un una e x and the prova gratuita gratis attivazione
-valutazione risultati prossimi passi trial setting follow up info telefono michele tomassini srl s r l
-group gruppo partnership referral cliente sede onboarding call feedback sig ra sigra assistente citta
-palermo roma milano catania bologna lecco viterbo rimini montesilvano alcamo napoli torino
-""".split())
-
-# Nomi di battesimo comuni: da soli non bastano per abbinare un evento a un deal (troppi omonimi).
-FIRST_NAMES = set("""
-alberto alessandra alessandro alessia alessio andrea angelo anna annalisa antonio barbara bernardo carlo
-carlotta carmen caterina cecilia celeste chiara cinzia claudia consuelo cristina damiana daniela daniele
-davide debora domenico elena eliana elisabetta emanuela enrico erika fabio fausto federica federico filippo
-francesca francesco gabriele gianluca giacomo gioacchino giovanna giulia giulio giuseppe ilaria laura
-leonardo lorenzo loredana luca lucia luigi mara marco margherita maria marisa mario marzia massimo matteo
-mattia maurizio mauro michele mirena monica nadia nicola nicolo olga paola paolo pietro raffaele riccardo
-roberto rosa sara silvia silvio simona stefano thomas tommaso valentina valeria valerio veronica vincenzo
-vittoria vittorio
-""".split())
 
 
 def norm(text):
@@ -51,8 +29,8 @@ def norm(text):
     return re.sub(r"[^a-z0-9]+", " ", text).strip()
 
 
-def tokens(text):
-    return {t for t in norm(text).split() if len(t) >= 4 and t not in STOPWORDS and not t.isdigit()}
+def tokens(text, stopwords):
+    return {t for t in norm(text).split() if len(t) >= 4 and t not in stopwords and not t.isdigit()}
 
 
 def to_local(ts, tz):
@@ -144,7 +122,10 @@ def main():
         })
 
     # --- Abbinamento evento -> deal per token del nome (pesati per rarità)
-    deal_tokens = {d["id"]: tokens(d["name"]) for d in deals}
+    # Liste condivise con la pagina live (dashboard/live.js): stesse regole di abbinamento
+    stopwords = set(cfg["matching"]["stopwords"])
+    first_names = set(cfg["matching"]["first_names"])
+    deal_tokens = {d["id"]: tokens(d["name"], stopwords) for d in deals}
     df = Counter(t for ts in deal_tokens.values() for t in ts)
     n = max(len(deals), 1)
     idf = {t: math.log(1 + n / c) for t, c in df.items()}
@@ -156,11 +137,11 @@ def main():
     for ev in events:
         if ev["kind"] in ("altro",):
             continue
-        et = tokens(ev["summary"])
+        et = tokens(ev["summary"], stopwords)
         best, best_score = None, 0.0
         for did, dt in deal_tokens.items():
             shared = et & dt
-            if not shared or shared <= FIRST_NAMES:
+            if not shared or shared <= first_names:
                 continue
             score = sum(idf[t] for t in shared)
             d = by_id[did]
@@ -169,7 +150,7 @@ def main():
             if best is None or key > best[0]:
                 best = (key, did)
                 best_score = score
-        if best and best_score >= 2.0:
+        if best and best_score >= cfg["matching"]["min_score"]:
             ev["deal_id"] = best[1]
             ev["match_score"] = round(best_score, 2)
 
