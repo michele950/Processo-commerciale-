@@ -31,6 +31,12 @@ def main():
     icon = re.search(r'<link rel="icon"[^>]*>', html)
     body = re.search(r"<body>(.*)</body>", html, re.S).group(1)
     body = body.replace('<script src="live.js"></script>', "").replace('<script src="app.js"></script>', "")
+    # Immagini locali incorporate come data URI (la pagina pubblicata non può caricare file esterni)
+    import base64
+    for img in re.findall(r'src="([\w.-]+\.(?:jpg|png))"', body):
+        b64 = base64.b64encode((DASH / img).read_bytes()).decode()
+        mime = "image/png" if img.endswith(".png") else "image/jpeg"
+        body = body.replace(f'src="{img}"', f'src="data:{mime};base64,{b64}"')
     css = (DASH / "styles.css").read_text()
     js = ((DASH / "live.js").read_text() + "\n" + (DASH / "app.js").read_text()).replace("</script", "<\\/script")
 
