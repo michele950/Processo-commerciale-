@@ -25,12 +25,15 @@ DATA = ROOT / "data"
 
 
 def norm(text):
-    text = unicodedata.normalize("NFKD", text or "").encode("ascii", "ignore").decode().lower()
+    # Apostrofi tipografici come separatori (D’Aleo = D'Aleo)
+    text = re.sub(r"[\u2018\u2019`\u00b4]", " ", text or "")
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
     return re.sub(r"[^a-z0-9]+", " ", text).strip()
 
 
-def tokens(text, stopwords):
-    return {t for t in norm(text).split() if len(t) >= 4 and t not in stopwords and not t.isdigit()}
+def tokens(text, stopwords, aliases=None):
+    aliases = aliases or {}
+    return {aliases.get(t, t) for t in norm(text).split() if len(t) >= 4 and t not in stopwords and not t.isdigit()}
 
 
 def to_local(ts, tz):
@@ -127,7 +130,9 @@ def main():
     # Liste condivise con la pagina live (dashboard/live.js): stesse regole di abbinamento
     stopwords = set(cfg["matching"]["stopwords"])
     first_names = set(cfg["matching"]["first_names"])
-    deal_tokens = {d["id"]: tokens(d["name"], stopwords) for d in deals}
+    aliases = {k: v for k, v in cfg["matching"].get("aliases", {}).items() if not k.startswith("_")}
+    max_days = cfg["matching"].get("max_days_before_create")
+    deal_tokens = {d["id"]: tokens(d["name"], stopwords, aliases) for d in deals}
     df = Counter(t for ts in deal_tokens.values() for t in ts)
     n = max(len(deals), 1)
     idf = {t: math.log(1 + n / c) for t, c in df.items()}
@@ -139,15 +144,21 @@ def main():
     for ev in events:
         if ev["kind"] in ("altro",):
             continue
-        et = tokens(ev["summary"], stopwords)
+        et = tokens(ev["summary"], stopwords, aliases)
+        ev_day = date.fromisoformat(ev["date"])
         best, best_score = None, 0.0
         for did, dt in deal_tokens.items():
             shared = et & dt
-            if not shared or shared <= first_names:
+            if not shared:
+                continue
+            # Il solo nome di battesimo basta solo se il deal si chiama soltanto così ("Debora")
+            if shared <= first_names and not (dt <= first_names and dt <= et):
+                continue
+            d = by_id[did]
+            # Evento molto precedente alla creazione del deal: appartiene a una trattativa precedente
+            if max_days is not None and (date.fromisoformat(d["createdate"]) - ev_day).days > max_days:
                 continue
             score = sum(idf[t] for t in shared)
-            d = by_id[did]
-            # Il deal deve esistere prima dell'evento, con tolleranza (deal creati dopo la demo)
             key = (score, rank_live.get(group.get(d["stage"]), 0), d["createdate"])
             if best is None or key > best[0]:
                 best = (key, did)

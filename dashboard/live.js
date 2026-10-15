@@ -15,8 +15,11 @@ const Live = (() => {
   const todayRome = () => dayFmt.format(new Date());
 
   /* ---------- regole condivise con scripts/ingest.py ---------- */
-  const norm = (text) => (text || '').normalize('NFKD').replace(/[^\x00-\x7f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
-  const tokens = (text, stop) => new Set(norm(text).split(' ').filter((t) => t.length >= 4 && !stop.has(t) && !/^\d+$/.test(t)));
+  // Apostrofi tipografici come separatori (D’Aleo = D'Aleo)
+  const norm = (text) => (text || '').replace(/[\u2018\u2019`\u00b4]/g, ' ').normalize('NFKD').replace(/[^\x00-\x7f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const tokens = (text, stop, aliases = {}) => new Set(norm(text).split(' ')
+    .filter((t) => t.length >= 4 && !stop.has(t) && !/^\d+$/.test(t)).map((t) => aliases[t] || t));
+  const daysBetween = (a, b) => Math.round((Date.parse(a) - Date.parse(b)) / 86400000);
 
   function classify(summary, cfg) {
     const s = summary || '';
@@ -60,7 +63,9 @@ const Live = (() => {
     // Abbinamento evento -> deal per parole distintive del nome, pesate per rarità
     const stop = new Set(config.matching.stopwords);
     const first = new Set(config.matching.first_names);
-    const dealTokens = deals.map((d) => [d.id, tokens(d.name, stop)]);
+    const aliases = Object.fromEntries(Object.entries(config.matching.aliases || {}).filter(([k]) => !k.startsWith('_')));
+    const maxDays = config.matching.max_days_before_create;
+    const dealTokens = deals.map((d) => [d.id, tokens(d.name, stop, aliases)]);
     const df = new Map();
     dealTokens.forEach(([, ts]) => ts.forEach((t) => df.set(t, (df.get(t) || 0) + 1)));
     const n = Math.max(deals.length, 1);
@@ -71,13 +76,17 @@ const Live = (() => {
 
     events.forEach((ev) => {
       if (ev.kind === 'altro') return;
-      const et = tokens(ev.summary, stop);
+      const et = tokens(ev.summary, stop, aliases);
       let best = null, bestScore = 0;
       dealTokens.forEach(([id, dt]) => {
         const shared = [...et].filter((t) => dt.has(t));
-        if (!shared.length || shared.every((t) => first.has(t))) return;
-        const score = shared.reduce((s, t) => s + idf.get(t), 0);
+        if (!shared.length) return;
+        // Il solo nome di battesimo basta solo se il deal si chiama soltanto così ("Debora")
+        if (shared.every((t) => first.has(t)) && !([...dt].every((t) => first.has(t)) && [...dt].every((t) => et.has(t)))) return;
         const d = byId.get(id);
+        // Evento molto precedente alla creazione del deal: appartiene a una trattativa precedente
+        if (maxDays != null && daysBetween(d.createdate, ev.date) > maxDays) return;
+        const score = shared.reduce((s, t) => s + idf.get(t), 0);
         const key = [score, rankLive[config.stages[d.stage]?.group] ?? 0, d.createdate];
         if (!best || greater(key, best[0])) { best = [key, id]; bestScore = score; }
       });

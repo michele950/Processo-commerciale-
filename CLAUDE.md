@@ -11,6 +11,10 @@ fatta in entrambi (le liste di parole stanno in `config.json` → `matching`) e 
 di parità sugli stessi dati grezzi. Dopo modifiche al codice: `python3 scripts/build_static.py` e
 ripubblicare `dist/kpi-dashboard.html` sullo stesso URL mantenendo le capability.
 
+Regole di abbinamento (`config.json` → `matching`): parole generiche ignorate, nomi di battesimo da soli
+validi solo se il deal si chiama così, `aliases` per le grafie diverse (es. Sgroi = Sgrò), ed eventi più
+vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignorati (trattativa precedente).
+
 ## Procedura "aggiorna la dashboard KPI" (snapshot nel repository)
 
 1. **HubSpot** (`search_crm_objects`, objectType `DEAL`):

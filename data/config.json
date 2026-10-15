@@ -107,7 +107,7 @@
     "demo_inferred_exclude": "prossimi passi|follow|setting|info|decision|ottimizzazion|proposta|allineamento|partnership|whatsapp|feedback|call |numero"
   },
   "matching": {
-    "_note": "Parole ignorate nell'abbinamento evento -> deal. Usate sia da scripts/ingest.py sia dalla pagina live.",
+    "_note": "Regole di abbinamento evento -> deal, usate sia da scripts/ingest.py sia dalla pagina live (dashboard/live.js).",
     "min_score": 2.0,
     "stopwords": [
       "alcamo",
@@ -118,11 +118,14 @@
       "attivazione",
       "bologna",
       "call",
+      "care",
       "catania",
       "centro",
       "citta",
       "cliente",
+      "clinic",
       "clinica",
+      "clinical",
       "cliniche",
       "con",
       "da",
@@ -132,6 +135,9 @@
       "della",
       "delle",
       "demo",
+      "dental",
+      "dentale",
+      "dentali",
       "dentist",
       "dentista",
       "dentistici",
@@ -146,7 +152,12 @@
       "drssa",
       "dssa",
       "e",
+      "estetica",
+      "estetico",
+      "family",
       "feedback",
+      "fisioterapia",
+      "fisioterapista",
       "follow",
       "gli",
       "gratis",
@@ -164,15 +175,18 @@
       "lecco",
       "lo",
       "medica",
+      "medical",
       "medicina",
       "medico",
       "michele",
       "milano",
       "montesilvano",
       "napoli",
+      "oculista",
       "odontoiatria",
       "odontoiatrico",
       "onboarding",
+      "osteopatia",
       "palermo",
       "partnership",
       "passi",
@@ -312,6 +326,12 @@
       "vincenzo",
       "vittoria",
       "vittorio"
-    ]
+    ],
+    "aliases": {
+      "_note": "Varianti di scrittura dello stesso nome (calendario -> deal).",
+      "sgroi": "sgro"
+    },
+    "max_days_before_create": 14,
+    "_max_days_note": "Un evento più vecchio di N giorni rispetto alla creazione del deal appartiene a una trattativa precedente e non viene abbinato."
   }
 }
