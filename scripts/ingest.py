@@ -45,7 +45,8 @@ def load_deals(path):
     raw = json.loads(Path(path).read_text())
     if "rows" in raw:  # formato compatto
         cols = raw["columns"]
-        return [dict(zip(cols, r)) for r in raw["rows"]], raw
+        # Il formato compatto è già filtrato per proprietario (campo "owner" in testa al file)
+        return [{**dict(zip(cols, r)), "hubspot_owner_id": raw.get("owner")} for r in raw["rows"]], raw
     results = raw if isinstance(raw, list) else raw.get("results", [])
     deals = []
     for r in results:
@@ -91,7 +92,8 @@ def main():
     # --- Deal normalizzati
     deals = []
     for d in deals_raw:
-        if str(d.get("hubspot_owner_id", cfg["hubspot"]["owner_id"])) != cfg["hubspot"]["owner_id"]:
+        # Solo le trattative di proprietà di Michele: un deal senza proprietario indicato è escluso
+        if str(d.get("hubspot_owner_id")) != cfg["hubspot"]["owner_id"]:
             continue
         amt = d.get("amount_in_home_currency")
         deals.append({

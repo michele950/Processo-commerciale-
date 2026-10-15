@@ -35,7 +35,7 @@ const Live = (() => {
     const ownerId = config.hubspot.owner_id;
     const deals = dealsRaw
       .map((r) => ({ id: r.id ?? r.properties?.hs_object_id, ...r.properties }))
-      .filter((p) => String(p.hubspot_owner_id ?? ownerId) === ownerId)
+      .filter((p) => String(p.hubspot_owner_id) === ownerId) // solo le trattative di Michele
       .map((p) => ({
         id: String(p.id),
         name: (p.dealname || '').trim(),
