@@ -391,6 +391,77 @@ function renderResult(latest, A, B) {
   document.getElementById('tilesActivity').innerHTML = act;
 }
 
+/* ---------- Funnel per fase (coorte delle demo) ---------- */
+// HubSpot non conserva lo storico delle fasi: la fase più avanzata raggiunta si ricava dalla fase attuale
+// e, per i deal persi, dagli eventi in calendario (un'attivazione o una valutazione dimostrano il passaggio).
+const FUNNEL = [
+  { key: 'fissata', label: 'Demo fissata' },
+  { key: 'svolta', label: 'Demo svolta' },
+  { key: 'setup', label: 'Attivazione (Trial Setup)' },
+  { key: 'live', label: 'Prova attiva (Trial Live)' },
+  { key: 'nego', label: 'Valutazione / Negotiation' },
+  { key: 'won', label: 'Vinto' },
+];
+function funnelLevel(d, today) {
+  if (isWon(d)) return 5;
+  const ev = d.evaluation_date && d.evaluation_date <= today;
+  const act = !!d.activation_date;
+  switch (d.stage) {
+    case STAGE.NEGOTIATION: return 4;
+    case STAGE.TRIAL_LIVE: return ev ? 4 : 3;
+    case STAGE.TRIAL_SETUP: return ev ? 4 : 2;
+    case STAGE.SHOW_UP: return 1;
+    case STAGE.DEMO_SCHEDULED: return 0;
+    case STAGE.NO_SHOW: return 0;
+    default: return ev ? 4 : act ? 2 : 1; // perso / riattivazione: la demo c'è stata
+  }
+}
+function funnelFor(deals, r, today) {
+  const cohort = deals.filter((d) => d.demo_date && inRange(d.demo_date, r) && d.demo_date <= today);
+  const rows = FUNNEL.map((f) => ({ ...f, reached: 0, open: 0, lost: 0 }));
+  cohort.forEach((d) => {
+    const lv = funnelLevel(d, today);
+    for (let i = 0; i <= lv; i++) rows[i].reached++;
+    if (lv < 5) (isOpen(d) ? rows[lv].open++ : rows[lv].lost++);
+  });
+  rows.forEach((row, i) => {
+    if (!i) return;
+    const prev = rows[i - 1];
+    row.rate = prev.reached ? row.reached / prev.reached : null;
+    // Sui casi chiusi: esclude chi è ancora fermo alla fase precedente in attesa di esito
+    const decided = prev.reached - prev.open;
+    row.rateDecided = decided ? row.reached / decided : null;
+    row.decided = decided;
+  });
+  return rows;
+}
+function renderFunnel(latest) {
+  const fp = funnelFor(latest.deals, state.a, state.asOf);
+  const fs = funnelFor(latest.deals, { from: analysisStart(), to: state.asOf }, state.asOf);
+  // Collo di bottiglia: il passaggio con il tasso più basso sui casi chiusi (da settembre, almeno 5 casi)
+  const cand = fs.slice(2).filter((r) => r.rateDecided != null && r.decided >= 5);
+  const neck = cand.length ? cand.reduce((a, b) => (b.rateDecided < a.rateDecided ? b : a)).key : null;
+  const bar = (v) => (v == null ? '' : `<div class="bar" style="width:80px;margin:4px 0 0 auto"><span style="width:${Math.min(100, v * 100)}%"></span></div>`);
+  const since = monthLabel(D.month(analysisStart()));
+  let h = `<thead><tr><th>Fase</th><th class="n">Periodo · deal</th><th class="n">Periodo · passaggio</th><th class="n">Da ${since} · deal</th><th class="n">Da ${since} · passaggio</th><th class="n">Passaggio sui casi chiusi</th><th class="n">Fermi qui ora</th><th class="n">Persi qui</th></tr></thead><tbody>`;
+  fs.forEach((row, i) => {
+    const p = fp[i];
+    const flag = row.key === neck ? ' <span class="flag crit">collo di bottiglia</span>' : '';
+    h += `<tr><td>${i ? '→ ' : ''}${row.label}${flag}</td>
+      <td class="n">${p.reached}</td><td class="n">${i ? pct(p.rate) : '—'}</td>
+      <td class="n"><b>${row.reached}</b></td><td class="n">${i ? pct(row.rate) + bar(row.rate) : '—'}</td>
+      <td class="n">${i ? `${pct(row.rateDecided)} <span class="muted">(${row.decided})</span>` : '—'}</td>
+      <td class="n">${row.key === 'won' ? '—' : row.open || '—'}</td><td class="n">${row.key === 'won' ? '—' : row.lost || '—'}</td></tr>`;
+  });
+  const total = (rows) => (rows[0].reached ? rows[5].reached / rows[0].reached : null);
+  const held = (rows) => (rows[1].reached ? rows[5].reached / rows[1].reached : null);
+  const setup = (rows) => (rows[2].reached ? rows[5].reached / rows[2].reached : null);
+  h += `</tbody><tfoot><tr><th>Demo svolta → vinto</th><td class="n">${pct(held(fp))}</td><td></td><td class="n"><b>${pct(held(fs))}</b></td><td colspan="4"></td></tr>
+    <tr><th>Attivazione → vinto</th><td class="n">${pct(setup(fp))}</td><td></td><td class="n"><b>${pct(setup(fs))}</b></td><td colspan="4"></td></tr>
+    <tr><th>Demo fissata → vinto</th><td class="n">${pct(total(fp))}</td><td></td><td class="n"><b>${pct(total(fs))}</b></td><td colspan="4"></td></tr></tfoot>`;
+  document.getElementById('funnel').innerHTML = h;
+}
+
 /* ---------- Bridge: deal che compongono il chiuso del mese (da ottobre 2026) ---------- */
 const BRIDGE_FROM = '2026-10';
 function renderBridge(latest) {
@@ -802,6 +873,7 @@ function render() {
   document.getElementById('generated').textContent = `${Object.keys(state.snaps).length} snapshot salvati`;
   renderResult(latest);
   renderBridge(latest);
+  renderFunnel(latest);
   renderForecast(latest);
   renderCohorts(latest);
   renderPipeline(latest);
