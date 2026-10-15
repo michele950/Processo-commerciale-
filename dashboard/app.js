@@ -153,6 +153,9 @@ function flowKpis(deals, events, r, today) {
   const held = cohort.filter((d) => d.stage !== STAGE.NO_SHOW && d.stage !== STAGE.DEMO_SCHEDULED);
   const trial = held.filter((d) => TRIAL_OR_LATER.has(d.stage) || d.activation_date).length;
   const recorded = cohort.length - unrecorded;
+  // Conversione demo -> vendita sulla coorte delle demo del periodo (la firma può arrivare dopo il periodo)
+  const cohortWon = cohort.filter(isWon);
+  const heldWon = held.filter(isWon);
   const closed = won.reduce((s, d) => s + d.amount, 0);
   const reasons = {};
   lost.forEach((d) => { const k = d.lost_reason || 'non indicato'; reasons[k] = (reasons[k] || 0) + 1; });
@@ -166,6 +169,10 @@ function flowKpis(deals, events, r, today) {
     cohortSize: cohort.length, unrecorded, heldCount: held.length, trialCount: trial,
     showUp: recorded ? 1 - noshow / recorded : null,
     demoToTrial: held.length ? trial / held.length : null,
+    cohortWonCount: cohortWon.length, heldWonCount: heldWon.length,
+    cohortOpen: cohort.filter(isOpen).length,
+    demoToWonAll: cohort.length ? cohortWon.length / cohort.length : null,
+    demoToWonHeld: held.length ? heldWon.length / held.length : null,
   };
 }
 
@@ -349,10 +356,23 @@ function renderResult(latest, A, B) {
     h += tile(`Previsto incasso ${monthLabel(m)}`, eur.format(forecast), '',
       `Chiuso + pipeline pesata che incassa a ${monthLabel(m)} (${pipeM.length} deal)${target ? ` · ${pct(forecast / target)} del target` : ''}`);
   }
-  h += tile('Ticket medio', fa.avgTicket != null ? eur.format(fa.avgTicket) : '—', delta(fa.avgTicket, fb.avgTicket, { money: true }));
   h += tile('Deal persi', num.format(fa.lostCount), delta(fa.lostCount, fb.lostCount, { invert: true }),
     Object.entries(fa.reasons).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${esc(k)}: ${v}`).join(' · '));
   document.getElementById('tilesResult').innerHTML = h;
+
+  // Conversione e vendite: periodo selezionato + totale dall'inizio dei dati
+  const fall = flowKpis(latest.deals, latest.events, { from: '2000-01-01', to: state.asOf }, state.asOf);
+  const open = (k) => (k.cohortOpen ? ` · ${k.cohortOpen} ancora in trattativa` : '');
+  let cv = '';
+  cv += tile('Vendite nel periodo', num.format(fa.wonCount), delta(fa.wonCount, fb.wonCount),
+    `Totale: <b>${num.format(fall.wonCount)}</b> vendite (${eur.format(fall.closed)})`);
+  cv += tile('Ticket medio', fa.avgTicket != null ? eur.format(fa.avgTicket) : '—', delta(fa.avgTicket, fb.avgTicket, { money: true }),
+    `Totale: <b>${fall.avgTicket != null ? eur.format(fall.avgTicket) : '—'}</b> su ${fall.wonCount} vendite`);
+  cv += tile('Demo → vendita (demo totali)', pct(fa.demoToWonAll), delta(fa.demoToWonAll, fb.demoToWonAll, { isPct: true }),
+    `${fa.cohortWonCount} vendite su ${fa.cohortSize} demo fissate nel periodo (inclusi no-show)${open(fa)}<br>Totale: <b>${pct(fall.demoToWonAll)}</b> (${fall.cohortWonCount} su ${fall.cohortSize})`);
+  cv += tile('Demo → vendita (demo svolte)', pct(fa.demoToWonHeld), delta(fa.demoToWonHeld, fb.demoToWonHeld, { isPct: true }),
+    `${fa.heldWonCount} vendite su ${fa.heldCount} demo svolte (esclusi no-show ed esiti non registrati)<br>Totale: <b>${pct(fall.demoToWonHeld)}</b> (${fall.heldWonCount} su ${fall.heldCount})`);
+  document.getElementById('tilesConversion').innerHTML = cv;
 
   const sa = stockKpis(snapshotAt(state.a.to)), sb = stockKpis(snapshotAt(state.b.to));
   let act = '';
