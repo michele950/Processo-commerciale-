@@ -200,6 +200,9 @@ function stockKpis(snap) {
   };
 }
 
+/** Inizio del periodo di riferimento (config.analysis_start): totali, coorti e grafici partono da qui. */
+const analysisStart = () => state.config.analysis_start?.date || '2000-01-01';
+
 /* ---------- periodi ---------- */
 function periodFor(type, anchor) {
   if (type === 'week') { const f = D.weekStart(anchor); return { from: f, to: D.add(f, 6) }; }
@@ -361,17 +364,17 @@ function renderResult(latest, A, B) {
   document.getElementById('tilesResult').innerHTML = h;
 
   // Conversione e vendite: periodo selezionato + totale dall'inizio dei dati
-  const fall = flowKpis(latest.deals, latest.events, { from: '2000-01-01', to: state.asOf }, state.asOf);
+  const fall = flowKpis(latest.deals, latest.events, { from: analysisStart(), to: state.asOf }, state.asOf);
   const open = (k) => (k.cohortOpen ? ` · ${k.cohortOpen} ancora in trattativa` : '');
   let cv = '';
   cv += tile('Vendite nel periodo', num.format(fa.wonCount), delta(fa.wonCount, fb.wonCount),
-    `Totale: <b>${num.format(fall.wonCount)}</b> vendite (${eur.format(fall.closed)})`);
+    `Da ${monthLabel(D.month(analysisStart()))}: <b>${num.format(fall.wonCount)}</b> vendite (${eur.format(fall.closed)})`);
   cv += tile('Ticket medio', fa.avgTicket != null ? eur.format(fa.avgTicket) : '—', delta(fa.avgTicket, fb.avgTicket, { money: true }),
-    `Totale: <b>${fall.avgTicket != null ? eur.format(fall.avgTicket) : '—'}</b> su ${fall.wonCount} vendite`);
+    `Da ${monthLabel(D.month(analysisStart()))}: <b>${fall.avgTicket != null ? eur.format(fall.avgTicket) : '—'}</b> su ${fall.wonCount} vendite`);
   cv += tile('Demo → vendita (demo totali)', pct(fa.demoToWonAll), delta(fa.demoToWonAll, fb.demoToWonAll, { isPct: true }),
-    `${fa.cohortWonCount} vendite su ${fa.cohortSize} demo fissate nel periodo (inclusi no-show)${open(fa)}<br>Totale: <b>${pct(fall.demoToWonAll)}</b> (${fall.cohortWonCount} su ${fall.cohortSize})`);
+    `${fa.cohortWonCount} vendite su ${fa.cohortSize} demo fissate nel periodo (inclusi no-show)${open(fa)}<br>Da ${monthLabel(D.month(analysisStart()))}: <b>${pct(fall.demoToWonAll)}</b> (${fall.cohortWonCount} su ${fall.cohortSize})`);
   cv += tile('Demo → vendita (demo svolte)', pct(fa.demoToWonHeld), delta(fa.demoToWonHeld, fb.demoToWonHeld, { isPct: true }),
-    `${fa.heldWonCount} vendite su ${fa.heldCount} demo svolte (esclusi no-show ed esiti non registrati)<br>Totale: <b>${pct(fall.demoToWonHeld)}</b> (${fall.heldWonCount} su ${fall.heldCount})`);
+    `${fa.heldWonCount} vendite su ${fa.heldCount} demo svolte (esclusi no-show ed esiti non registrati)<br>Da ${monthLabel(D.month(analysisStart()))}: <b>${pct(fall.demoToWonHeld)}</b> (${fall.heldWonCount} su ${fall.heldCount})`);
   document.getElementById('tilesConversion').innerHTML = cv;
 
   const sa = stockKpis(snapshotAt(state.a.to)), sb = stockKpis(snapshotAt(state.b.to));
@@ -418,7 +421,7 @@ function renderForecast(latest) {
 
 function renderCohorts(latest) {
   const today = state.asOf;
-  const first = D.month(D.addMonths(today, -5));
+  const first = D.max(D.month(D.addMonths(today, -5)), D.month(analysisStart()));
   const months = []; for (let m = first + '-01'; D.month(m) <= D.month(today); m = D.addMonths(m, 1)) months.push(D.month(m));
   const demos = latest.events.filter((e) => e.kind === 'demo' && e.date <= today);
   barChart(document.getElementById('chDemos'), months.map((m) => ({

@@ -20,6 +20,10 @@
     ]
   },
   "timezone": "Europe/Rome",
+  "analysis_start": {
+    "_note": "Inizio del periodo di riferimento per totali, coorti e grafici (prima: ripartenza non confrontabile).",
+    "date": "2026-09-01"
+  },
   "stages": {
     "4984102085": {
       "label": "Demo Scheduled",

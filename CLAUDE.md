@@ -47,5 +47,7 @@ ripubblicare `dist/kpi-dashboard.html` sullo stesso URL mantenendo le capability
 - Ogni previsione di fatturato è per **mese di incasso**, non di attività.
 - Valutazione fine prova dopo il 27 → incassa il mese dopo → va segnalata come rischio.
 - La closedate HubSpot di un deal aperto è la sua data di incasso prevista (precede ogni stima).
+- Periodo di riferimento da settembre 2026 (`config.json` → `analysis_start`): luglio/agosto esclusi da totali, coorti e grafici.
+- La pipeline Reactivation (4126512317) è esclusa: sono opportunità perse in riattivazione.
 - Chiuso = somma `amount_in_home_currency` dei deal in Closed Won (4431899835) + Closed Won Paid
   (4961139914) con closedate nel periodo.
