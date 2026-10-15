@@ -177,6 +177,14 @@ td.name a { color: inherit; }
 .targets .actions { margin-top: 8px; display: flex; gap: 8px; align-items: center; }
 
 #quality h3 { font-size: 13px; margin: 12px 0 6px; }
+.bridge { margin-top: 18px; }
+.bridge-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.bridge-head h3 { font-size: 15px; margin: 0; }
+#bridge tr.sub td, #bridge tr.sub th { font-weight: 600; border-top: 2px solid var(--ink-2); }
+#bridge tr.sep td { color: var(--ink-2); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; padding-top: 14px; }
+#bridge .cum { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+#bridge .cum .bar { width: 70px; flex: none; margin: 0; }
+#bridge td.idx { color: var(--ink-2); width: 28px; }
 #quality ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--ink-2); }
 
 @media (max-width: 600px) {

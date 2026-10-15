@@ -16,7 +16,7 @@ const TRIAL_OR_LATER = new Set([STAGE.TRIAL_SETUP, STAGE.TRIAL_LIVE, STAGE.NEGOT
 const state = {
   config: null, index: null, snaps: {}, // data -> snapshot
   asOf: null, ptype: 'month', ctype: 'prev',
-  a: null, b: null, dealFilter: 'all',
+  a: null, b: null, dealFilter: 'all', bridgeMonth: null,
   db: null, mcp: null, live: { state: 'saved', errors: [], at: null },
 };
 
@@ -391,6 +391,59 @@ function renderResult(latest, A, B) {
   document.getElementById('tilesActivity').innerHTML = act;
 }
 
+/* ---------- Bridge: deal che compongono il chiuso del mese (da ottobre 2026) ---------- */
+const BRIDGE_FROM = '2026-10';
+function renderBridge(latest) {
+  const cur = D.month(state.asOf);
+  const months = [];
+  for (let m = BRIDGE_FROM + '-01'; D.month(m) <= D.month(D.addMonths(state.asOf, 2)); m = D.addMonths(m, 1)) months.push(D.month(m));
+  if (!state.bridgeMonth || !months.includes(state.bridgeMonth)) state.bridgeMonth = months.includes(cur) ? cur : months[0];
+  const m = state.bridgeMonth;
+  const mEl = document.getElementById('bridgeMonths');
+  mEl.innerHTML = months.map((k) => `<button data-m="${k}" class="${k === m ? 'on' : ''}">${monthLabel(k)}${k === cur ? ' ·' : ''}</button>`).join('');
+  mEl.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => { state.bridgeMonth = b.dataset.m; renderBridge(latest); }));
+
+  const won = latest.deals.filter((d) => isWon(d) && d.closedate && D.month(d.closedate) === m)
+    .sort((a, b) => a.closedate.localeCompare(b.closedate) || b.amount - a.amount);
+  const open = latest.deals.filter((d) => isOpen(d) && d.incasso && D.month(d.incasso) === m)
+    .sort((a, b) => a.incasso.localeCompare(b.incasso) || b.weighted - a.weighted);
+  const closed = won.reduce((s, d) => s + d.amount, 0);
+  const weighted = open.reduce((s, d) => s + d.weighted, 0);
+  const target = state.config.targets?.monthly?.[m];
+  const ref = target || closed + weighted || 1;
+  const cumCell = (v) => `<div class="cum"><span>${eur.format(v)}</span><div class="bar"><span style="width:${Math.min(100, (v / ref) * 100)}%"></span></div></div>`;
+  const link = (d) => `<a href="${HUBSPOT_URL(d.id)}" target="_blank" rel="noopener">${esc(d.name)}</a>`;
+
+  document.getElementById('bridgeHint').innerHTML =
+    `Ogni deal Closed Won / Closed Won Paid con closedate a <b>${monthLabel(m)}</b>, in ordine di chiusura, con il cumulato che arriva al chiuso del mese. Sotto, i deal aperti che incassano nello stesso mese portano dal chiuso al previsto (importo × probabilità). La barra misura il cumulato ${target ? 'sul target' : 'sul previsto (target non impostato)'}.`;
+
+  let h = `<thead><tr><th>#</th><th>Deal</th><th>Status</th><th>Closed date</th><th class="n">Valore</th><th class="n">Prob.</th><th class="n">Contributo</th><th class="n">% del chiuso</th><th class="n">Cumulato</th></tr></thead><tbody>`;
+  h += `<tr class="sep"><td colspan="9">Chiuso · ${won.length} deal</td></tr>`;
+  let cum = 0;
+  if (!won.length) h += `<tr><td></td><td colspan="8" class="muted">Nessun deal chiuso con closedate a ${monthLabel(m)}.</td></tr>`;
+  won.forEach((d, i) => {
+    cum += d.amount;
+    h += `<tr><td class="idx">${i + 1}</td><td class="name">${link(d)}</td><td>${esc(d.info.label)}</td><td>${dLabel(d.closedate)}</td>
+      <td class="n">${eur.format(d.amount)}</td><td class="n">100%</td><td class="n">${eur.format(d.amount)}</td><td class="n">${closed ? pct(d.amount / closed) : '—'}</td><td class="n">${cumCell(cum)}</td></tr>`;
+  });
+  h += `<tr class="sub"><td></td><td>Totale chiuso ${monthLabel(m)}</td><td></td><td></td><td class="n">${eur.format(closed)}</td><td></td><td class="n">${eur.format(closed)}</td><td class="n">${closed ? '100%' : '—'}</td><td class="n">${cumCell(closed)}</td></tr>`;
+  if (target != null) {
+    h += `<tr><td></td><td>Target ${monthLabel(m)}</td><td></td><td></td><td></td><td></td><td class="n">${eur.format(target)}</td><td></td><td class="n"><span class="${closed >= target ? 'up' : 'down'}">${closed >= target ? 'raggiunto' : `gap ${eur.format(target - closed)}`}</span></td></tr>`;
+  }
+  if (open.length) {
+    h += `<tr class="sep"><td colspan="9">Da chiuso a previsto · ${open.length} deal aperti con incasso a ${monthLabel(m)}</td></tr>`;
+    let c2 = closed;
+    open.forEach((d, i) => {
+      c2 += d.weighted;
+      h += `<tr><td class="idx">${won.length + i + 1}</td><td class="name">${link(d)}</td><td>${esc(d.info.label)}</td><td>${dLabel(d.incasso)} <span class="muted">prevista</span></td>
+        <td class="n">${eur.format(d.amount)}</td><td class="n">${pct(d.p)}</td><td class="n">${eur.format(d.weighted)}</td><td class="n muted">—</td><td class="n">${cumCell(c2)}</td></tr>`;
+    });
+    h += `<tr class="sub"><td></td><td>Previsto ${monthLabel(m)}</td><td></td><td></td><td class="n">${eur.format(closed + open.reduce((s, d) => s + d.amount, 0))} <span class="muted">best case</span></td><td></td><td class="n">${eur.format(closed + weighted)}</td><td></td><td class="n">${cumCell(closed + weighted)}</td></tr>`;
+    if (target != null) h += `<tr><td></td><td class="muted">Gap previsto vs target</td><td colspan="6"></td><td class="n"><span class="${closed + weighted >= target ? 'up' : 'down'}">${eur.format(closed + weighted - target)}</span></td></tr>`;
+  }
+  document.getElementById('bridge').innerHTML = h + '</tbody>';
+}
+
 function renderForecast(latest) {
   const months = [0, 1, 2].map((i) => D.month(D.addMonths(state.asOf, i)));
   const targets = state.config.targets?.monthly || {};
@@ -748,6 +801,7 @@ function render() {
   document.getElementById('who').textContent = `${state.config.owner.name} · ${state.config.owner.role}, ${state.config.owner.company} — HelloSmile / HelloVet`;
   document.getElementById('generated').textContent = `${Object.keys(state.snaps).length} snapshot salvati`;
   renderResult(latest);
+  renderBridge(latest);
   renderForecast(latest);
   renderCohorts(latest);
   renderPipeline(latest);
