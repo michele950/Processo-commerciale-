@@ -151,7 +151,10 @@ function flowKpis(deals, events, r, today) {
   // Demo svolte: escludo i no-show e le demo passate con il deal ancora in Demo Scheduled (esito non registrato)
   const unrecorded = cohort.filter((d) => d.stage === STAGE.DEMO_SCHEDULED).length;
   const held = cohort.filter((d) => d.stage !== STAGE.NO_SHOW && d.stage !== STAGE.DEMO_SCHEDULED);
-  const trial = held.filter((d) => TRIAL_OR_LATER.has(d.stage) || d.activation_date).length;
+  const trialDeals = held.filter((d) => TRIAL_OR_LATER.has(d.stage) || d.activation_date);
+  const trial = trialDeals.length;
+  const trialWon = trialDeals.filter(isWon).length;
+  const trialOpen = trialDeals.filter(isOpen).length;
   const recorded = cohort.length - unrecorded;
   // Conversione demo -> vendita sulla coorte delle demo del periodo (la firma può arrivare dopo il periodo)
   const cohortWon = cohort.filter(isWon);
@@ -169,6 +172,8 @@ function flowKpis(deals, events, r, today) {
     cohortSize: cohort.length, unrecorded, heldCount: held.length, trialCount: trial,
     showUp: recorded ? 1 - noshow / recorded : null,
     demoToTrial: held.length ? trial / held.length : null,
+    trialWonCount: trialWon, trialOpen,
+    trialToWon: trial ? trialWon / trial : null,
     cohortWonCount: cohortWon.length, heldWonCount: heldWon.length,
     cohortOpen: cohort.filter(isOpen).length,
     demoToWonAll: cohort.length ? cohortWon.length / cohort.length : null,
@@ -373,6 +378,8 @@ function renderResult(latest, A, B) {
     `${fa.cohortSize - fa.unrecorded} demo con esito registrato${fa.unrecorded ? ` · ${fa.unrecorded} ancora senza esito in HubSpot` : ''} · da ${sinceL}: <b>${pct(fk.showUp)}</b>`);
   k += tile('Demo → trial', pct(fa.demoToTrial), delta(fa.demoToTrial, fb.demoToTrial, { isPct: true }),
     `${fa.trialCount} attivazioni su ${fa.heldCount} demo svolte · da ${sinceL}: <b>${pct(fk.demoToTrial)}</b> (${fk.trialCount} su ${fk.heldCount})`);
+  k += tile('Trial → chiusura', pct(fa.trialToWon), delta(fa.trialToWon, fb.trialToWon, { isPct: true }),
+    `${fa.trialWonCount} vendite su ${fa.trialCount} trial attivati${fa.trialOpen ? ` · ${fa.trialOpen} ancora in corso` : ''} · da ${sinceL}: <b>${pct(fk.trialToWon)}</b> (${fk.trialWonCount} su ${fk.trialCount})`);
   k += tile('Demo → chiusura', pct(fa.demoToWonHeld), delta(fa.demoToWonHeld, fb.demoToWonHeld, { isPct: true }),
     `${fa.heldWonCount} vendite su ${fa.heldCount} demo svolte${fa.cohortOpen ? ` · ${fa.cohortOpen} ancora in corso` : ''} · da ${sinceL}: <b>${pct(fk.demoToWonHeld)}</b> (${fk.heldWonCount} su ${fk.heldCount})`);
   document.getElementById('tilesKey').innerHTML = k;
@@ -424,7 +431,7 @@ function funnelLevel(d, today) {
     case STAGE.NEGOTIATION: return 4;
     case STAGE.TRIAL_LIVE: return ev ? 4 : 3;
     case STAGE.TRIAL_SETUP: return ev ? 4 : 2;
-    case STAGE.SHOW_UP: return 1;
+    case STAGE.SHOW_UP: return act ? 2 : 1; // attivazione già in calendario
     case STAGE.DEMO_SCHEDULED: return 0;
     case STAGE.NO_SHOW: return 0;
     default: return ev ? 4 : act ? 2 : 1; // perso / riattivazione: la demo c'è stata
