@@ -591,24 +591,66 @@ const Store = (() => {
     return defaults();
   }
 
-  function save(state) {
-    try { localStorage.setItem(KEY, JSON.stringify(state)); return true; }
-    catch (e) { return false; }
+  /* Archivio remoto opzionale: quando la pagina è aperta come Artifact su claude.ai usa un
+     documento privato dell'utente (db). Aperta come file locale resta solo il localStorage. */
+  const remote = { doc: null, downloads: null, busy: false, pending: null };
+
+  async function connectRemote() {
+    if (!window.claude || typeof window.claude.use !== 'function') return null;
+    const [db, user, downloads] = await Promise.all(['db', 'user', 'downloads'].map(n => window.claude.use(n).catch(() => null)));
+    remote.downloads = downloads;
+    if (!db || !user) return null;
+    const id = await user.id();
+    if (!id) return null;
+    remote.doc = db.doc('data/users/' + id + '/piano');
+    const snap = await remote.doc.get();
+    return snap.exists && snap.data().state ? sanitize(snap.data().state) : null;
   }
 
-  function exportFile(state) {
+  // Una scrittura alla volta; se ne arriva un'altra nel frattempo vale l'ultima.
+  async function flushRemote() {
+    if (remote.busy || !remote.pending) return;
+    remote.busy = true;
+    const state = remote.pending; remote.pending = null;
+    try { await remote.doc.set({ state, savedAt: new Date().toISOString() }); }
+    catch (e) { remote.pending = remote.pending || state; remote.lastError = e; }
+    remote.busy = false;
+    if (remote.pending && !remote.lastError) flushRemote();
+    remote.lastError = null;
+  }
+
+  // Ritorna 'cloud' | 'local' | false
+  function save(state) {
+    let ok = false;
+    try { localStorage.setItem(KEY, JSON.stringify(state)); ok = 'local'; } catch (e) { /* storage bloccato */ }
+    if (remote.doc) {
+      remote.pending = JSON.parse(JSON.stringify(state));
+      flushRemote();
+      ok = 'cloud';
+    }
+    return ok;
+  }
+
+  async function exportFile(state) {
     const payload = { ...state, exportedAt: new Date().toISOString() };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const json = JSON.stringify(payload, null, 2);
+    const filename = `piano-accumulo-${new Date().toISOString().slice(0, 10)}.json`;
+    if (remote.downloads) {
+      try { await remote.downloads.save({ filename, data: json }); }
+      catch (e) { if (e && e.code !== 'declined') alert('Esportazione non riuscita: ' + (e.message || e.code)); }
+      return;
+    }
+    const blob = new Blob([json], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `piano-accumulo-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = filename;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   }
 
   const uid = () => Math.random().toString(36).slice(2, 10);
 
-  return { load, save, sanitize, defaults, exportFile, uid };
+  return { load, save, sanitize, defaults, exportFile, uid, connectRemote };
 })();
 
 /* =====================================================================
@@ -843,7 +885,8 @@ const App = (() => {
     clearTimeout(saveTimer);
     $('saveState').textContent = '…';
     saveTimer = setTimeout(() => {
-      $('saveState').textContent = Store.save(state) ? 'Salvato' : 'Non salvato: usa Esporta';
+      const r = Store.save(state);
+      $('saveState').textContent = r === 'cloud' ? 'Salvato (account)' : r ? 'Salvato nel browser' : 'Non salvato: usa Esporta';
     }, 300);
   }
 
@@ -1247,6 +1290,12 @@ const App = (() => {
 
     replaceState(state);
     $('saveState').textContent = '';
+
+    // Su claude.ai: carica i dati salvati nell'account; se non ce ne sono, li inizializza con quelli locali.
+    Store.connectRemote().then(remoteState => {
+      if (remoteState) replaceState(remoteState);
+      else persist();
+    }).catch(() => {});
   }
 
   return { init };
