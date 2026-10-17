@@ -48,7 +48,10 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
 
 - Target: settembre 9.800, ottobre 20.000, da novembre 25.000 (`default_from`).
 - Commissioni sul venduto del mese (closedate): 0 sotto il 70% del target; sopra, 8% da zero fino a 35.000
-  e 15% sulla parte oltre 35.000. Stipendio netto fisso 1.800 € al mese.
+  e 15% sulla parte oltre 35.000. Fisso mensile 1.800 € = 1.600 € netti + 200 € di buoni pasto esenti.
+- Netto commissioni (`compensation.payroll`): stima con IRPEF sul reddito annuo cumulato (INPS 9,19%, scaglioni
+  2026 23/33/43%, detrazioni art. 13, cuneo 2025, addizionali ~2,3%). Ipotesi A = RAL 24.000 (default),
+  ipotesi B = 1.600 netti garantiti (lordo ≈ 29.500). Da confermare con la busta paga di ottobre.
 
 ## Regole di dominio da rispettare in ogni modifica
 

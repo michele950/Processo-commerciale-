@@ -247,6 +247,34 @@ function commissionFor(sales, target) {
   return c.base_rate * Math.min(sales, c.upper_from) + c.upper_rate * Math.max(0, sales - c.upper_from);
 }
 
+/** Netto annuo stimato di un lavoratore dipendente con lordo annuo G (INPS, IRPEF, detrazioni, cuneo 2025, addizionali). */
+function netAnnual(G, p) {
+  const inps = G * p.inps_rate + Math.max(0, G - p.inps_extra_from) * p.inps_extra_rate;
+  const R = G - inps;
+  let irpef = 0, low = 0;
+  for (const [upTo, rate] of p.irpef_brackets) {
+    const top = upTo == null ? R : Math.min(R, upTo);
+    if (top > low) irpef += (top - low) * rate;
+    if (upTo == null || R <= upTo) break;
+    low = upTo;
+  }
+  // Detrazione lavoro dipendente (art. 13 TUIR)
+  let detr = R <= 15000 ? 1955 : R <= 28000 ? 1910 + 1190 * (28000 - R) / 13000 : R <= 50000 ? 1910 * (50000 - R) / 22000 : 0;
+  if (R > 25000 && R <= 35000) detr += 65;
+  // Cuneo fiscale 2025: somma esente fino a 20.000, ulteriore detrazione da 20.000 a 40.000
+  const esente = R <= 8500 ? R * 0.071 : R <= 15000 ? R * 0.053 : R <= 20000 ? R * 0.048 : 0;
+  if (R > 20000 && R <= 32000) detr += 1000;
+  else if (R > 32000 && R <= 40000) detr += 1000 * (40000 - R) / 8000;
+  return G - inps - Math.max(0, irpef - detr) - R * p.addizionali_rate + esente;
+}
+
+/** Aliquota effettiva sulle commissioni di un anno: quanto del lordo commissioni se ne va in contributi e tasse. */
+function commissionTaxRate(annualComm, p) {
+  const base = p.hypotheses[p.hypothesis].base_gross;
+  const C = Math.max(annualComm, 1);
+  return 1 - (netAnnual(base + C, p) - netAnnual(base, p)) / C;
+}
+
 function targetFor(r) {
   // Somma dei target dei mesi interamente contenuti nel periodo
   const t = new Proxy({}, { get: (_, m) => targetOf(m) });
@@ -455,31 +483,52 @@ function renderCommissions(latest) {
       comm: commissionFor(closed, target), commF: commissionFor(forecast, target) };
   });
   const r = rows.find((x) => x.m === cur) || rows[rows.length - 1];
+  // Netto stimato: aliquota effettiva sulle commissioni dell'anno fiscale (IRPEF sul reddito annuo cumulato).
+  // Mesi dell'anno senza dati (dopo l'ultimo mostrato) stimati con la media dei mesi noti dello stesso anno.
+  const p = c.payroll;
+  const fixedNet = p ? p.net_fixed : c.net_salary, meal = p ? p.meal_vouchers : 0, salary = fixedNet + meal;
+  const yearRate = {};
+  if (p) {
+    const startM = D.month(analysisStart());
+    [...new Set(rows.map((x) => x.m.slice(0, 4)))].forEach((y) => {
+      const ys = rows.filter((x) => x.m.startsWith(y)).map((x) => (x.m >= cur ? x.commF : x.comm));
+      const first = startM > `${y}-01` ? Number(startM.slice(5)) : 1;
+      const missing = Math.max(0, 12 - first + 1 - ys.length);
+      const annual = p.annual_commission_override != null ? p.annual_commission_override
+        : ys.reduce((a, b) => a + b, 0) + (ys.length ? missing * ys.reduce((a, b) => a + b, 0) / ys.length : 0);
+      yearRate[y] = { annual, rate: commissionTaxRate(annual, p) };
+    });
+  }
+  const net = (m, gross) => (p ? gross * (1 - yearRate[m.slice(0, 4)].rate) : gross);
+  rows.forEach((x) => { x.commNet = net(x.m, x.comm); x.commFNet = net(x.m, x.commF); });
+  const yr = p && yearRate[r.m.slice(0, 4)];
   document.getElementById('commHint').innerHTML =
-    `Le commissioni scattano al <b>${Math.round(c.threshold_pct * 100)}% del target</b> del mese e valgono <b>${Math.round(c.base_rate * 100)}% del venduto da zero</b> fino a ${eur.format(c.upper_from)}, poi <b>${Math.round(c.upper_rate * 100)}% sulla parte oltre</b>. Venduto = chiuso del mese (Closed Won + Closed Won Paid per closedate). Stipendio netto fisso ${eur.format(c.net_salary)} al mese. Il previsto usa chiuso + pipeline pesata che incassa nel mese.`;
+    `Le commissioni scattano al <b>${Math.round(c.threshold_pct * 100)}% del target</b> del mese e valgono <b>${Math.round(c.base_rate * 100)}% del venduto da zero</b> fino a ${eur.format(c.upper_from)}, poi <b>${Math.round(c.upper_rate * 100)}% sulla parte oltre</b>. Venduto = chiuso del mese (Closed Won + Closed Won Paid per closedate). Il previsto usa chiuso + pipeline pesata che incassa nel mese.` +
+    (p ? ` Fisso mensile ${eur.format(salary)} = ${eur.format(fixedNet)} netti + ${eur.format(meal)} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): l'IRPEF si calcola sul reddito dell'anno, quindi le commissioni ${r.m.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) pagano in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga di ottobre (lordo fisso, netto in busta, voce buoni pasto).` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
   let next = '';
   if (!r.target) next = 'Target del mese non impostato';
   else if (r.closed < r.threshold) next = `Mancano <b>${eur.format(r.threshold - r.closed)}</b> alla soglia del ${Math.round(c.threshold_pct * 100)}% (${eur.format(r.threshold)}): a soglia la commissione vale ${eur.format(commissionFor(r.threshold, r.target))}`;
   else if (r.closed < c.upper_from) next = `Ogni 1.000 € in più vale ${eur.format(1000 * c.base_rate)}. Mancano <b>${eur.format(c.upper_from - r.closed)}</b> allo scaglione del ${Math.round(c.upper_rate * 100)}%`;
   else next = `Oltre ${eur.format(c.upper_from)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
   let t = '';
-  t += tile(`Commissione maturata ${monthLabel(r.m)}`, eur.format(r.comm), '',
-    `Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} del target ${eur.format(r.target)}` : ''}`,
+  t += tile(`Commissione maturata ${monthLabel(r.m)} (lorda)`, eur.format(r.comm), '',
+    `≈ ${eur.format(r.commNet)} netti · Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} del target ${eur.format(r.target)}` : ''}`,
     r.target ? `<div class="bar"><span style="width:${Math.min(100, (r.closed / r.target) * 100)}%"></span></div>` : '');
   const nextVal = !r.target ? '—' : r.closed < r.threshold ? eur.format(r.threshold - r.closed) : r.closed < c.upper_from ? eur.format(c.upper_from - r.closed) : 'Scaglione 15%';
   t += tile(!r.target || r.closed < r.threshold ? 'Mancano alla soglia' : r.closed < c.upper_from ? 'Mancano allo scaglione 15%' : 'Scaglione massimo', nextVal, '', next);
-  t += tile(`Totale ${monthLabel(r.m)} (stipendio + commissione)`, eur.format(c.net_salary + r.comm), '', `${eur.format(c.net_salary)} netto + ${eur.format(r.comm)} commissione maturata`);
-  t += tile(`Previsto a fine ${monthLabel(r.m)}`, eur.format(c.net_salary + r.commF), '',
-    `Commissione prevista ${eur.format(r.commF)} su venduto previsto ${eur.format(r.forecast)}${r.target ? ` (${pct(r.forecast / r.target)} del target)` : ''}`);
+  t += tile(`Netto in tasca ${monthLabel(r.m)} (stima)`, eur.format(salary + r.commNet), '',
+    `${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(r.commNet)} netti di commissione (${eur.format(r.comm)} lordi)`);
+  t += tile(`Previsto netto a fine ${monthLabel(r.m)}`, eur.format(salary + r.commFNet), '',
+    `Commissione prevista ${eur.format(r.commF)} lordi ≈ ${eur.format(r.commFNet)} netti su venduto previsto ${eur.format(r.forecast)}${r.target ? ` (${pct(r.forecast / r.target)} del target)` : ''}`);
   document.getElementById('tilesComm').innerHTML = t;
-  let h = `<thead><tr><th>Mese</th><th class="n">Target</th><th class="n">Soglia ${Math.round(c.threshold_pct * 100)}%</th><th class="n">Venduto</th><th class="n">% target</th><th class="n">Commissione maturata</th><th class="n">Totale con stipendio</th><th class="n">Venduto previsto</th><th class="n">Commissione prevista</th><th class="n">Totale previsto</th></tr></thead><tbody>`;
+  let h = `<thead><tr><th>Mese</th><th class="n">Target</th><th class="n">Soglia ${Math.round(c.threshold_pct * 100)}%</th><th class="n">Venduto</th><th class="n">% target</th><th class="n">Commissione lorda</th><th class="n">Commissione netta</th><th class="n">Netto totale</th><th class="n">Venduto previsto</th><th class="n">Commissione prevista (lorda / netta)</th><th class="n">Netto totale previsto</th></tr></thead><tbody>`;
   rows.forEach((x) => {
     const future = x.m >= cur;
     h += `<tr class="${x.m === cur ? 'current' : ''}"><td>${monthLabel(x.m)}${x.m === cur ? ' (corrente)' : ''}</td>
       <td class="n">${x.target ? eur.format(x.target) : '—'}</td><td class="n">${x.threshold ? eur.format(x.threshold) : '—'}</td>
       <td class="n">${eur.format(x.closed)}</td><td class="n">${x.target ? pct(x.closed / x.target) : '—'}</td>
-      <td class="n"><b>${eur.format(x.comm)}</b></td><td class="n">${eur.format(c.net_salary + x.comm)}</td>
-      <td class="n">${future ? eur.format(x.forecast) : '—'}</td><td class="n">${future ? eur.format(x.commF) : '—'}</td><td class="n">${future ? eur.format(c.net_salary + x.commF) : '—'}</td></tr>`;
+      <td class="n">${eur.format(x.comm)}</td><td class="n"><b>${eur.format(x.commNet)}</b></td><td class="n">${eur.format(salary + x.commNet)}</td>
+      <td class="n">${future ? eur.format(x.forecast) : '—'}</td><td class="n">${future ? `${eur.format(x.commF)} / ${eur.format(x.commFNet)}` : '—'}</td><td class="n">${future ? eur.format(salary + x.commFNet) : '—'}</td></tr>`;
   });
   document.getElementById('commTable').innerHTML = h + '</tbody>';
 }

@@ -342,12 +342,47 @@
     "_max_days_note": "Un evento più vecchio di N giorni rispetto alla creazione del deal appartiene a una trattativa precedente e non viene abbinato."
   },
   "compensation": {
-    "_note": "Commissioni: scattano al 70% del target del mese; 8% sul venduto da 0 a 35.000 euro, 15% sulla parte oltre 35.000. Stipendio netto fisso mensile.",
+    "_note": "Commissioni: scattano al 70% del target del mese; 8% sul venduto da 0 a 35.000 euro, 15% sulla parte oltre 35.000. net_salary = netto fisso mensile complessivo (stipendio netto + buoni pasto).",
     "threshold_pct": 0.7,
     "base_rate": 0.08,
     "upper_from": 35000,
     "upper_rate": 0.15,
-    "net_salary": 1800
+    "net_salary": 1800,
+    "payroll": {
+      "_note": "Stima del netto delle commissioni (da verificare con la busta paga di ottobre: lordo fisso, netto in busta, voce buoni pasto). IRPEF calcolata sul reddito annuo cumulato: l'aliquota effettiva sulle commissioni = 1 - (netto annuo con commissioni - netto annuo senza) / commissioni lorde dell'anno. Addizionali 2026 trattenute nel 2027 ma contate come costo.",
+      "hypothesis": "A",
+      "hypotheses": {
+        "A": {
+          "label": "RAL 24.000 lordi (13 mensilità)",
+          "base_gross": 24000
+        },
+        "B": {
+          "label": "1.600 netti garantiti dall'azienda (lordo ≈ 29.500)",
+          "base_gross": 29500
+        }
+      },
+      "net_fixed": 1600,
+      "meal_vouchers": 200,
+      "inps_rate": 0.0919,
+      "inps_extra_from": 55448,
+      "inps_extra_rate": 0.01,
+      "irpef_brackets": [
+        [
+          28000,
+          0.23
+        ],
+        [
+          50000,
+          0.33
+        ],
+        [
+          null,
+          0.43
+        ]
+      ],
+      "addizionali_rate": 0.023,
+      "annual_commission_override": null
+    }
   },
   "maturity": {
     "_note": "Tassi solo su coorti mature: demo da almeno N giorni per demo->attivazione, prove concluse o attivate da almeno N giorni per attivazione->contratto.",
