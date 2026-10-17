@@ -94,7 +94,7 @@
   "targets": {
     "_note": "Target mensile di chiuso (EUR) per mese di incasso. 'monthly' vale per il singolo mese, 'default_from' per tutti i mesi da quello indicato in poi.",
     "monthly": {
-      "2026-09": 9800,
+      "2026-09": 14000,
       "2026-10": 20000
     },
     "default_from": {
@@ -342,11 +342,13 @@
     "_max_days_note": "Un evento più vecchio di N giorni rispetto alla creazione del deal appartiene a una trattativa precedente e non viene abbinato."
   },
   "compensation": {
-    "_note": "Commissioni: scattano al 70% del target del mese; 8% sul venduto da 0 a 35.000 euro, 15% sulla parte oltre 35.000. net_salary = netto fisso mensile complessivo (stipendio netto + buoni pasto).",
+    "_note": "Da contratto (Nuove disposizioni concordate): base = valore annuo dei nuovi contratti firmati (rinnovi al 50%); soglia 70% della quota del mese; 8% fino alla quota, 10% sulla parte oltre la quota fino a 35.000, 15% oltre 35.000; liquidazione con la busta paga del mese successivo. net_salary = fisso mensile complessivo (netto + buoni pasto).",
     "threshold_pct": 0.7,
     "base_rate": 0.08,
+    "quota_rate": 0.1,
     "upper_from": 35000,
     "upper_rate": 0.15,
+    "payment_lag_months": 1,
     "net_salary": 1800,
     "payroll": {
       "_note": "Stima del netto delle commissioni (da verificare con la busta paga di ottobre: lordo fisso, netto in busta, voce buoni pasto). IRPEF calcolata sul reddito annuo cumulato: l'aliquota effettiva sulle commissioni = 1 - (netto annuo con commissioni - netto annuo senza) / commissioni lorde dell'anno. Addizionali 2026 trattenute nel 2027 ma contate come costo.",

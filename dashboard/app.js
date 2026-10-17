@@ -240,11 +240,13 @@ function targetOf(m) {
   return null;
 }
 
-/** Commissioni del mese sul venduto: 0 sotto il 70% del target, poi 8% fino a 35.000 e 15% oltre. */
+/** Commissioni del mese (contratto): 0 sotto il 70% della quota; poi 8% fino alla quota, 10% oltre la quota fino a 35.000, 15% oltre. */
 function commissionFor(sales, target) {
   const c = state.config.compensation;
   if (!c || !target || sales < c.threshold_pct * target) return 0;
-  return c.base_rate * Math.min(sales, c.upper_from) + c.upper_rate * Math.max(0, sales - c.upper_from);
+  const top = Math.max(target, c.upper_from);
+  return c.base_rate * Math.min(sales, target) + c.quota_rate * Math.max(0, Math.min(sales, top) - target)
+    + c.upper_rate * Math.max(0, sales - top);
 }
 
 /** Netto annuo stimato di un lavoratore dipendente con lordo annuo G (INPS, IRPEF, detrazioni, cuneo 2025, addizionali). */
@@ -472,6 +474,8 @@ function renderCommissions(latest) {
   const c = state.config.compensation;
   if (!c) return;
   const cur = D.month(state.asOf);
+  const lag = c.payment_lag_months ?? 1;
+  const payMonth = (m) => D.month(D.addMonths(`${m}-01`, lag));
   const months = [];
   for (let m = D.monthStart(analysisStart()); D.month(m) <= D.month(D.addMonths(state.asOf, 2)); m = D.addMonths(m, 1)) months.push(D.month(m));
   const rows = months.map((m) => {
@@ -479,58 +483,72 @@ function renderCommissions(latest) {
     const closed = latest.deals.filter((d) => isWon(d) && d.closedate && D.month(d.closedate) === m).reduce((s, d) => s + d.amount, 0);
     const weighted = m >= cur ? latest.deals.filter((d) => isOpen(d) && d.incasso && D.month(d.incasso) === m).reduce((s, d) => s + d.weighted, 0) : 0;
     const forecast = closed + weighted;
-    return { m, target, threshold: target ? target * c.threshold_pct : null, closed, forecast,
+    return { m, pay: payMonth(m), target, threshold: target ? target * c.threshold_pct : null, closed, forecast,
       comm: commissionFor(closed, target), commF: commissionFor(forecast, target) };
   });
   const r = rows.find((x) => x.m === cur) || rows[rows.length - 1];
-  // Netto stimato: aliquota effettiva sulle commissioni dell'anno fiscale (IRPEF sul reddito annuo cumulato).
-  // Mesi dell'anno senza dati (dopo l'ultimo mostrato) stimati con la media dei mesi noti dello stesso anno.
+  const prev = rows.find((x) => x.pay === cur);
+  // Netto stimato: la commissione si paga con la busta del mese dopo, quindi l'anno fiscale è quello del pagamento.
+  // Aliquota effettiva sulle commissioni tassate dell'anno (IRPEF sul reddito annuo cumulato); i mesi di
+  // pagamento senza dati sono stimati con la media dei mesi noti.
   const p = c.payroll;
   const fixedNet = p ? p.net_fixed : c.net_salary, meal = p ? p.meal_vouchers : 0, salary = fixedNet + meal;
-  const yearRate = {};
-  // Fino a ~1.000 € della commissione del mese arrivano come benefit esenti: solo l'eccedenza è tassata.
+  // Fino a ~1.000 € della commissione di ogni busta arrivano come benefit esenti: solo l'eccedenza è tassata.
   const benefit = (gross) => (p ? Math.min(gross, p.commission_benefit_monthly || 0) : 0);
   const taxable = (gross) => gross - benefit(gross);
+  const expected = (x) => (x.m >= cur ? x.commF : x.comm);
+  const yearRate = {};
   if (p) {
-    const startM = D.month(analysisStart());
-    [...new Set(rows.map((x) => x.m.slice(0, 4)))].forEach((y) => {
-      const ys = rows.filter((x) => x.m.startsWith(y)).map((x) => taxable(x.m >= cur ? x.commF : x.comm));
-      const first = startM > `${y}-01` ? Number(startM.slice(5)) : 1;
-      const missing = Math.max(0, 12 - first + 1 - ys.length);
-      const annual = p.annual_commission_override != null ? p.annual_commission_override
-        : ys.reduce((a, b) => a + b, 0) + (ys.length ? missing * ys.reduce((a, b) => a + b, 0) / ys.length : 0);
+    const avg = rows.reduce((s, x) => s + taxable(expected(x)), 0) / rows.length;
+    const firstPay = rows[0].pay;
+    [...new Set(rows.map((x) => x.pay.slice(0, 4)))].forEach((y) => {
+      const ys = rows.filter((x) => x.pay.startsWith(y)).map((x) => taxable(expected(x)));
+      const from = firstPay > `${y}-01` ? Number(firstPay.slice(5)) : 1;
+      const missing = Math.max(0, 12 - from + 1 - ys.length);
+      const annual = p.annual_commission_override != null ? p.annual_commission_override : ys.reduce((a, b) => a + b, 0) + missing * avg;
       yearRate[y] = { annual, rate: commissionTaxRate(annual, p) };
     });
   }
-  const net = (m, gross) => (p ? benefit(gross) + taxable(gross) * (1 - yearRate[m.slice(0, 4)].rate) : gross);
-  rows.forEach((x) => { x.commNet = net(x.m, x.comm); x.commFNet = net(x.m, x.commF); });
-  const yr = p && yearRate[r.m.slice(0, 4)];
+  const net = (x, gross) => (p ? benefit(gross) + taxable(gross) * (1 - yearRate[x.pay.slice(0, 4)].rate) : gross);
+  rows.forEach((x) => { x.commNet = net(x, x.comm); x.commFNet = net(x, x.commF); });
+  const yr = p && yearRate[r.pay.slice(0, 4)];
+  const pc = (v) => `${Math.round(v * 100)}%`;
   document.getElementById('commHint').innerHTML =
-    `Le commissioni scattano al <b>${Math.round(c.threshold_pct * 100)}% del target</b> del mese e valgono <b>${Math.round(c.base_rate * 100)}% del venduto da zero</b> fino a ${eur.format(c.upper_from)}, poi <b>${Math.round(c.upper_rate * 100)}% sulla parte oltre</b>. Venduto = chiuso del mese (Closed Won + Closed Won Paid per closedate). Il previsto usa chiuso + pipeline pesata che incassa nel mese.` +
-    (p ? ` Fisso mensile ${eur.format(salary)} = ${eur.format(fixedNet)} netti + ${eur.format(meal)} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> della commissione di ogni mese arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno: la parte tassata delle commissioni ${r.m.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga di ottobre (lordo fisso, netto in busta, voce buoni pasto).` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
-  let next = '';
+    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese (i rinnovi contano al 50%; in HubSpot non sono distinti, quindi qui tutto conta come nuovo). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} sulla parte oltre la quota fino a ${eur.format(c.upper_from)}</b>, <b>${pc(c.upper_rate)} oltre ${eur.format(c.upper_from)}</b>. Si pagano con la <b>busta paga del mese successivo</b>. Il previsto usa chiuso + pipeline pesata che incassa nel mese.` +
+    (p ? ` Fisso mensile ${eur.format(salary)} = ${eur.format(fixedNet)} netti + ${eur.format(meal)} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> della commissione di ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno di pagamento: la parte tassata delle commissioni pagate nel ${r.pay.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
+  let next = '', nextVal = '—', nextLabel = 'Prossimo scaglione';
   if (!r.target) next = 'Target del mese non impostato';
-  else if (r.closed < r.threshold) next = `Mancano <b>${eur.format(r.threshold - r.closed)}</b> alla soglia del ${Math.round(c.threshold_pct * 100)}% (${eur.format(r.threshold)}): a soglia la commissione vale ${eur.format(commissionFor(r.threshold, r.target))}`;
-  else if (r.closed < c.upper_from) next = `Ogni 1.000 € in più vale ${eur.format(1000 * c.base_rate)}. Mancano <b>${eur.format(c.upper_from - r.closed)}</b> allo scaglione del ${Math.round(c.upper_rate * 100)}%`;
-  else next = `Oltre ${eur.format(c.upper_from)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
+  else if (r.closed < r.threshold) {
+    nextLabel = 'Mancano alla soglia'; nextVal = eur.format(r.threshold - r.closed);
+    next = `Soglia del ${pc(c.threshold_pct)} della quota: ${eur.format(r.threshold)}. A soglia la commissione vale ${eur.format(commissionFor(r.threshold, r.target))}`;
+  } else if (r.closed < r.target) {
+    nextLabel = 'Mancano alla quota'; nextVal = eur.format(r.target - r.closed);
+    next = `Ogni 1.000 € in più vale ${eur.format(1000 * c.base_rate)}; oltre la quota di ${eur.format(r.target)} vale ${eur.format(1000 * c.quota_rate)}`;
+  } else if (r.closed < c.upper_from) {
+    nextLabel = `Mancano allo scaglione ${pc(c.upper_rate)}`; nextVal = eur.format(c.upper_from - r.closed);
+    next = `Oltre la quota: ogni 1.000 € in più vale ${eur.format(1000 * c.quota_rate)}; oltre ${eur.format(c.upper_from)} vale ${eur.format(1000 * c.upper_rate)}`;
+  } else {
+    nextLabel = 'Scaglione massimo'; nextVal = pc(c.upper_rate);
+    next = `Oltre ${eur.format(c.upper_from)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
+  }
+  const busta = (x, gross, n) => `${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(n)} netti di commissione di ${monthLabel(x.m)} (${eur.format(gross)} lordi${benefit(gross) ? `, di cui ${eur.format(benefit(gross))} in benefit` : ''})`;
   let t = '';
   t += tile(`Commissione maturata ${monthLabel(r.m)} (lorda)`, eur.format(r.comm), '',
-    `≈ ${eur.format(r.commNet)} netti · Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} del target ${eur.format(r.target)}` : ''}`,
+    `≈ ${eur.format(r.commNet)} netti, pagata con la busta di ${monthLabel(r.pay)} · Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} della quota ${eur.format(r.target)}` : ''}`,
     r.target ? `<div class="bar"><span style="width:${Math.min(100, (r.closed / r.target) * 100)}%"></span></div>` : '');
-  const nextVal = !r.target ? '—' : r.closed < r.threshold ? eur.format(r.threshold - r.closed) : r.closed < c.upper_from ? eur.format(c.upper_from - r.closed) : 'Scaglione 15%';
-  t += tile(!r.target || r.closed < r.threshold ? 'Mancano alla soglia' : r.closed < c.upper_from ? 'Mancano allo scaglione 15%' : 'Scaglione massimo', nextVal, '', next);
-  t += tile(`Netto in tasca ${monthLabel(r.m)} (stima)`, eur.format(salary + r.commNet), '',
-    `${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(r.commNet)} netti di commissione (${eur.format(r.comm)} lordi, di cui ${eur.format(benefit(r.comm))} in benefit)`);
-  t += tile(`Previsto netto a fine ${monthLabel(r.m)}`, eur.format(salary + r.commFNet), '',
-    `Commissione prevista ${eur.format(r.commF)} lordi ≈ ${eur.format(r.commFNet)} netti su venduto previsto ${eur.format(r.forecast)}${r.target ? ` (${pct(r.forecast / r.target)} del target)` : ''}`);
+  t += tile(nextLabel, nextVal, '', next);
+  if (prev) t += tile(`Busta di ${monthLabel(cur)} (stima)`, eur.format(salary + prev.commNet), '', busta(prev, prev.comm, prev.commNet));
+  t += tile(`Busta di ${monthLabel(r.pay)}: maturato finora`, eur.format(salary + r.commNet), '', busta(r, r.comm, r.commNet));
+  t += tile(`Busta di ${monthLabel(r.pay)}: previsto`, eur.format(salary + r.commFNet), '',
+    `Se ${monthLabel(r.m)} chiude a ${eur.format(r.forecast)}${r.target ? ` (${pct(r.forecast / r.target)} della quota)` : ''}: commissione ${eur.format(r.commF)} lordi ≈ ${eur.format(r.commFNet)} netti`);
   document.getElementById('tilesComm').innerHTML = t;
-  let h = `<thead><tr><th>Mese</th><th class="n">Target</th><th class="n">Soglia ${Math.round(c.threshold_pct * 100)}%</th><th class="n">Venduto</th><th class="n">% target</th><th class="n">Commissione lorda</th><th class="n">Commissione netta</th><th class="n">Netto totale</th><th class="n">Venduto previsto</th><th class="n">Commissione prevista (lorda / netta)</th><th class="n">Netto totale previsto</th></tr></thead><tbody>`;
+  let h = `<thead><tr><th>Mese di vendita</th><th class="n">Quota</th><th class="n">Soglia ${pc(c.threshold_pct)}</th><th class="n">Venduto</th><th class="n">% quota</th><th class="n">Commissione lorda</th><th class="n">Commissione netta</th><th>Pagata con la busta di</th><th class="n">Busta totale</th><th class="n">Venduto previsto</th><th class="n">Commissione prevista (lorda / netta)</th><th class="n">Busta prevista</th></tr></thead><tbody>`;
   rows.forEach((x) => {
     const future = x.m >= cur;
     h += `<tr class="${x.m === cur ? 'current' : ''}"><td>${monthLabel(x.m)}${x.m === cur ? ' (corrente)' : ''}</td>
       <td class="n">${x.target ? eur.format(x.target) : '—'}</td><td class="n">${x.threshold ? eur.format(x.threshold) : '—'}</td>
       <td class="n">${eur.format(x.closed)}</td><td class="n">${x.target ? pct(x.closed / x.target) : '—'}</td>
-      <td class="n">${eur.format(x.comm)}</td><td class="n"><b>${eur.format(x.commNet)}</b></td><td class="n">${eur.format(salary + x.commNet)}</td>
+      <td class="n">${eur.format(x.comm)}</td><td class="n"><b>${eur.format(x.commNet)}</b></td><td>${monthLabel(x.pay)}</td><td class="n">${eur.format(salary + x.commNet)}</td>
       <td class="n">${future ? eur.format(x.forecast) : '—'}</td><td class="n">${future ? `${eur.format(x.commF)} / ${eur.format(x.commFNet)}` : '—'}</td><td class="n">${future ? eur.format(salary + x.commFNet) : '—'}</td></tr>`;
   });
   document.getElementById('commTable').innerHTML = h + '</tbody>';
