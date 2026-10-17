@@ -92,14 +92,21 @@
     "4431899834": 0.75
   },
   "targets": {
-    "_note": "Target mensile di chiuso (EUR) per mese di incasso, formato YYYY-MM. Da compilare.",
-    "monthly": {}
+    "_note": "Target mensile di chiuso (EUR) per mese di incasso. 'monthly' vale per il singolo mese, 'default_from' per tutti i mesi da quello indicato in poi.",
+    "monthly": {
+      "2026-09": 9800,
+      "2026-10": 20000
+    },
+    "default_from": {
+      "month": "2026-11",
+      "value": 25000
+    }
   },
   "stale_days": 10,
   "calendar": {
     "_note": "Regex (case-insensitive) per classificare gli eventi del calendario primario. Ordine di valutazione: cancelled, exclude, valutazione, attivazione, demo, demo_inferred.",
     "cancelled": "^\\s*cancellat[oa]",
-    "exclude": "placeholder|final demo|contratto|playbook|prep |pranzo|team meeting|daily sales|crm update|deal forecast|chiudere il chiudibile|kick off|^\\s*riattivazion|follow up|mandare|fissare|richiamare|chiamare|scrivere|preparare|vedere",
+    "exclude": "placeholder|final demo|contratto|playbook|prep |pranzo|team meeting|daily sales|crm update|deal forecast|chiudere il chiudibile|kick off|^\\s*riattivazion|follow up|mandare|fissare|richiamare|chiamare|scrivere|preparare|vedere|deal test|stop demo",
     "valutazione": "valutazion",
     "attivazione": "attivazion|onboarding",
     "demo": "\\bdemo\\b",
@@ -333,5 +340,18 @@
     },
     "max_days_before_create": 14,
     "_max_days_note": "Un evento più vecchio di N giorni rispetto alla creazione del deal appartiene a una trattativa precedente e non viene abbinato."
+  },
+  "compensation": {
+    "_note": "Commissioni: scattano al 70% del target del mese; 8% sul venduto da 0 a 35.000 euro, 15% sulla parte oltre 35.000. Stipendio netto fisso mensile.",
+    "threshold_pct": 0.7,
+    "base_rate": 0.08,
+    "upper_from": 35000,
+    "upper_rate": 0.15,
+    "net_salary": 1800
+  },
+  "maturity": {
+    "_note": "Tassi solo su coorti mature: demo da almeno N giorni per demo->attivazione, prove concluse o attivate da almeno N giorni per attivazione->contratto.",
+    "demo_days": 7,
+    "trial_days": 17
   }
 }

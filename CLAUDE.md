@@ -44,6 +44,12 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
 - **Closedate di default: data della demo (o della creazione del task) + 30 giorni.**
 - Mostrare sempre la tabella delle modifiche e attendere l'ok prima di scrivere.
 
+## Target e commissioni (`config.json` → `targets`, `compensation`)
+
+- Target: settembre 9.800, ottobre 20.000, da novembre 25.000 (`default_from`).
+- Commissioni sul venduto del mese (closedate): 0 sotto il 70% del target; sopra, 8% da zero fino a 35.000
+  e 15% sulla parte oltre 35.000. Stipendio netto fisso 1.800 € al mese.
+
 ## Regole di dominio da rispettare in ogni modifica
 
 - Ciclo demo → firma 24-30 gg: le demo di un mese generano fatturato nel mese **successivo**.
@@ -53,5 +59,8 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
 - La closedate HubSpot di un deal aperto è la sua data di incasso prevista (precede ogni stima).
 - Periodo di riferimento da settembre 2026 (`config.json` → `analysis_start`): luglio/agosto esclusi da totali, coorti e grafici.
 - La pipeline Reactivation (4126512317) è esclusa: sono opportunità perse in riattivazione.
+- Demo svolte = demo fissate meno no-show (demo passate senza esito in HubSpot contano come svolte).
+- Tassi solo su coorti mature (`config.json` → `maturity`): demo → trial su demo di almeno 7 giorni;
+  trial → chiusura su prove concluse (vinte/perse) o attivate da almeno 17 giorni; demo → chiusura = prodotto.
 - Chiuso = somma `amount_in_home_currency` dei deal in Closed Won (4431899835) + Closed Won Paid
   (4961139914) con closedate nel periodo.

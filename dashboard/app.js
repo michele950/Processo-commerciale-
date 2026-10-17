@@ -146,17 +146,21 @@ function flowKpis(deals, events, r, today) {
   const past = (e) => e.date <= today;
   const evIn = (kind) => events.filter((e) => e.kind === kind && inRange(e.date, r));
   const demos = evIn('demo');
+  const mat = state.config.maturity || { demo_days: 7, trial_days: 17 };
   const cohort = deals.filter((d) => d.demo_date && inRange(d.demo_date, r) && d.demo_date <= today);
   const noshow = cohort.filter((d) => d.stage === STAGE.NO_SHOW).length;
-  // Demo svolte: escludo i no-show e le demo passate con il deal ancora in Demo Scheduled (esito non registrato)
+  // Demo svolte = demo fissate meno no-show (una demo passata senza esito registrato conta come svolta)
   const unrecorded = cohort.filter((d) => d.stage === STAGE.DEMO_SCHEDULED).length;
-  const held = cohort.filter((d) => d.stage !== STAGE.NO_SHOW && d.stage !== STAGE.DEMO_SCHEDULED);
-  const trialDeals = held.filter((d) => TRIAL_OR_LATER.has(d.stage) || d.activation_date);
-  const trial = trialDeals.length;
-  const trialWon = trialDeals.filter(isWon).length;
-  const trialOpen = trialDeals.filter(isOpen).length;
-  const recorded = cohort.length - unrecorded;
-  // Conversione demo -> vendita sulla coorte delle demo del periodo (la firma può arrivare dopo il periodo)
+  const held = cohort.filter((d) => d.stage !== STAGE.NO_SHOW);
+  const reachedTrial = (d) => funnelLevel(d, today) >= 2;
+  // Coorti mature: demo da almeno N giorni; prove concluse o attivate da almeno N giorni
+  const heldMature = held.filter((d) => d.demo_date <= D.add(today, -mat.demo_days));
+  const trialMature = heldMature.filter(reachedTrial);
+  const trialDeals = held.filter(reachedTrial);
+  const trialResolved = trialDeals.filter((d) => !isOpen(d) || (d.activation_date && d.activation_date <= D.add(today, -mat.trial_days)));
+  const trialResolvedWon = trialResolved.filter(isWon);
+  const demoToTrial = heldMature.length ? trialMature.length / heldMature.length : null;
+  const trialToWon = trialResolved.length ? trialResolvedWon.length / trialResolved.length : null;
   const cohortWon = cohort.filter(isWon);
   const heldWon = held.filter(isWon);
   const closed = won.reduce((s, d) => s + d.amount, 0);
@@ -169,11 +173,15 @@ function flowKpis(deals, events, r, today) {
     activations: evIn('attivazione').filter(past).length, activationsPlanned: evIn('attivazione').filter((e) => !past(e)).length,
     evaluations: evIn('valutazione').filter(past).length, evaluationsPlanned: evIn('valutazione').filter((e) => !past(e)).length,
     newDeals: deals.filter((d) => inRange(d.createdate, r)).length,
-    cohortSize: cohort.length, unrecorded, heldCount: held.length, trialCount: trial,
-    showUp: recorded ? 1 - noshow / recorded : null,
-    demoToTrial: held.length ? trial / held.length : null,
-    trialWonCount: trialWon, trialOpen,
-    trialToWon: trial ? trialWon / trial : null,
+    cohortSize: cohort.length, noshowCount: noshow, unrecorded, heldCount: held.length,
+    showUp: cohort.length ? 1 - noshow / cohort.length : null,
+    heldMatureCount: heldMature.length, trialMatureCount: trialMature.length, demoToTrial,
+    trialCount: trialDeals.length, trialOpen: trialDeals.filter(isOpen).length,
+    trialResolvedCount: trialResolved.length, trialWonCount: trialResolvedWon.length, trialToWon,
+    // Demo svolta -> contratto = prodotto dei due passaggi maturi
+    demoToWon: demoToTrial != null && trialToWon != null ? demoToTrial * trialToWon : null,
+    trialResolvedValue: trialResolved.reduce((s, d) => s + d.amount, 0),
+    trialResolvedWonValue: trialResolvedWon.reduce((s, d) => s + d.amount, 0),
     cohortWonCount: cohortWon.length, heldWonCount: heldWon.length,
     cohortOpen: cohort.filter(isOpen).length,
     demoToWonAll: cohort.length ? cohortWon.length / cohort.length : null,
@@ -224,9 +232,24 @@ function shift(r, type, dir) {
   const len = D.diff(r.to, r.from) + 1;
   return { from: D.add(r.from, dir * len), to: D.add(r.to, dir * len) };
 }
+/** Target del mese: valore specifico del mese, altrimenti il default dal mese indicato in poi. */
+function targetOf(m) {
+  const t = state.config.targets || {};
+  if (t.monthly?.[m] != null) return t.monthly[m];
+  if (t.default_from && m >= t.default_from.month) return t.default_from.value;
+  return null;
+}
+
+/** Commissioni del mese sul venduto: 0 sotto il 70% del target, poi 8% fino a 35.000 e 15% oltre. */
+function commissionFor(sales, target) {
+  const c = state.config.compensation;
+  if (!c || !target || sales < c.threshold_pct * target) return 0;
+  return c.base_rate * Math.min(sales, c.upper_from) + c.upper_rate * Math.max(0, sales - c.upper_from);
+}
+
 function targetFor(r) {
   // Somma dei target dei mesi interamente contenuti nel periodo
-  const t = state.config.targets?.monthly || {};
+  const t = new Proxy({}, { get: (_, m) => targetOf(m) });
   let sum = 0, any = false;
   for (let m = D.monthStart(r.from); m <= r.to; m = D.addMonths(m, 1)) {
     if (m >= r.from && D.monthEnd(m) <= r.to && t[D.month(m)] != null) { sum += t[D.month(m)]; any = true; }
@@ -375,13 +398,13 @@ function renderResult(latest, A, B) {
   k += tile('Demo fatte', num.format(fa.demosDone), delta(fa.demosDone, fb.demosDone),
     `+ <b>${fa.demosPlanned}</b> ancora in calendario → <b>${fa.demosDone + fa.demosPlanned}</b> demo nel periodo (eventi demo del calendario, anche senza deal)`);
   k += tile('Tasso di presentazione', pct(fa.showUp), delta(fa.showUp, fb.showUp, { isPct: true }),
-    `${fa.cohortSize - fa.unrecorded} demo con esito registrato${fa.unrecorded ? ` · ${fa.unrecorded} ancora senza esito in HubSpot` : ''} · da ${sinceL}: <b>${pct(fk.showUp)}</b>`);
+    `${fa.heldCount} svolte su ${fa.cohortSize} fissate · ${fa.noshowCount} no-show${fa.unrecorded ? ` · ${fa.unrecorded} senza esito in HubSpot (contate come svolte)` : ''} · da ${sinceL}: <b>${pct(fk.showUp)}</b>`);
   k += tile('Demo → trial', pct(fa.demoToTrial), delta(fa.demoToTrial, fb.demoToTrial, { isPct: true }),
-    `${fa.trialCount} attivazioni su ${fa.heldCount} demo svolte · da ${sinceL}: <b>${pct(fk.demoToTrial)}</b> (${fk.trialCount} su ${fk.heldCount})`);
+    `${fa.trialMatureCount} attivazioni su ${fa.heldMatureCount} demo svolte da almeno ${state.config.maturity?.demo_days ?? 7} giorni · da ${sinceL}: <b>${pct(fk.demoToTrial)}</b> (${fk.trialMatureCount} su ${fk.heldMatureCount})`);
   k += tile('Trial → chiusura', pct(fa.trialToWon), delta(fa.trialToWon, fb.trialToWon, { isPct: true }),
-    `${fa.trialWonCount} vendite su ${fa.trialCount} trial attivati${fa.trialOpen ? ` · ${fa.trialOpen} ancora in corso` : ''} · da ${sinceL}: <b>${pct(fk.trialToWon)}</b> (${fk.trialWonCount} su ${fk.trialCount})`);
-  k += tile('Demo → chiusura', pct(fa.demoToWonHeld), delta(fa.demoToWonHeld, fb.demoToWonHeld, { isPct: true }),
-    `${fa.heldWonCount} vendite su ${fa.heldCount} demo svolte${fa.cohortOpen ? ` · ${fa.cohortOpen} ancora in corso` : ''} · da ${sinceL}: <b>${pct(fk.demoToWonHeld)}</b> (${fk.heldWonCount} su ${fk.heldCount})`);
+    `${fa.trialWonCount} vinte su ${fa.trialResolvedCount} prove concluse${fa.trialOpen ? ` · ${fa.trialOpen} in corso` : ''} · da ${sinceL}: <b>${pct(fk.trialToWon)}</b> (${fk.trialWonCount} su ${fk.trialResolvedCount})`);
+  k += tile('Demo → chiusura', pct(fa.demoToWon), delta(fa.demoToWon, fb.demoToWon, { isPct: true }),
+    `demo → trial × trial → chiusura, su coorti mature · da ${sinceL}: <b>${pct(fk.demoToWon)}</b>`);
   document.getElementById('tilesKey').innerHTML = k;
 
   // Conversione e vendite: periodo selezionato + totale dall'inizio dei dati
@@ -392,10 +415,14 @@ function renderResult(latest, A, B) {
     `Da ${monthLabel(D.month(analysisStart()))}: <b>${num.format(fall.wonCount)}</b> vendite (${eur.format(fall.closed)})`);
   cv += tile('Ticket medio', fa.avgTicket != null ? eur.format(fa.avgTicket) : '—', delta(fa.avgTicket, fb.avgTicket, { money: true }),
     `Da ${monthLabel(D.month(analysisStart()))}: <b>${fall.avgTicket != null ? eur.format(fall.avgTicket) : '—'}</b> su ${fall.wonCount} vendite`);
-  cv += tile('Demo → vendita (demo totali)', pct(fa.demoToWonAll), delta(fa.demoToWonAll, fb.demoToWonAll, { isPct: true }),
-    `${fa.cohortWonCount} vendite su ${fa.cohortSize} demo fissate nel periodo (inclusi no-show)${open(fa)}<br>Da ${monthLabel(D.month(analysisStart()))}: <b>${pct(fall.demoToWonAll)}</b> (${fall.cohortWonCount} su ${fall.cohortSize})`);
-  cv += tile('Demo → vendita (demo svolte)', pct(fa.demoToWonHeld), delta(fa.demoToWonHeld, fb.demoToWonHeld, { isPct: true }),
-    `${fa.heldWonCount} vendite su ${fa.heldCount} demo svolte (esclusi no-show ed esiti non registrati)<br>Da ${monthLabel(D.month(analysisStart()))}: <b>${pct(fall.demoToWonHeld)}</b> (${fall.heldWonCount} su ${fall.heldCount})`);
+  // Valore atteso di una demo svolta e demo necessarie per il target del mese successivo (che incassa le demo di questo)
+  const perDemo = fall.demoToWon != null && fall.avgTicket ? fall.demoToWon * fall.avgTicket : null;
+  const nextM = D.month(D.addMonths(state.asOf, 1));
+  const nextT = targetOf(nextM);
+  cv += tile('Valore atteso per demo svolta', perDemo != null ? eur.format(perDemo) : '—', '',
+    `Demo → chiusura ${pct(fall.demoToWon)} × ticket medio ${fall.avgTicket ? eur.format(fall.avgTicket) : '—'} (da ${monthLabel(D.month(analysisStart()))})`);
+  cv += tile(`Demo svolte necessarie per ${monthLabel(nextM)}`, perDemo && nextT ? num.format(Math.ceil(nextT / perDemo)) : '—', '',
+    nextT ? `Target ${eur.format(nextT)} ÷ ${perDemo ? eur.format(perDemo) : '—'} per demo. ${monthLabel(nextM)} incassa le demo di ${monthLabel(D.month(state.asOf))}: finora ${fa.heldCount} svolte${fa.demosPlanned ? `, ${fa.demosPlanned} ancora in calendario` : ''}` : 'Target non impostato');
   document.getElementById('tilesConversion').innerHTML = cv;
 
   const sa = stockKpis(snapshotAt(state.a.to)), sb = stockKpis(snapshotAt(state.b.to));
@@ -410,6 +437,51 @@ function renderResult(latest, A, B) {
     sa ? `snapshot del ${dLabel(sa.date)} · ${sa.openCount} deal` : 'nessuno snapshot entro fine periodo');
   act += tile('In prova (Trial Live)', sa ? num.format(sa.inTrial) : 'n/d', sa && sb ? delta(sa.inTrial, sb.inTrial) : '');
   document.getElementById('tilesActivity').innerHTML = act;
+}
+
+/* ---------- Commissioni: maturate sul chiuso del mese e previste sul forecast ---------- */
+function renderCommissions(latest) {
+  const c = state.config.compensation;
+  if (!c) return;
+  const cur = D.month(state.asOf);
+  const months = [];
+  for (let m = D.monthStart(analysisStart()); D.month(m) <= D.month(D.addMonths(state.asOf, 2)); m = D.addMonths(m, 1)) months.push(D.month(m));
+  const rows = months.map((m) => {
+    const target = targetOf(m);
+    const closed = latest.deals.filter((d) => isWon(d) && d.closedate && D.month(d.closedate) === m).reduce((s, d) => s + d.amount, 0);
+    const weighted = m >= cur ? latest.deals.filter((d) => isOpen(d) && d.incasso && D.month(d.incasso) === m).reduce((s, d) => s + d.weighted, 0) : 0;
+    const forecast = closed + weighted;
+    return { m, target, threshold: target ? target * c.threshold_pct : null, closed, forecast,
+      comm: commissionFor(closed, target), commF: commissionFor(forecast, target) };
+  });
+  const r = rows.find((x) => x.m === cur) || rows[rows.length - 1];
+  document.getElementById('commHint').innerHTML =
+    `Le commissioni scattano al <b>${Math.round(c.threshold_pct * 100)}% del target</b> del mese e valgono <b>${Math.round(c.base_rate * 100)}% del venduto da zero</b> fino a ${eur.format(c.upper_from)}, poi <b>${Math.round(c.upper_rate * 100)}% sulla parte oltre</b>. Venduto = chiuso del mese (Closed Won + Closed Won Paid per closedate). Stipendio netto fisso ${eur.format(c.net_salary)} al mese. Il previsto usa chiuso + pipeline pesata che incassa nel mese.`;
+  let next = '';
+  if (!r.target) next = 'Target del mese non impostato';
+  else if (r.closed < r.threshold) next = `Mancano <b>${eur.format(r.threshold - r.closed)}</b> alla soglia del ${Math.round(c.threshold_pct * 100)}% (${eur.format(r.threshold)}): a soglia la commissione vale ${eur.format(commissionFor(r.threshold, r.target))}`;
+  else if (r.closed < c.upper_from) next = `Ogni 1.000 € in più vale ${eur.format(1000 * c.base_rate)}. Mancano <b>${eur.format(c.upper_from - r.closed)}</b> allo scaglione del ${Math.round(c.upper_rate * 100)}%`;
+  else next = `Oltre ${eur.format(c.upper_from)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
+  let t = '';
+  t += tile(`Commissione maturata ${monthLabel(r.m)}`, eur.format(r.comm), '',
+    `Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} del target ${eur.format(r.target)}` : ''}`,
+    r.target ? `<div class="bar"><span style="width:${Math.min(100, (r.closed / r.target) * 100)}%"></span></div>` : '');
+  const nextVal = !r.target ? '—' : r.closed < r.threshold ? eur.format(r.threshold - r.closed) : r.closed < c.upper_from ? eur.format(c.upper_from - r.closed) : 'Scaglione 15%';
+  t += tile(!r.target || r.closed < r.threshold ? 'Mancano alla soglia' : r.closed < c.upper_from ? 'Mancano allo scaglione 15%' : 'Scaglione massimo', nextVal, '', next);
+  t += tile(`Totale ${monthLabel(r.m)} (stipendio + commissione)`, eur.format(c.net_salary + r.comm), '', `${eur.format(c.net_salary)} netto + ${eur.format(r.comm)} commissione maturata`);
+  t += tile(`Previsto a fine ${monthLabel(r.m)}`, eur.format(c.net_salary + r.commF), '',
+    `Commissione prevista ${eur.format(r.commF)} su venduto previsto ${eur.format(r.forecast)}${r.target ? ` (${pct(r.forecast / r.target)} del target)` : ''}`);
+  document.getElementById('tilesComm').innerHTML = t;
+  let h = `<thead><tr><th>Mese</th><th class="n">Target</th><th class="n">Soglia ${Math.round(c.threshold_pct * 100)}%</th><th class="n">Venduto</th><th class="n">% target</th><th class="n">Commissione maturata</th><th class="n">Totale con stipendio</th><th class="n">Venduto previsto</th><th class="n">Commissione prevista</th><th class="n">Totale previsto</th></tr></thead><tbody>`;
+  rows.forEach((x) => {
+    const future = x.m >= cur;
+    h += `<tr class="${x.m === cur ? 'current' : ''}"><td>${monthLabel(x.m)}${x.m === cur ? ' (corrente)' : ''}</td>
+      <td class="n">${x.target ? eur.format(x.target) : '—'}</td><td class="n">${x.threshold ? eur.format(x.threshold) : '—'}</td>
+      <td class="n">${eur.format(x.closed)}</td><td class="n">${x.target ? pct(x.closed / x.target) : '—'}</td>
+      <td class="n"><b>${eur.format(x.comm)}</b></td><td class="n">${eur.format(c.net_salary + x.comm)}</td>
+      <td class="n">${future ? eur.format(x.forecast) : '—'}</td><td class="n">${future ? eur.format(x.commF) : '—'}</td><td class="n">${future ? eur.format(c.net_salary + x.commF) : '—'}</td></tr>`;
+  });
+  document.getElementById('commTable').innerHTML = h + '</tbody>';
 }
 
 /* ---------- Funnel per fase (coorte delle demo) ---------- */
@@ -432,7 +504,7 @@ function funnelLevel(d, today) {
     case STAGE.TRIAL_LIVE: return ev ? 4 : 3;
     case STAGE.TRIAL_SETUP: return ev ? 4 : 2;
     case STAGE.SHOW_UP: return act ? 2 : 1; // attivazione già in calendario
-    case STAGE.DEMO_SCHEDULED: return 0;
+    case STAGE.DEMO_SCHEDULED: return 1; // demo passata senza esito registrato: conta come svolta
     case STAGE.NO_SHOW: return 0;
     default: return ev ? 4 : act ? 2 : 1; // perso / riattivazione: la demo c'è stata
   }
@@ -501,7 +573,7 @@ function renderBridge(latest) {
     .sort((a, b) => a.incasso.localeCompare(b.incasso) || b.weighted - a.weighted);
   const closed = won.reduce((s, d) => s + d.amount, 0);
   const weighted = open.reduce((s, d) => s + d.weighted, 0);
-  const target = state.config.targets?.monthly?.[m];
+  const target = targetOf(m);
   const ref = target || closed + weighted || 1;
   const cumCell = (v) => `<div class="cum"><span>${eur.format(v)}</span><div class="bar"><span style="width:${Math.min(100, (v / ref) * 100)}%"></span></div></div>`;
   const link = (d) => `<a href="${HUBSPOT_URL(d.id)}" target="_blank" rel="noopener">${esc(d.name)}</a>`;
@@ -538,7 +610,7 @@ function renderBridge(latest) {
 
 function renderForecast(latest) {
   const months = [0, 1, 2].map((i) => D.month(D.addMonths(state.asOf, i)));
-  const targets = state.config.targets?.monthly || {};
+  const targets = new Proxy({}, { get: (_, mm) => targetOf(mm) });
   let h = `<thead><tr><th>Mese di incasso</th><th class="n">Chiuso</th><th class="n">Pipeline pesata</th><th class="n">Previsto</th><th class="n">Target</th><th class="n">Gap previsto</th><th class="n">Best case</th><th class="n">Deal</th><th class="n">Rischio slittamento</th></tr></thead><tbody>`;
   months.forEach((m, i) => {
     const won = latest.deals.filter((d) => isWon(d) && d.closedate && D.month(d.closedate) === m);
@@ -717,7 +789,7 @@ function renderTargetEditor() {
   const t = state.config.targets?.monthly || {};
   const months = [-2, -1, 0, 1, 2, 3].map((i) => D.month(D.addMonths(state.asOf, i)));
   const el = document.getElementById('targetEditor');
-  el.innerHTML = `<div class="target-grid">${months.map((m) => `<label>${monthLabel(m)}<input type="number" min="0" step="100" data-m="${m}" value="${t[m] ?? ''}" placeholder="€"></label>`).join('')}</div>
+  el.innerHTML = `<div class="target-grid">${months.map((m) => `<label>${monthLabel(m)}<input type="number" min="0" step="100" data-m="${m}" value="${t[m] ?? ''}" placeholder="${targetOf(m) ?? '€'}"></label>`).join('')}</div>
     <div class="actions"><button id="saveTargets">Salva target</button><span class="muted" id="tMsg"></span></div>`;
   el.querySelector('#saveTargets').addEventListener('click', async () => {
     const monthly = { ...t };
@@ -844,7 +916,7 @@ async function startLive(refresh = false) {
             if (!state.snaps[d] || (s.generated_at || '') > (state.snaps[d].generated_at || '')) state.snaps[d] = s;
           });
           const t = await db.doc('settings/targets').get();
-          if (t.exists) state.config.targets = { ...state.config.targets, monthly: t.data().monthly || {} };
+          if (t.exists) state.config.targets = { ...state.config.targets, monthly: { ...(state.config.targets?.monthly || {}), ...(t.data().monthly || {}) } };
         } catch (e) { /* storico non leggibile: restano gli snapshot incorporati */ }
       }
     }
@@ -894,6 +966,7 @@ function render() {
   document.getElementById('generated').textContent = `${Object.keys(state.snaps).length} snapshot salvati`;
   renderResult(latest);
   renderBridge(latest);
+  renderCommissions(latest);
   renderFunnel(latest);
   renderForecast(latest);
   renderCohorts(latest);
