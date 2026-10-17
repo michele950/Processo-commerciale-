@@ -476,6 +476,8 @@ function renderCommissions(latest) {
   const cur = D.month(state.asOf);
   const lag = c.payment_lag_months ?? 1;
   const payMonth = (m) => D.month(D.addMonths(`${m}-01`, lag));
+  // La busta del mese si paga la prima settimana del mese successivo
+  const bustaLabel = (m) => `busta di ${monthLabel(m)} (pagata a inizio ${monthLabel(D.month(D.addMonths(`${m}-01`, 1)))})`;
   const months = [];
   for (let m = D.monthStart(analysisStart()); D.month(m) <= D.month(D.addMonths(state.asOf, 2)); m = D.addMonths(m, 1)) months.push(D.month(m));
   const rows = months.map((m) => {
@@ -488,7 +490,7 @@ function renderCommissions(latest) {
   });
   const r = rows.find((x) => x.m === cur) || rows[rows.length - 1];
   const prev = rows.find((x) => x.pay === cur);
-  // Netto stimato: la commissione si paga con la busta del mese dopo, quindi l'anno fiscale è quello del pagamento.
+  // Netto stimato: l'anno fiscale è quello della busta in cui entra la commissione.
   // Aliquota effettiva sulle commissioni tassate dell'anno (IRPEF sul reddito annuo cumulato); i mesi di
   // pagamento senza dati sono stimati con la media dei mesi noti.
   const p = c.payroll;
@@ -514,8 +516,8 @@ function renderCommissions(latest) {
   const yr = p && yearRate[r.pay.slice(0, 4)];
   const pc = (v) => `${Math.round(v * 100)}%`;
   document.getElementById('commHint').innerHTML =
-    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese (i rinnovi contano al 50%; in HubSpot non sono distinti, quindi qui tutto conta come nuovo). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} sulla parte oltre la quota fino a ${eur.format(c.upper_from)}</b>, <b>${pc(c.upper_rate)} oltre ${eur.format(c.upper_from)}</b>. Si pagano con la <b>busta paga del mese successivo</b>. Il previsto usa chiuso + pipeline pesata che incassa nel mese.` +
-    (p ? ` Fisso mensile ${eur.format(salary)} = ${eur.format(fixedNet)} netti + ${eur.format(meal)} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> della commissione di ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno di pagamento: la parte tassata delle commissioni pagate nel ${r.pay.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
+    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese (i rinnovi contano al 50%; in HubSpot non sono distinti, quindi qui tutto conta come nuovo). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} sulla parte oltre la quota fino a ${eur.format(c.upper_from)}</b>, <b>${pc(c.upper_rate)} oltre ${eur.format(c.upper_from)}</b>. Entrano nella <b>busta paga dello stesso mese</b>, pagata la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata che incassa nel mese.` +
+    (p ? ` Fisso mensile ${eur.format(salary)} = ${eur.format(fixedNet)} netti + ${eur.format(meal)} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> della commissione di ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno: la parte tassata delle commissioni in busta nel ${r.pay.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
   let next = '', nextVal = '—', nextLabel = 'Prossimo scaglione';
   if (!r.target) next = 'Target del mese non impostato';
   else if (r.closed < r.threshold) {
@@ -534,21 +536,21 @@ function renderCommissions(latest) {
   const busta = (x, gross, n) => `${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(n)} netti di commissione di ${monthLabel(x.m)} (${eur.format(gross)} lordi${benefit(gross) ? `, di cui ${eur.format(benefit(gross))} in benefit` : ''})`;
   let t = '';
   t += tile(`Commissione maturata ${monthLabel(r.m)} (lorda)`, eur.format(r.comm), '',
-    `≈ ${eur.format(r.commNet)} netti, pagata con la busta di ${monthLabel(r.pay)} · Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} della quota ${eur.format(r.target)}` : ''}`,
+    `≈ ${eur.format(r.commNet)} netti, nella ${bustaLabel(r.pay)} · Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} della quota ${eur.format(r.target)}` : ''}`,
     r.target ? `<div class="bar"><span style="width:${Math.min(100, (r.closed / r.target) * 100)}%"></span></div>` : '');
   t += tile(nextLabel, nextVal, '', next);
-  if (prev) t += tile(`Busta di ${monthLabel(cur)} (stima)`, eur.format(salary + prev.commNet), '', busta(prev, prev.comm, prev.commNet));
-  t += tile(`Busta di ${monthLabel(r.pay)}: maturato finora`, eur.format(salary + r.commNet), '', busta(r, r.comm, r.commNet));
+  if (prev && prev !== r) t += tile(`Busta di ${monthLabel(cur)} (stima)`, eur.format(salary + prev.commNet), '', busta(prev, prev.comm, prev.commNet));
+  t += tile(`Busta di ${monthLabel(r.pay)}: maturato finora`, eur.format(salary + r.commNet), '', `Pagata a inizio ${monthLabel(D.month(D.addMonths(`${r.pay}-01`, 1)))}: ${busta(r, r.comm, r.commNet)}`);
   t += tile(`Busta di ${monthLabel(r.pay)}: previsto`, eur.format(salary + r.commFNet), '',
     `Se ${monthLabel(r.m)} chiude a ${eur.format(r.forecast)}${r.target ? ` (${pct(r.forecast / r.target)} della quota)` : ''}: commissione ${eur.format(r.commF)} lordi ≈ ${eur.format(r.commFNet)} netti`);
   document.getElementById('tilesComm').innerHTML = t;
-  let h = `<thead><tr><th>Mese di vendita</th><th class="n">Quota</th><th class="n">Soglia ${pc(c.threshold_pct)}</th><th class="n">Venduto</th><th class="n">% quota</th><th class="n">Commissione lorda</th><th class="n">Commissione netta</th><th>Pagata con la busta di</th><th class="n">Busta totale</th><th class="n">Venduto previsto</th><th class="n">Commissione prevista (lorda / netta)</th><th class="n">Busta prevista</th></tr></thead><tbody>`;
+  let h = `<thead><tr><th>Mese di vendita</th><th class="n">Quota</th><th class="n">Soglia ${pc(c.threshold_pct)}</th><th class="n">Venduto</th><th class="n">% quota</th><th class="n">Commissione lorda</th><th class="n">Commissione netta</th><th>In busta (pagata a inizio)</th><th class="n">Busta totale</th><th class="n">Venduto previsto</th><th class="n">Commissione prevista (lorda / netta)</th><th class="n">Busta prevista</th></tr></thead><tbody>`;
   rows.forEach((x) => {
     const future = x.m >= cur;
     h += `<tr class="${x.m === cur ? 'current' : ''}"><td>${monthLabel(x.m)}${x.m === cur ? ' (corrente)' : ''}</td>
       <td class="n">${x.target ? eur.format(x.target) : '—'}</td><td class="n">${x.threshold ? eur.format(x.threshold) : '—'}</td>
       <td class="n">${eur.format(x.closed)}</td><td class="n">${x.target ? pct(x.closed / x.target) : '—'}</td>
-      <td class="n">${eur.format(x.comm)}</td><td class="n"><b>${eur.format(x.commNet)}</b></td><td>${monthLabel(x.pay)}</td><td class="n">${eur.format(salary + x.commNet)}</td>
+      <td class="n">${eur.format(x.comm)}</td><td class="n"><b>${eur.format(x.commNet)}</b></td><td>${monthLabel(x.pay)} (${monthLabel(D.month(D.addMonths(`${x.pay}-01`, 1)))})</td><td class="n">${eur.format(salary + x.commNet)}</td>
       <td class="n">${future ? eur.format(x.forecast) : '—'}</td><td class="n">${future ? `${eur.format(x.commF)} / ${eur.format(x.commFNet)}` : '—'}</td><td class="n">${future ? eur.format(salary + x.commFNet) : '—'}</td></tr>`;
   });
   document.getElementById('commTable').innerHTML = h + '</tbody>';
