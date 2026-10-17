@@ -51,7 +51,8 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
   e 15% sulla parte oltre 35.000. Fisso mensile 1.800 € = 1.600 € netti + 200 € di buoni pasto esenti.
 - Netto commissioni (`compensation.payroll`): stima con IRPEF sul reddito annuo cumulato (INPS 9,19%, scaglioni
   2026 23/33/43%, detrazioni art. 13, cuneo 2025, addizionali ~2,3%). Ipotesi A = RAL 24.000 (default),
-  ipotesi B = 1.600 netti garantiti (lordo ≈ 29.500). Da confermare con la busta paga di ottobre.
+  ipotesi B = 1.600 netti garantiti (lordo ≈ 29.500). I primi ~1.000 € della commissione di ogni mese sono
+  benefit esenti (`commission_benefit_monthly`), già netti: si tassa solo l'eccedenza. Da confermare con la busta paga di ottobre.
 
 ## Regole di dominio da rispettare in ogni modifica
 

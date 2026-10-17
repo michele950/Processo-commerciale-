@@ -363,6 +363,8 @@
       },
       "net_fixed": 1600,
       "meal_vouchers": 200,
+      "commission_benefit_monthly": 1000,
+      "_benefit_note": "Quota della commissione del mese (circa 1.000 €) erogata come benefit esenti: è già netta. Solo la parte eccedente è tassata.",
       "inps_rate": 0.0919,
       "inps_extra_from": 55448,
       "inps_extra_rate": 0.01,
