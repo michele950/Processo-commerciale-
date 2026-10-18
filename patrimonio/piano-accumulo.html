@@ -136,6 +136,9 @@ input[type="month"], select, input[type="text"] {
 /* ---------- KPI ---------- */
 .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 @media (max-width: 1100px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.income-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .income-kpis { grid-template-columns: minmax(0, 1fr); } }
+.income-kpis .kpi { background: var(--bg); }
 .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
 .kpi .k-label { font-size: 12px; color: var(--text-2); }
 .kpi .k-value { font-size: 24px; font-weight: 650; margin-top: 2px; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
@@ -259,6 +262,28 @@ details[open] summary { margin-bottom: 8px; }
       <div class="card">
         <div class="card-head">
           <div>
+            <h2>Rendita mensile stimata · regola del 4%</h2>
+            <p class="sub" id="incomeSub"></p>
+          </div>
+          <div class="seg" id="incomeBase" aria-label="Base di calcolo della rendita">
+            <button type="button" data-b="total">Patrimonio totale</button>
+            <button type="button" data-b="invested">Solo investito</button>
+          </div>
+        </div>
+        <div class="kpis income-kpis" id="incomeKpis"></div>
+        <div class="legend" id="incomeLegend" style="margin-top:14px"></div>
+        <div class="chart" id="incomeChart"></div>
+        <div class="table-wrap" id="incomeTable" style="margin-top:12px"></div>
+        <p class="method" style="margin:12px 0 0">La regola del 4% indica quanto puoi prelevare ogni anno da un portafoglio diversificato
+          (tipicamente azioni/obbligazioni) con alta probabilità di non esaurirlo in circa 30 anni: il primo anno prelevi il 4% del capitale,
+          poi lo stesso importo adeguato all'inflazione. Qui la rendita è calcolata sul patrimonio <em>al netto</em> di bollo e capital gain,
+          quindi è già una stima netta e prudente. Su orizzonti di prelievo più lunghi di 30 anni o con un portafoglio molto concentrato
+          conviene usare un tasso più basso (3–3,5%).</p>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
             <h2>Cuscinetto vs investito nel tempo</h2>
             <p class="sub">Composizione del patrimonio netto, scenario selezionato.</p>
           </div>
@@ -335,7 +360,7 @@ const Fmt = (() => {
     compact: v => {
       const a = Math.abs(v);
       if (a >= 1e6) return (v / 1e6).toLocaleString('it-IT', { maximumFractionDigits: 1 }) + ' M€';
-      if (a >= 1e3) return (v / 1e3).toLocaleString('it-IT', { maximumFractionDigits: 0 }) + ' k€';
+      if (a >= 1e3) return (v / 1e3).toLocaleString('it-IT', { maximumFractionDigits: a < 1e4 ? 1 : 0 }) + ' k€';
       return Math.round(v) + ' €';
     },
     pct: (v, d = 1) => v.toLocaleString('it-IT', { maximumFractionDigits: d }) + '%',
@@ -375,6 +400,10 @@ const Schema = (() => {
     bollo:         { label: 'Bollo', unit: '% annuo', min: 0, max: 2, step: 0.05, def: 0.2 },
     inflation:     { label: 'Inflazione attesa', unit: '% annuo', min: -5, max: 20, step: 0.1, def: 2 },
     horizon:       { label: 'Orizzonte', unit: 'anni', min: 5, max: 40, step: 1, def: 20 },
+    withdrawalRate:{ label: 'Tasso di prelievo sostenibile', unit: '% annuo', min: 0.5, max: 10, step: 0.1, def: 4,
+                     hint: 'Regola del 4%: rendita annua = 4% del patrimonio.' },
+    targetIncome:  { label: 'Rendita desiderata', unit: '€/mese', min: 0, max: 1e6, step: 100, def: 2000,
+                     hint: 'In euro di oggi. 0 = nessun obiettivo.' },
   };
 
   const SCENARIOS = [
@@ -419,6 +448,8 @@ const Schema = (() => {
       w.push('Gli scenari non sono in ordine (pessimistico ≤ base ≤ ottimistico).');
     if (p.cushionReturn > p.retBase)
       w.push('Il cuscinetto rende più dello scenario base dell\'investimento: verifica i tassi.');
+    if (p.withdrawalRate > 5)
+      w.push('Un tasso di prelievo sopra il 5% aumenta molto il rischio di esaurire il patrimonio.');
     if (p.investedCost > p.invested * 3 && p.invested > 0)
       w.push('Il capitale versato è molto più alto del valore attuale: verifica il costo di carico.');
     return w;
@@ -508,6 +539,15 @@ const Engine = (() => {
   }
 
   // Scomposizione che deve sommare esattamente al totale netto.
+  // Regola del 4%: rendita mensile sostenibile da un capitale e capitale necessario per una rendita.
+  const monthlyIncome = (capital, ratePct) => Math.max(0, capital) * ratePct / 100 / 12;
+  const capitalForIncome = (monthly, ratePct) => monthly * 12 / (ratePct / 100);
+  // Primo anno in cui fn(snapshot) raggiunge target; null se mai entro l'orizzonte.
+  const firstYearReaching = (years, fn, target) => {
+    const y = years.find(s => fn(s) >= target);
+    return y ? y.year : null;
+  };
+
   function ledger(snap, p) {
     const rows = [
       { label: 'Liquidità iniziale', v: p.liquid },
@@ -525,7 +565,7 @@ const Engine = (() => {
     return { rows, sum, matches: Math.abs(sum - snap.total) < 0.01 };
   }
 
-  return { simulate, runScenarios, ledger, monthlyRate };
+  return { simulate, runScenarios, ledger, monthlyRate, monthlyIncome, capitalForIncome, firstYearReaching };
 })();
 
 /* =====================================================================
@@ -541,7 +581,7 @@ const Store = (() => {
       params: Schema.defaultParams(),
       events: [],
       compare: { linkA: true, a: 30, b: 10 },
-      ui: { valueMode: 'nominal', scenario: 'base', tab: 'sim' },
+      ui: { valueMode: 'nominal', scenario: 'base', tab: 'sim', incomeBase: 'total' },
       tracking: { entries: [] }, // Sezione 3: [{month:'2026-11', saved, invested, portfolioValue, note}]
     };
   }
@@ -578,6 +618,7 @@ const Store = (() => {
       if (obj.ui.valueMode === 'real') out.ui.valueMode = 'real';
       if (Schema.SCENARIOS.some(s => s.key === obj.ui.scenario)) out.ui.scenario = obj.ui.scenario;
       if (obj.ui.tab === 'track') out.ui.tab = 'track';
+      if (obj.ui.incomeBase === 'invested') out.ui.incomeBase = 'invested';
     }
     if (obj.tracking && Array.isArray(obj.tracking.entries)) out.tracking.entries = obj.tracking.entries;
     return out;
@@ -928,6 +969,10 @@ const App = (() => {
         ${fieldHTML('inflation')}
         ${fieldHTML('horizon')}
       </fieldset>
+      <fieldset><legend>Rendita (regola del 4%)</legend>
+        ${fieldHTML('withdrawalRate')}
+        ${fieldHTML('targetIncome')}
+      </fieldset>
       <fieldset><legend>Eventi una tantum</legend>
         <div id="events"></div>
         <button class="btn small" type="button" id="addEvent">+ Aggiungi evento</button>
@@ -1142,8 +1187,71 @@ const App = (() => {
       },
     });
 
+    renderIncome();
     renderCompare();
     renderLedger();
+  }
+
+  function renderIncome() {
+    const { p, runs } = lastRun;
+    const H = p.horizon;
+    const sel = state.ui.scenario;
+    const base = state.ui.incomeBase;
+    const rate = p.withdrawalRate;
+    const capital = y => base === 'invested' ? y.netI : y.total;
+    const inc = y => Engine.monthlyIncome(capital(y), rate);
+    const incToday = y => inc(y) / y.deflator; // potere d'acquisto di oggi
+    const target = p.targetIncome;
+    const baseName = base === 'invested' ? 'investito netto' : 'patrimonio netto totale';
+
+    document.querySelectorAll('#incomeBase button').forEach(b => b.setAttribute('aria-pressed', b.dataset.b === base));
+    $('incomeSub').textContent = `Quanto potresti prelevare ogni mese al ${Fmt.pct(rate)} annuo del ${baseName}, ` +
+      `oggi e negli anni, ${isReal() ? 'in euro di oggi' : 'in valori nominali'}.`;
+
+    const now = runs.base.years[0];
+    const fin = runs[sel].years[H];
+    const reach = Schema.SCENARIOS.map(s => ({ s, year: Engine.firstYearReaching(runs[s.key].years, incToday, target) }));
+    const reachTxt = r => r.year === null ? `oltre ${H} anni`
+      : r.year === 0 ? 'già oggi' : `anno ${r.year} · ${Fmt.monthLabel(p.startDate, r.year * 12 - 1)}`;
+    const selReach = reach.find(r => r.s.key === sel);
+
+    $('incomeKpis').innerHTML = `
+      <div class="kpi"><div class="k-label">Rendita sostenibile oggi</div>
+        <div class="k-value">${Fmt.money(inc(now))}<span style="font-size:14px;font-weight:500">/mese</span></div>
+        <div class="k-note">su ${Fmt.money(capital(now))} di ${baseName}</div></div>
+      <div class="kpi"><div class="k-label">Rendita a ${H} anni · ${scen(sel).name.toLowerCase()}</div>
+        <div class="k-value">${Fmt.money(disp(inc(fin), fin))}<span style="font-size:14px;font-weight:500">/mese</span></div>
+        <div class="k-note">${isReal() ? `${Fmt.money(inc(fin))} nominali` : `${Fmt.money(incToday(fin))} in euro di oggi`} ·
+          ${Fmt.money(disp(inc(runs.pess.years[H]), fin))} pess. · ${Fmt.money(disp(inc(runs.opt.years[H]), fin))} ott.</div></div>
+      <div class="kpi"><div class="k-label">Obiettivo ${target > 0 ? Fmt.money(target) + '/mese' : ''}</div>
+        ${target > 0 ? `
+        <div class="k-value" style="font-size:18px;margin-top:6px">${reachTxt(selReach)}</div>
+        <div class="k-note">Servono ${Fmt.money(Engine.capitalForIncome(target, rate))} (euro di oggi) ·
+          ${reach.filter(r => r.s.key !== sel).map(r => `${r.s.name.toLowerCase()}: ${r.year === null ? `oltre ${H} anni` : r.year === 0 ? 'oggi' : 'anno ' + r.year}`).join(' · ')}</div>`
+        : '<div class="k-note" style="margin-top:6px">Imposta una rendita desiderata nei parametri per vedere quando la raggiungi.</div>'}</div>`;
+
+    const n = H + 1;
+    const series = Schema.SCENARIOS.map(s => ({ name: s.name, color: s.color, values: runs[s.key].years.map(y => disp(inc(y), y)) }));
+    if (target > 0) {
+      // l'obiettivo è in euro di oggi: in modalità nominale cresce con l'inflazione
+      series.push({ name: 'Obiettivo', color: '--s-ref', dash: true, values: runs.base.years.map(y => isReal() ? target : target * y.deflator) });
+    }
+    Charts.legend($('incomeLegend'), series.map(s => ({ name: s.name, color: s.color, dash: s.dash })));
+    Charts.xy($('incomeChart'), {
+      n, series, endLabels: true, height: 260, markers: Schema.CHECKPOINTS.filter(c => c <= H),
+      xLabel: yearLabel, tipTitle: i => yearTitle(i) + ' · rendita al mese',
+    });
+
+    const rows = [0, ...Schema.CHECKPOINTS.filter(c => c <= H)];
+    if (H > 20 && !rows.includes(H)) rows.push(H);
+    $('incomeTable').innerHTML = `<table><thead><tr><th>Rendita al mese</th>${Schema.SCENARIOS.map(s =>
+      `<th><i class="th-sw" style="background:var(${s.color})"></i>${s.name}</th>`).join('')}${target > 0 ? '<th>Obiettivo</th>' : ''}</tr></thead><tbody>${
+      rows.map(r => {
+        const ref = runs.base.years[r];
+        return `<tr><td>${r === 0 ? 'Oggi' : `${r} anni <span style="color:var(--muted)">· ${Fmt.monthLabel(p.startDate, r * 12 - 1)}</span>`}</td>${
+          Schema.SCENARIOS.map(s => { const y = runs[s.key].years[r]; return `<td>${Fmt.money(disp(inc(y), y))}</td>`; }).join('')}${
+          target > 0 ? `<td>${Fmt.money(isReal() ? target : target * ref.deflator)}</td>` : ''}</tr>`;
+      }).join('')}</tbody></table>`;
   }
 
   function renderCompare() {
@@ -1264,6 +1372,10 @@ const App = (() => {
     $('scenarioPick').addEventListener('click', e => {
       const k = e.target.closest('button')?.dataset.s;
       if (k) { state.ui.scenario = k; persist(); renderOutputs(); }
+    });
+    $('incomeBase').addEventListener('click', e => {
+      const b = e.target.closest('button')?.dataset.b;
+      if (b) { state.ui.incomeBase = b; persist(); renderOutputs(); }
     });
     $('btnExport').addEventListener('click', () => Store.exportFile(state));
     $('btnImport').addEventListener('click', () => $('fileImport').click());
