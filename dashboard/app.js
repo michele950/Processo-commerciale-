@@ -499,18 +499,21 @@ function renderCommissions(latest) {
   const benefit = (gross) => (p ? Math.min(gross, p.commission_benefit_monthly || 0) : 0);
   const taxable = (gross) => gross - benefit(gross);
   const expected = (x) => (x.m >= cur ? x.commF : x.comm);
-  const yearRate = {};
-  if (p) {
-    const avg = rows.reduce((s, x) => s + taxable(expected(x)), 0) / rows.length;
+  const yearRate = (() => {
+    const out = {};
+    if (!p) return out;
+    const exp = (x) => taxable(expected(x));
+    const avg = rows.reduce((s, x) => s + exp(x), 0) / rows.length;
     const firstPay = rows[0].pay;
     [...new Set(rows.map((x) => x.pay.slice(0, 4)))].forEach((y) => {
-      const ys = rows.filter((x) => x.pay.startsWith(y)).map((x) => taxable(expected(x)));
+      const ys = rows.filter((x) => x.pay.startsWith(y)).map(exp);
       const from = firstPay > `${y}-01` ? Number(firstPay.slice(5)) : 1;
       const missing = Math.max(0, 12 - from + 1 - ys.length);
       const annual = p.annual_commission_override != null ? p.annual_commission_override : ys.reduce((a, b) => a + b, 0) + missing * avg;
-      yearRate[y] = { annual, rate: commissionTaxRate(annual, p) };
+      out[y] = { annual, rate: commissionTaxRate(annual, p) };
     });
-  }
+    return out;
+  })();
   const net = (x, gross) => (p ? benefit(gross) + taxable(gross) * (1 - yearRate[x.pay.slice(0, 4)].rate) : gross);
   rows.forEach((x) => { x.commNet = net(x, x.comm); x.commFNet = net(x, x.commF); });
   const yr = p && yearRate[r.pay.slice(0, 4)];
@@ -554,6 +557,95 @@ function renderCommissions(latest) {
       <td class="n">${future ? eur.format(x.forecast) : '—'}</td><td class="n">${future ? `${eur.format(x.commF)} / ${eur.format(x.commFNet)}` : '—'}</td><td class="n">${future ? eur.format(salary + x.commFNet) : '—'}</td></tr>`;
   });
   document.getElementById('commTable').innerHTML = h + '</tbody>';
+  renderSimulator({ rows, cur, c, salary, net });
+}
+
+/* ---------- Simulatore: vendite stimate con probabilità di chiusura -> commissione e busta del mese ---------- */
+// Le righe restano solo in questo browser (bozza personale, non condivisa con chi ha il link).
+const SIM_KEY = 'kpi-commission-sim';
+function simLoad() {
+  try { return JSON.parse(localStorage.getItem(SIM_KEY) || 'null') || {}; } catch (e) { return {}; }
+}
+function simSave(sim) {
+  try { localStorage.setItem(SIM_KEY, JSON.stringify(sim)); } catch (e) { /* storage non disponibile: la simulazione vale per questa visita */ }
+}
+
+function renderSimulator(model) {
+  const { rows, cur, c, salary, net } = model;
+  const el = document.getElementById('sim');
+  if (!el) return;
+  if (!state.sim) state.sim = { base: 'closed', items: [], ...simLoad() };
+  const sim = state.sim;
+  const months = rows.filter((x) => x.m >= cur);
+  if (!months.length) { el.innerHTML = ''; return; }
+  if (!months.some((x) => x.m === sim.month)) sim.month = months[0].m;
+  const nextId = () => Math.max(0, ...sim.items.map((i) => i.id)) + 1;
+  if (!sim.items.length) sim.items.push({ id: 1, name: '', amount: '', prob: 50 });
+
+  const pc = (v) => `${Math.round(v * 100)}%`;
+  el.innerHTML = `<div class="bridge-head"><h3>Simulatore vendite</h3>
+      <div class="filters">
+        <label class="muted">Mese <select id="simMonth">${months.map((x) => `<option value="${x.m}"${x.m === sim.month ? ' selected' : ''}>${monthLabel(x.m)}</option>`).join('')}</select></label>
+        <div class="seg" id="simBase"><button data-v="closed"${sim.base === 'closed' ? ' class="on"' : ''}>Parti dal chiuso</button><button data-v="forecast"${sim.base === 'forecast' ? ' class="on"' : ''}>Chiuso + pipeline pesata</button></div>
+      </div></div>
+    <p class="hint">Aggiungi le vendite che pensi di chiudere nel mese, con la tua stima di chiudibilità: ogni vendita conta per importo × probabilità. <b>Parti dal chiuso</b> somma le tue stime al venduto già firmato; <b>Chiuso + pipeline pesata</b> le somma anche al previsto da HubSpot (attenzione a non contare due volte un deal già in pipeline). Le righe restano salvate solo in questo browser.</p>
+    <div class="table-wrap"><table id="simTable"><thead><tr><th>Vendita</th><th class="n">Importo annuo €</th><th class="n">Chiudibilità %</th><th class="n">Valore pesato</th><th></th></tr></thead><tbody>
+      ${sim.items.map((i) => `<tr data-id="${i.id}"><td><input type="text" data-f="name" value="${esc(i.name)}" placeholder="Es. Studio Rossi"></td>
+        <td class="n"><input type="number" data-f="amount" min="0" step="100" value="${i.amount}" placeholder="1788"></td>
+        <td class="n"><input type="number" data-f="prob" min="0" max="100" step="5" value="${i.prob}"></td>
+        <td class="n" data-w></td><td><button data-del aria-label="Rimuovi">×</button></td></tr>`).join('')}
+    </tbody><tfoot><tr><th><button id="simAdd">+ Aggiungi vendita</button></th><th class="n" id="simTotAmount"></th><th></th><th class="n" id="simTotW"></th><th></th></tr></tfoot></table></div>
+    <div class="tiles" id="simTiles" style="margin-top:12px"></div>`;
+
+  const update = () => {
+    simSave(sim);
+    const x = rows.find((r) => r.m === sim.month);
+    const base = sim.base === 'forecast' ? x.forecast : x.closed;
+    const val = (i) => Number(i.amount) || 0;
+    const w = (i) => val(i) * Math.min(100, Math.max(0, Number(i.prob) || 0)) / 100;
+    el.querySelectorAll('#simTable tbody tr').forEach((tr) => {
+      const i = sim.items.find((it) => it.id === Number(tr.dataset.id));
+      tr.querySelector('[data-w]').textContent = eur.format(w(i));
+    });
+    const added = sim.items.reduce((s, i) => s + w(i), 0), full = sim.items.reduce((s, i) => s + val(i), 0);
+    el.querySelector('#simTotAmount').textContent = eur.format(full);
+    el.querySelector('#simTotW').textContent = eur.format(added);
+    const scen = (sales) => {
+      const gross = commissionFor(sales, x.target);
+      return { sales, gross, net: net(x, gross) };
+    };
+    const b = scen(base), s = scen(base + added), all = scen(base + full);
+    const plus = (v) => (v > 0.5 ? `<span class="up">+${eur.format(v)}</span>` : v < -0.5 ? `<span class="down">${eur.format(v)}</span>` : '<span class="flat">+0 €</span>');
+    let band = '';
+    if (x.target) {
+      const v = s.sales;
+      if (v < x.threshold) band = `Mancano ${eur.format(x.threshold - v)} alla soglia del ${pc(c.threshold_pct)} (${eur.format(x.threshold)})`;
+      else if (v < x.target) band = `Mancano ${eur.format(x.target - v)} alla quota: oltre, ogni 1.000 € vale ${eur.format(1000 * c.quota_rate)}`;
+      else if (v < c.upper_from) band = `Mancano ${eur.format(c.upper_from - v)} allo scaglione del ${pc(c.upper_rate)}`;
+      else band = `Nello scaglione del ${pc(c.upper_rate)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
+    }
+    const pay = `busta di ${monthLabel(x.pay)} (pagata a inizio ${monthLabel(D.month(D.addMonths(`${x.pay}-01`, 1)))})`;
+    let t = '';
+    t += tile(`Venduto simulato ${monthLabel(x.m)}`, eur.format(s.sales), plus(added) + ' dalle tue stime',
+      `${sim.base === 'forecast' ? 'Previsto' : 'Chiuso'} ${eur.format(base)}${x.target ? ` · ${pct(s.sales / x.target)} della quota ${eur.format(x.target)}` : ''}${band ? ` · ${band}` : ''}`,
+      x.target ? `<div class="bar"><span style="width:${Math.min(100, (s.sales / x.target) * 100)}%"></span></div>` : '');
+    t += tile('Commissione lorda simulata', eur.format(s.gross), plus(s.gross - b.gross), `Senza le tue stime: ${eur.format(b.gross)}`);
+    t += tile('Commissione netta simulata', eur.format(s.net), plus(s.net - b.net), `Senza le tue stime: ${eur.format(b.net)}`);
+    t += tile(`Busta di ${monthLabel(x.pay)} simulata`, eur.format(salary + s.net), plus(s.net - b.net), `Netto in ${pay}`);
+    t += tile('Se chiudono tutte (100%)', eur.format(salary + all.net), plus(all.net - b.net),
+      `Venduto ${eur.format(all.sales)} · commissione ${eur.format(all.gross)} lordi ≈ ${eur.format(all.net)} netti`);
+    el.querySelector('#simTiles').innerHTML = t;
+  };
+
+  el.querySelector('#simMonth').addEventListener('change', (e) => { sim.month = e.target.value; renderSimulator(model); });
+  el.querySelectorAll('#simBase button').forEach((bt) => bt.addEventListener('click', () => { sim.base = bt.dataset.v; renderSimulator(model); }));
+  el.querySelector('#simAdd').addEventListener('click', () => { sim.items.push({ id: nextId(), name: '', amount: '', prob: 50 }); renderSimulator(model); });
+  el.querySelectorAll('#simTable tbody tr').forEach((tr) => {
+    const i = sim.items.find((it) => it.id === Number(tr.dataset.id));
+    tr.querySelectorAll('input').forEach((inp) => inp.addEventListener('input', () => { i[inp.dataset.f] = inp.value; update(); }));
+    tr.querySelector('[data-del]').addEventListener('click', () => { sim.items = sim.items.filter((it) => it !== i); renderSimulator(model); });
+  });
+  update();
 }
 
 /* ---------- Funnel per fase (coorte delle demo) ---------- */

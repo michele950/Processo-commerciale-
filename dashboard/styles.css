@@ -195,3 +195,7 @@ td.name a { color: inherit; }
   .controls { position: static; }
   .tile .v { font-size: 20px; }
 }
+#simTable input[type=text] { width: 100%; min-width: 110px; }
+#simTable input[type=number] { width: 90px; }
+#simTable input[data-f=prob] { width: 64px; }
+#simTable td, #simTable th { padding-left: 4px; padding-right: 4px; }
