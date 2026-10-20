@@ -470,14 +470,46 @@ function renderResult(latest, A, B) {
 }
 
 /* ---------- Commissioni: maturate sul chiuso del mese e previste sul forecast ---------- */
+/* ---------- Piani di incasso dei deal chiusi ---------- */
+// La commissione si calcola sul contrattato del mese di firma, ma entra in busta nei mesi in cui il cliente paga.
+// Piani salvati nel database della dashboard (collection `payments`, un documento per deal) o, nella pagina
+// statica, in questo browser.
+const PAY_KEY = 'kpi-payment-plans';
+const PLAN_LABELS = { close: 'Unica soluzione alla firma', next: 'Unica soluzione il mese dopo', rate: 'Acconto + rate mensili' };
+function payPlan(id) {
+  return { plan: state.config.compensation?.payout_default || 'close', deposit: 0, n: 3, start: 1, ...(state.payments?.[id] || {}) };
+}
+/** Quote di incasso: [{ off: mesi dopo la firma, pct }]. */
+function payoutSchedule(pl) {
+  if (pl.plan === 'next') return [{ off: 1, pct: 1 }];
+  if (pl.plan === 'rate') {
+    const n = Math.max(1, Math.round(Number(pl.n) || 1)), dep = Math.min(100, Math.max(0, Number(pl.deposit) || 0)) / 100;
+    const start = Math.max(0, Math.round(Number(pl.start) || 0));
+    const out = dep > 0 ? [{ off: 0, pct: dep }] : [];
+    for (let k = 0; k < n; k++) out.push({ off: start + k, pct: (1 - dep) / n });
+    return out;
+  }
+  return [{ off: 0, pct: 1 }];
+}
+function loadLocalPayments() {
+  try { return JSON.parse(localStorage.getItem(PAY_KEY) || 'null') || {}; } catch (e) { return {}; }
+}
+async function savePayment(id, plan) {
+  state.payments = { ...(state.payments || {}), [id]: plan };
+  if (state.db) { await state.db.doc(`payments/${id}`).set({ ...plan, deal_id: id }); return 'db'; }
+  try { localStorage.setItem(PAY_KEY, JSON.stringify(state.payments)); } catch (e) { /* storage non disponibile */ }
+  return 'local';
+}
+
 function renderCommissions(latest) {
   const c = state.config.compensation;
   if (!c) return;
+  if (!state.payments) state.payments = loadLocalPayments();
   const cur = D.month(state.asOf);
-  const lag = c.payment_lag_months ?? 1;
-  const payMonth = (m) => D.month(D.addMonths(`${m}-01`, lag));
+  const lag = c.payment_lag_months ?? 0;
+  const addM = (m, n) => D.month(D.addMonths(`${m}-01`, n));
   // La busta del mese si paga la prima settimana del mese successivo
-  const bustaLabel = (m) => `busta di ${monthLabel(m)} (pagata a inizio ${monthLabel(D.month(D.addMonths(`${m}-01`, 1)))})`;
+  const paidOn = (P) => monthLabel(addM(P, 1));
   const months = [];
   for (let m = D.monthStart(analysisStart()); D.month(m) <= D.month(D.addMonths(state.asOf, 2)); m = D.addMonths(m, 1)) months.push(D.month(m));
   const rows = months.map((m) => {
@@ -485,42 +517,75 @@ function renderCommissions(latest) {
     const closed = latest.deals.filter((d) => isWon(d) && d.closedate && D.month(d.closedate) === m).reduce((s, d) => s + d.amount, 0);
     const weighted = m >= cur ? latest.deals.filter((d) => isOpen(d) && d.incasso && D.month(d.incasso) === m).reduce((s, d) => s + d.weighted, 0) : 0;
     const forecast = closed + weighted;
-    return { m, pay: payMonth(m), target, threshold: target ? target * c.threshold_pct : null, closed, forecast,
+    return { m, target, threshold: target ? target * c.threshold_pct : null, closed, forecast,
       comm: commissionFor(closed, target), commF: commissionFor(forecast, target) };
   });
-  const r = rows.find((x) => x.m === cur) || rows[rows.length - 1];
-  const prev = rows.find((x) => x.pay === cur);
-  // Netto stimato: l'anno fiscale è quello della busta in cui entra la commissione.
-  // Aliquota effettiva sulle commissioni tassate dell'anno (IRPEF sul reddito annuo cumulato); i mesi di
-  // pagamento senza dati sono stimati con la media dei mesi noti.
+  const rowOf = Object.fromEntries(rows.map((x) => [x.m, x]));
+  const r = rowOf[cur] || rows[rows.length - 1];
+
+  // Commissione del mese ripartita sui deal firmati in proporzione all'importo, poi erogata secondo il piano di incasso
+  const alloc = latest.deals.filter((d) => isWon(d) && d.closedate && rowOf[D.month(d.closedate)]).map((d) => {
+    const x = rowOf[D.month(d.closedate)];
+    const gross = x.closed ? (x.comm * d.amount) / x.closed : 0;
+    const grossF = x.m >= cur && x.forecast ? (x.commF * d.amount) / x.forecast : gross;
+    const pl = payPlan(d.id);
+    return { d, m: x.m, gross, grossF, plan: pl, sched: payoutSchedule(pl) };
+  }).sort((a, b) => b.d.closedate.localeCompare(a.d.closedate));
+  const slip = {}; // busta -> { gross, grossF, parts: { mese contratto: lordo } }
+  const slot = (P) => (slip[P] ||= { gross: 0, grossF: 0, parts: {}, partsF: {} });
+  alloc.forEach((a) => a.sched.forEach((s) => {
+    const P = addM(a.m, s.off + lag), o = slot(P);
+    o.gross += a.gross * s.pct; o.grossF += a.grossF * s.pct;
+    o.parts[a.m] = (o.parts[a.m] || 0) + a.gross * s.pct; o.partsF[a.m] = (o.partsF[a.m] || 0) + a.grossF * s.pct;
+  }));
+  // La parte pesata della pipeline si incassa alla firma (piano di default)
+  rows.filter((x) => x.m >= cur).forEach((x) => {
+    const rest = x.commF - (x.forecast ? (x.commF * x.closed) / x.forecast : 0);
+    payoutSchedule(payPlan(null)).forEach((s) => {
+      const P = addM(x.m, s.off + lag), o = slot(P);
+      o.grossF += rest * s.pct; o.partsF[x.m] = (o.partsF[x.m] || 0) + rest * s.pct;
+    });
+  });
+  const slips = [];
+  const lastSlip = [addM(months[months.length - 1], lag), ...Object.keys(slip)].sort().pop();
+  for (let P = addM(months[0], lag); P <= lastSlip; P = addM(P, 1)) slips.push({ P, ...slot(P) });
+  rows.forEach((x) => {
+    const own = slot(addM(x.m, lag));
+    x.paidNow = own.parts[x.m] || 0;
+    x.deferred = x.comm - x.paidNow;
+  });
+
+  // Netto stimato per busta: i primi ~1.000 € di commissione in ogni busta sono benefit esenti, il resto è tassato
+  // con l'aliquota effettiva dell'anno della busta (IRPEF sul reddito annuo cumulato; mesi senza dati = media).
   const p = c.payroll;
   const fixedNet = p ? p.net_fixed : c.net_salary, meal = p ? p.meal_vouchers : 0, salary = fixedNet + meal;
-  // Fino a ~1.000 € della commissione di ogni busta arrivano come benefit esenti: solo l'eccedenza è tassata.
   const benefit = (gross) => (p ? Math.min(gross, p.commission_benefit_monthly || 0) : 0);
   const taxable = (gross) => gross - benefit(gross);
-  const expected = (x) => (x.m >= cur ? x.commF : x.comm);
-  const yearRate = (() => {
-    const out = {};
-    if (!p) return out;
-    const exp = (x) => taxable(expected(x));
-    const avg = rows.reduce((s, x) => s + exp(x), 0) / rows.length;
-    const firstPay = rows[0].pay;
-    [...new Set(rows.map((x) => x.pay.slice(0, 4)))].forEach((y) => {
-      const ys = rows.filter((x) => x.pay.startsWith(y)).map(exp);
-      const from = firstPay > `${y}-01` ? Number(firstPay.slice(5)) : 1;
+  const expected = (s) => (s.P >= cur ? s.grossF : s.gross);
+  const yearRate = {};
+  if (p) {
+    const avg = slips.reduce((t, s) => t + taxable(expected(s)), 0) / slips.length;
+    const firstSlip = slips[0].P;
+    [...new Set(slips.map((s) => s.P.slice(0, 4)))].forEach((y) => {
+      const ys = slips.filter((s) => s.P.startsWith(y)).map((s) => taxable(expected(s)));
+      const from = firstSlip > `${y}-01` ? Number(firstSlip.slice(5)) : 1;
       const missing = Math.max(0, 12 - from + 1 - ys.length);
       const annual = p.annual_commission_override != null ? p.annual_commission_override : ys.reduce((a, b) => a + b, 0) + missing * avg;
-      out[y] = { annual, rate: commissionTaxRate(annual, p) };
+      yearRate[y] = { annual, rate: commissionTaxRate(annual, p) };
     });
-    return out;
-  })();
-  const net = (x, gross) => (p ? benefit(gross) + taxable(gross) * (1 - yearRate[x.pay.slice(0, 4)].rate) : gross);
-  rows.forEach((x) => { x.commNet = net(x, x.comm); x.commFNet = net(x, x.commF); });
-  const yr = p && yearRate[r.pay.slice(0, 4)];
+  }
+  const netPay = (P, gross) => (p ? benefit(gross) + taxable(gross) * (1 - (yearRate[P.slice(0, 4)] || Object.values(yearRate).pop()).rate) : gross);
+  slips.forEach((s) => { s.net = netPay(s.P, s.gross); s.netF = netPay(s.P, s.grossF); });
+  const slipOf = Object.fromEntries(slips.map((s) => [s.P, s]));
+  const now = slipOf[addM(cur, lag)] || slot(addM(cur, lag));
+  const yr = p && (yearRate[cur.slice(0, 4)] || Object.values(yearRate).pop());
   const pc = (v) => `${Math.round(v * 100)}%`;
+  const partsText = (parts) => Object.entries(parts).filter(([, v]) => v > 0.5).sort().map(([m, v]) => `${eur.format(v)} da ${monthLabel(m)}`).join(' + ') || 'nessuna';
+
   document.getElementById('commHint').innerHTML =
-    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese (i rinnovi contano al 50%; in HubSpot non sono distinti, quindi qui tutto conta come nuovo). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} sulla parte oltre la quota fino a ${eur.format(c.upper_from)}</b>, <b>${pc(c.upper_rate)} oltre ${eur.format(c.upper_from)}</b>. Entrano nella <b>busta paga dello stesso mese</b>, pagata la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata che incassa nel mese.` +
-    (p ? ` Fisso mensile ${eur.format(salary)} = ${eur.format(fixedNet)} netti + ${eur.format(meal)} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> della commissione di ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno: la parte tassata delle commissioni in busta nel ${r.pay.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
+    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese (i rinnovi contano al 50%; in HubSpot non sono distinti, quindi qui tutto conta come nuovo). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} sulla parte oltre la quota fino a ${eur.format(c.upper_from)}</b>, <b>${pc(c.upper_rate)} oltre ${eur.format(c.upper_from)}</b>. <b>Maturano sul contrattato</b> del mese di firma e <b>si erogano quando il cliente paga</b>: ogni deal porta la sua quota della commissione del mese (in proporzione all'importo) e la versa nelle buste dei mesi di incasso, secondo il piano impostato sotto. La busta del mese si paga la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata, che si assume incassata alla firma.` +
+    (p ? ` Fisso mensile ${eur.format(salary)} = ${eur.format(fixedNet)} netti + ${eur.format(meal)} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> di commissione in ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno: la parte tassata delle commissioni in busta nel ${cur.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
+
   let next = '', nextVal = '—', nextLabel = 'Prossimo scaglione';
   if (!r.target) next = 'Target del mese non impostato';
   else if (r.closed < r.threshold) {
@@ -536,28 +601,79 @@ function renderCommissions(latest) {
     nextLabel = 'Scaglione massimo'; nextVal = pc(c.upper_rate);
     next = `Oltre ${eur.format(c.upper_from)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
   }
-  const busta = (x, gross, n) => `${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(n)} netti di commissione di ${monthLabel(x.m)} (${eur.format(gross)} lordi${benefit(gross) ? `, di cui ${eur.format(benefit(gross))} in benefit` : ''})`;
+  const deferredAll = slips.filter((s) => s.P > now.P).reduce((t, s) => t + s.gross, 0);
+  const futureSlips = slips.filter((s) => s.P > addM(cur, lag) && s.gross > 0.5);
   let t = '';
-  t += tile(`Commissione maturata ${monthLabel(r.m)} (lorda)`, eur.format(r.comm), '',
-    `≈ ${eur.format(r.commNet)} netti, nella ${bustaLabel(r.pay)} · Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} della quota ${eur.format(r.target)}` : ''}`,
+  t += tile(`Commissione maturata ${monthLabel(r.m)} (sul contrattato)`, eur.format(r.comm), '',
+    `Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} della quota ${eur.format(r.target)}` : ''} · ${eur.format(r.paidNow)} in busta di ${monthLabel(addM(r.m, lag))}${r.deferred > 0.5 ? `, <b>${eur.format(r.deferred)} nelle buste successive</b>` : ''}`,
     r.target ? `<div class="bar"><span style="width:${Math.min(100, (r.closed / r.target) * 100)}%"></span></div>` : '');
   t += tile(nextLabel, nextVal, '', next);
-  if (prev && prev !== r) t += tile(`Busta di ${monthLabel(cur)} (stima)`, eur.format(salary + prev.commNet), '', busta(prev, prev.comm, prev.commNet));
-  t += tile(`Busta di ${monthLabel(r.pay)}: maturato finora`, eur.format(salary + r.commNet), '', `Pagata a inizio ${monthLabel(D.month(D.addMonths(`${r.pay}-01`, 1)))}: ${busta(r, r.comm, r.commNet)}`);
-  t += tile(`Busta di ${monthLabel(r.pay)}: previsto`, eur.format(salary + r.commFNet), '',
-    `Se ${monthLabel(r.m)} chiude a ${eur.format(r.forecast)}${r.target ? ` (${pct(r.forecast / r.target)} della quota)` : ''}: commissione ${eur.format(r.commF)} lordi ≈ ${eur.format(r.commFNet)} netti`);
+  t += tile(`Busta di ${monthLabel(now.P)}: erogato finora`, eur.format(salary + now.net), '',
+    `Pagata a inizio ${paidOn(now.P)}: ${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(now.net)} netti di commissioni (${eur.format(now.gross)} lordi: ${partsText(now.parts)})`);
+  t += tile(`Busta di ${monthLabel(now.P)}: previsto`, eur.format(salary + now.netF), '',
+    `Se ${monthLabel(r.m)} chiude a ${eur.format(r.forecast)}: ${eur.format(now.grossF)} lordi ≈ ${eur.format(now.netF)} netti (${partsText(now.partsF)})`);
+  t += tile('Già maturate, da erogare', eur.format(deferredAll), '',
+    futureSlips.length ? futureSlips.map((s) => `busta di ${monthLabel(s.P)}: ${eur.format(s.gross)}`).join(' · ') + ' (lordi, da contratti già firmati)' : 'Nessuna commissione in attesa di incasso');
   document.getElementById('tilesComm').innerHTML = t;
-  let h = `<thead><tr><th>Mese di vendita</th><th class="n">Quota</th><th class="n">Soglia ${pc(c.threshold_pct)}</th><th class="n">Venduto</th><th class="n">% quota</th><th class="n">Commissione lorda</th><th class="n">Commissione netta</th><th>In busta (pagata a inizio)</th><th class="n">Busta totale</th><th class="n">Venduto previsto</th><th class="n">Commissione prevista (lorda / netta)</th><th class="n">Busta prevista</th></tr></thead><tbody>`;
+
+  let h = `<thead><tr><th>Mese di firma</th><th class="n">Quota</th><th class="n">Soglia ${pc(c.threshold_pct)}</th><th class="n">Contrattato</th><th class="n">% quota</th><th class="n">Commissione maturata</th><th class="n">In busta dello stesso mese</th><th class="n">Nelle buste successive</th><th class="n">Contrattato previsto</th><th class="n">Commissione prevista</th></tr></thead><tbody>`;
   rows.forEach((x) => {
     const future = x.m >= cur;
     h += `<tr class="${x.m === cur ? 'current' : ''}"><td>${monthLabel(x.m)}${x.m === cur ? ' (corrente)' : ''}</td>
       <td class="n">${x.target ? eur.format(x.target) : '—'}</td><td class="n">${x.threshold ? eur.format(x.threshold) : '—'}</td>
       <td class="n">${eur.format(x.closed)}</td><td class="n">${x.target ? pct(x.closed / x.target) : '—'}</td>
-      <td class="n">${eur.format(x.comm)}</td><td class="n"><b>${eur.format(x.commNet)}</b></td><td>${monthLabel(x.pay)} (${monthLabel(D.month(D.addMonths(`${x.pay}-01`, 1)))})</td><td class="n">${eur.format(salary + x.commNet)}</td>
-      <td class="n">${future ? eur.format(x.forecast) : '—'}</td><td class="n">${future ? `${eur.format(x.commF)} / ${eur.format(x.commFNet)}` : '—'}</td><td class="n">${future ? eur.format(salary + x.commFNet) : '—'}</td></tr>`;
+      <td class="n"><b>${eur.format(x.comm)}</b></td><td class="n">${eur.format(x.paidNow)}</td><td class="n">${x.deferred > 0.5 ? eur.format(x.deferred) : '—'}</td>
+      <td class="n">${future ? eur.format(x.forecast) : '—'}</td><td class="n">${future ? eur.format(x.commF) : '—'}</td></tr>`;
   });
   document.getElementById('commTable').innerHTML = h + '</tbody>';
-  renderSimulator({ rows, cur, c, salary, net });
+
+  h = `<thead><tr><th>Busta</th><th>Pagata a inizio</th><th>Commissioni erogate (per mese di firma)</th><th class="n">Lorde</th><th class="n">Nette</th><th class="n">Busta totale</th><th class="n">Previste lorde / nette</th><th class="n">Busta prevista</th></tr></thead><tbody>`;
+  slips.forEach((s) => {
+    const future = s.P >= addM(cur, lag);
+    h += `<tr class="${s.P === now.P ? 'current' : ''}"><td>${monthLabel(s.P)}${s.P === now.P ? ' (corrente)' : ''}</td><td>${paidOn(s.P)}</td>
+      <td class="name">${partsText(s.parts)}${future && Math.abs(s.grossF - s.gross) > 0.5 ? ` <span class="muted">· previste: ${partsText(s.partsF)}</span>` : ''}</td>
+      <td class="n">${eur.format(s.gross)}</td><td class="n"><b>${eur.format(s.net)}</b></td><td class="n">${eur.format(salary + s.net)}</td>
+      <td class="n">${future ? `${eur.format(s.grossF)} / ${eur.format(s.netF)}` : '—'}</td><td class="n">${future ? eur.format(salary + s.netF) : '—'}</td></tr>`;
+  });
+  document.getElementById('slipTable').innerHTML = h + '</tbody>';
+
+  renderPaymentPlans(alloc, lag);
+  renderSimulator({ rows, cur, c, salary, lag, slipOf, slot, netPay });
+}
+
+function renderPaymentPlans(alloc, lag) {
+  const el = document.getElementById('payPlans');
+  if (!el) return;
+  const canEdit = !state.db || state.owner !== false;
+  const sched = (a) => a.sched.map((s) => `${monthLabel(D.month(D.addMonths(`${a.m}-01`, s.off + lag)))} ${Math.round(s.pct * 100)}%`).join(' · ');
+  let h = `<thead><tr><th>Deal</th><th>Firmato</th><th class="n">Importo</th><th class="n">Commissione attribuita</th><th>Incasso</th><th class="n">Acconto %</th><th class="n">Rate</th><th class="n">Prima rata dopo (mesi)</th><th>Erogazione in busta</th></tr></thead><tbody>`;
+  alloc.forEach((a) => {
+    const pl = a.plan, rate = pl.plan === 'rate', dis = canEdit ? '' : ' disabled';
+    h += `<tr data-id="${esc(a.d.id)}"><td class="name"><a href="${HUBSPOT_URL(a.d.id)}" target="_blank" rel="noopener">${esc(a.d.name)}</a></td>
+      <td>${dLabel(a.d.closedate)}</td><td class="n">${eur.format(a.d.amount)}</td><td class="n">${eur.format(a.gross)}</td>
+      <td><select data-f="plan"${dis}>${Object.entries(PLAN_LABELS).map(([k, v]) => `<option value="${k}"${pl.plan === k ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
+      <td class="n"><input type="number" data-f="deposit" min="0" max="100" step="5" value="${pl.deposit}"${rate ? '' : ' hidden'}${dis}></td>
+      <td class="n"><input type="number" data-f="n" min="1" max="24" step="1" value="${pl.n}"${rate ? '' : ' hidden'}${dis}></td>
+      <td class="n"><input type="number" data-f="start" min="0" max="12" step="1" value="${pl.start}"${rate ? '' : ' hidden'}${dis}></td>
+      <td class="muted">${sched(a)}</td></tr>`;
+  });
+  el.querySelector('table').innerHTML = h + '</tbody>';
+  const msg = el.querySelector('#payMsg');
+  if (!canEdit) msg.textContent = 'Solo il proprietario della dashboard può modificare i piani di incasso.';
+  el.querySelectorAll('tbody tr').forEach((tr) => {
+    tr.querySelectorAll('select, input').forEach((inp) => inp.addEventListener('change', async () => {
+      const id = tr.dataset.id;
+      const plan = { ...payPlan(id) };
+      tr.querySelectorAll('select, input').forEach((i) => { plan[i.dataset.f] = i.tagName === 'SELECT' ? i.value : Number(i.value); });
+      try {
+        const where = await savePayment(id, plan);
+        render();
+        document.getElementById('payMsg').textContent = where === 'db' ? 'Piano di incasso salvato.' : 'Piano di incasso salvato in questo browser.';
+      } catch (e) {
+        document.getElementById('payMsg').textContent = `Non salvato (${e?.code || 'errore'}): riprova`;
+      }
+    }));
+  });
 }
 
 /* ---------- Simulatore: vendite stimate con probabilità di chiusura -> commissione e busta del mese ---------- */
@@ -571,7 +687,7 @@ function simSave(sim) {
 }
 
 function renderSimulator(model) {
-  const { rows, cur, c, salary, net } = model;
+  const { rows, cur, c, salary, lag, slot, netPay } = model;
   const el = document.getElementById('sim');
   if (!el) return;
   if (!state.sim) state.sim = { base: 'closed', items: [], ...simLoad() };
@@ -588,7 +704,7 @@ function renderSimulator(model) {
         <label class="muted">Mese <select id="simMonth">${months.map((x) => `<option value="${x.m}"${x.m === sim.month ? ' selected' : ''}>${monthLabel(x.m)}</option>`).join('')}</select></label>
         <div class="seg" id="simBase"><button data-v="closed"${sim.base === 'closed' ? ' class="on"' : ''}>Parti dal chiuso</button><button data-v="forecast"${sim.base === 'forecast' ? ' class="on"' : ''}>Chiuso + pipeline pesata</button></div>
       </div></div>
-    <p class="hint">Aggiungi le vendite che pensi di chiudere nel mese, con la tua stima di chiudibilità: ogni vendita conta per importo × probabilità. <b>Parti dal chiuso</b> somma le tue stime al venduto già firmato; <b>Chiuso + pipeline pesata</b> le somma anche al previsto da HubSpot (attenzione a non contare due volte un deal già in pipeline). Le righe restano salvate solo in questo browser.</p>
+    <p class="hint">Aggiungi le vendite che pensi di chiudere nel mese, con la tua stima di chiudibilità: ogni vendita conta per importo × probabilità e si assume incassata alla firma. <b>Parti dal chiuso</b> somma le tue stime al venduto già firmato; <b>Chiuso + pipeline pesata</b> le somma anche al previsto da HubSpot (attenzione a non contare due volte un deal già in pipeline). Le righe restano salvate solo in questo browser.</p>
     <div class="table-wrap"><table id="simTable"><thead><tr><th>Vendita</th><th class="n">Importo annuo €</th><th class="n">Chiudibilità %</th><th class="n">Valore pesato</th><th></th></tr></thead><tbody>
       ${sim.items.map((i) => `<tr data-id="${i.id}"><td><input type="text" data-f="name" value="${esc(i.name)}" placeholder="Es. Studio Rossi"></td>
         <td class="n"><input type="number" data-f="amount" min="0" step="100" value="${i.amount}" placeholder="1788"></td>
@@ -610,9 +726,13 @@ function renderSimulator(model) {
     const added = sim.items.reduce((s, i) => s + w(i), 0), full = sim.items.reduce((s, i) => s + val(i), 0);
     el.querySelector('#simTotAmount').textContent = eur.format(full);
     el.querySelector('#simTotW').textContent = eur.format(added);
+    // Le vendite simulate si assumono incassate alla firma: la commissione in più entra nella busta del mese
+    const P = D.month(D.addMonths(`${x.m}-01`, lag));
+    const slipBase = sim.base === 'forecast' ? slot(P).grossF : slot(P).gross;
+    const baseComm = commissionFor(base, x.target);
     const scen = (sales) => {
-      const gross = commissionFor(sales, x.target);
-      return { sales, gross, net: net(x, gross) };
+      const gross = commissionFor(sales, x.target), slipGross = slipBase + gross - baseComm;
+      return { sales, gross, slipGross, net: netPay(P, slipGross) };
     };
     const b = scen(base), s = scen(base + added), all = scen(base + full);
     const plus = (v) => (v > 0.5 ? `<span class="up">+${eur.format(v)}</span>` : v < -0.5 ? `<span class="down">${eur.format(v)}</span>` : '<span class="flat">+0 €</span>');
@@ -624,14 +744,15 @@ function renderSimulator(model) {
       else if (v < c.upper_from) band = `Mancano ${eur.format(c.upper_from - v)} allo scaglione del ${pc(c.upper_rate)}`;
       else band = `Nello scaglione del ${pc(c.upper_rate)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
     }
-    const pay = `busta di ${monthLabel(x.pay)} (pagata a inizio ${monthLabel(D.month(D.addMonths(`${x.pay}-01`, 1)))})`;
+    const pay = `busta di ${monthLabel(P)} (pagata a inizio ${monthLabel(D.month(D.addMonths(`${P}-01`, 1)))})`;
     let t = '';
     t += tile(`Venduto simulato ${monthLabel(x.m)}`, eur.format(s.sales), plus(added) + ' dalle tue stime',
       `${sim.base === 'forecast' ? 'Previsto' : 'Chiuso'} ${eur.format(base)}${x.target ? ` · ${pct(s.sales / x.target)} della quota ${eur.format(x.target)}` : ''}${band ? ` · ${band}` : ''}`,
       x.target ? `<div class="bar"><span style="width:${Math.min(100, (s.sales / x.target) * 100)}%"></span></div>` : '');
-    t += tile('Commissione lorda simulata', eur.format(s.gross), plus(s.gross - b.gross), `Senza le tue stime: ${eur.format(b.gross)}`);
-    t += tile('Commissione netta simulata', eur.format(s.net), plus(s.net - b.net), `Senza le tue stime: ${eur.format(b.net)}`);
-    t += tile(`Busta di ${monthLabel(x.pay)} simulata`, eur.format(salary + s.net), plus(s.net - b.net), `Netto in ${pay}`);
+    t += tile(`Commissione maturata ${monthLabel(x.m)} simulata`, eur.format(s.gross), plus(s.gross - b.gross), `Sul contrattato del mese · senza le tue stime: ${eur.format(b.gross)}`);
+    t += tile(`Commissioni nette in busta di ${monthLabel(P)}`, eur.format(s.net), plus(s.net - b.net),
+      `${eur.format(s.slipGross)} lordi, comprese le rate di contratti precedenti · senza le tue stime: ${eur.format(b.net)} netti`);
+    t += tile(`Busta di ${monthLabel(P)} simulata`, eur.format(salary + s.net), plus(s.net - b.net), `Netto in ${pay}`);
     t += tile('Se chiudono tutte (100%)', eur.format(salary + all.net), plus(all.net - b.net),
       `Venduto ${eur.format(all.sales)} · commissione ${eur.format(all.gross)} lordi ≈ ${eur.format(all.net)} netti`);
     el.querySelector('#simTiles').innerHTML = t;
@@ -1079,6 +1200,8 @@ async function startLive(refresh = false) {
           Object.entries(hist).forEach(([d, s]) => {
             if (!state.snaps[d] || (s.generated_at || '') > (state.snaps[d].generated_at || '')) state.snaps[d] = s;
           });
+          const pays = await db.collection('payments').get();
+          state.payments = Object.fromEntries(pays.docs.map((d) => [String(d.data()?.deal_id ?? d.id), d.data()]));
           const t = await db.doc('settings/targets').get();
           if (t.exists) state.config.targets = { ...state.config.targets, monthly: { ...(state.config.targets?.monthly || {}), ...(t.data().monthly || {}) } };
         } catch (e) { /* storico non leggibile: restano gli snapshot incorporati */ }

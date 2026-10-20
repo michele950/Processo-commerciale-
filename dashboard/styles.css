@@ -199,3 +199,5 @@ td.name a { color: inherit; }
 #simTable input[type=number] { width: 90px; }
 #simTable input[data-f=prob] { width: 64px; }
 #simTable td, #simTable th { padding-left: 4px; padding-right: 4px; }
+#payPlans input[type=number] { width: 64px; }
+#payPlans td.muted { white-space: normal; min-width: 160px; }
