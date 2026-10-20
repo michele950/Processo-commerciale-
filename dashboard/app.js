@@ -475,13 +475,21 @@ function renderResult(latest, A, B) {
 // Piani salvati nel database della dashboard (collection `payments`, un documento per deal) o, nella pagina
 // statica, in questo browser.
 const PAY_KEY = 'kpi-payment-plans';
-const PLAN_LABELS = { close: 'Unica soluzione alla firma', next: 'Unica soluzione il mese dopo', rate: 'Acconto + rate mensili' };
+const PLAN_LABELS = { close: 'Unica soluzione alla firma', next: 'Unica soluzione il mese dopo', rate: 'Acconto + rate mensili', custom: 'Pagamenti specifici (mese e importo)' };
 function payPlan(id) {
   return { plan: state.config.compensation?.payout_default || 'close', deposit: 0, n: 3, start: 1, ...(state.payments?.[id] || {}) };
 }
-/** Quote di incasso: [{ off: mesi dopo la firma, pct }]. */
-function payoutSchedule(pl) {
+const monthDiff = (a, b) => (Number(b.slice(0, 4)) - Number(a.slice(0, 4))) * 12 + Number(b.slice(5, 7)) - Number(a.slice(5, 7));
+/** Importo del contratto non ancora assegnato a un mese di incasso (negativo se i pagamenti superano l'importo). */
+const customResidual = (pl, amount) => amount - (pl.lines || []).reduce((s, l) => s + (Number(l.amount) || 0), 0);
+/** Quote di incasso: [{ off: mesi dopo la firma, pct }]. m = mese di firma, amount = importo del deal. */
+function payoutSchedule(pl, m, amount) {
   if (pl.plan === 'next') return [{ off: 1, pct: 1 }];
+  // Pagamenti specifici: la parte non pianificata non entra in nessuna busta finché non le si dà un mese
+  if (pl.plan === 'custom') {
+    return (pl.lines || []).filter((l) => /^\d{4}-\d{2}$/.test(l.month || '') && Number(l.amount) > 0 && amount > 0)
+      .map((l) => ({ off: monthDiff(m, l.month), pct: Number(l.amount) / amount }));
+  }
   if (pl.plan === 'rate') {
     const n = Math.max(1, Math.round(Number(pl.n) || 1)), dep = Math.min(100, Math.max(0, Number(pl.deposit) || 0)) / 100;
     const start = Math.max(0, Math.round(Number(pl.start) || 0));
@@ -529,7 +537,7 @@ function renderCommissions(latest) {
     const gross = x.closed ? (x.comm * d.amount) / x.closed : 0;
     const grossF = x.m >= cur && x.forecast ? (x.commF * d.amount) / x.forecast : gross;
     const pl = payPlan(d.id);
-    return { d, m: x.m, gross, grossF, plan: pl, sched: payoutSchedule(pl) };
+    return { d, m: x.m, gross, grossF, plan: pl, sched: payoutSchedule(pl, x.m, d.amount) };
   }).sort((a, b) => b.d.closedate.localeCompare(a.d.closedate));
   const slip = {}; // busta -> { gross, grossF, parts: { mese contratto: lordo } }
   const slot = (P) => (slip[P] ||= { gross: 0, grossF: 0, parts: {}, partsF: {} });
@@ -612,8 +620,12 @@ function renderCommissions(latest) {
     `Pagata a inizio ${paidOn(now.P)}: ${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(now.net)} netti di commissioni (${eur.format(now.gross)} lordi: ${partsText(now.parts)})`);
   t += tile(`Busta di ${monthLabel(now.P)}: previsto`, eur.format(salary + now.netF), '',
     `Se ${monthLabel(r.m)} chiude a ${eur.format(r.forecast)}: ${eur.format(now.grossF)} lordi ≈ ${eur.format(now.netF)} netti (${partsText(now.partsF)})`);
-  t += tile('Già maturate, da erogare', eur.format(deferredAll), '',
-    futureSlips.length ? futureSlips.map((s) => `busta di ${monthLabel(s.P)}: ${eur.format(s.gross)}`).join(' · ') + ' (lordi, da contratti già firmati)' : 'Nessuna commissione in attesa di incasso');
+  // Pagamenti specifici che non coprono tutto l'importo: commissione maturata ma senza mese di incasso
+  const unplanned = alloc.filter((a) => a.plan.plan === 'custom' && a.d.amount)
+    .reduce((s, a) => s + Math.max(0, customResidual(a.plan, a.d.amount)) * a.gross / a.d.amount, 0);
+  t += tile('Già maturate, da erogare', eur.format(deferredAll + unplanned), '',
+    (futureSlips.length ? futureSlips.map((s) => `busta di ${monthLabel(s.P)}: ${eur.format(s.gross)}`).join(' · ') + ' (lordi, da contratti già firmati)' : 'Nessuna commissione in attesa di incasso')
+    + (unplanned > 0.5 ? ` · <b>${eur.format(unplanned)} senza mese di incasso</b>: completa i pagamenti specifici` : ''));
   document.getElementById('tilesComm').innerHTML = t;
 
   let h = `<thead><tr><th>Mese di firma</th><th class="n">Quota</th><th class="n">Soglia ${pc(c.threshold_pct)}</th><th class="n">Contrattato</th><th class="n">% quota</th><th class="n">Commissione maturata</th><th class="n">In busta dello stesso mese</th><th class="n">Nelle buste successive</th><th class="n">Contrattato previsto</th><th class="n">Commissione prevista</th></tr></thead><tbody>`;
@@ -645,34 +657,68 @@ function renderPaymentPlans(alloc, lag) {
   const el = document.getElementById('payPlans');
   if (!el) return;
   const canEdit = !state.db || state.owner !== false;
-  const sched = (a) => a.sched.map((s) => `${monthLabel(D.month(D.addMonths(`${a.m}-01`, s.off + lag)))} ${Math.round(s.pct * 100)}%`).join(' · ');
+  const dis = canEdit ? '' : ' disabled';
+  const sched = (a) => a.sched.map((s) => `${monthLabel(D.month(D.addMonths(`${a.m}-01`, s.off + lag)))} ${Math.round(s.pct * 100)}%`).join(' · ') || '—';
   let h = `<thead><tr><th>Deal</th><th>Firmato</th><th class="n">Importo</th><th class="n">Commissione attribuita</th><th>Incasso</th><th class="n">Acconto %</th><th class="n">Rate</th><th class="n">Prima rata dopo (mesi)</th><th>Erogazione in busta</th></tr></thead><tbody>`;
   alloc.forEach((a) => {
-    const pl = a.plan, rate = pl.plan === 'rate', dis = canEdit ? '' : ' disabled';
+    const pl = a.plan, rate = pl.plan === 'rate';
+    const left = pl.plan === 'custom' ? customResidual(pl, a.d.amount) : 0;
     h += `<tr data-id="${esc(a.d.id)}"><td class="name"><a href="${HUBSPOT_URL(a.d.id)}" target="_blank" rel="noopener">${esc(a.d.name)}</a></td>
       <td>${dLabel(a.d.closedate)}</td><td class="n">${eur.format(a.d.amount)}</td><td class="n">${eur.format(a.gross)}</td>
       <td><select data-f="plan"${dis}>${Object.entries(PLAN_LABELS).map(([k, v]) => `<option value="${k}"${pl.plan === k ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
       <td class="n"><input type="number" data-f="deposit" min="0" max="100" step="5" value="${pl.deposit}"${rate ? '' : ' hidden'}${dis}></td>
       <td class="n"><input type="number" data-f="n" min="1" max="24" step="1" value="${pl.n}"${rate ? '' : ' hidden'}${dis}></td>
       <td class="n"><input type="number" data-f="start" min="0" max="12" step="1" value="${pl.start}"${rate ? '' : ' hidden'}${dis}></td>
-      <td class="muted">${sched(a)}</td></tr>`;
+      <td class="muted">${sched(a)}${Math.abs(left) > 0.5 ? ` <span class="flag">${left > 0 ? `${eur.format(left)} da pianificare` : `${eur.format(-left)} oltre l'importo`}</span>` : ''}</td></tr>`;
+    if (pl.plan === 'custom') {
+      h += `<tr class="pay-lines" data-for="${esc(a.d.id)}"><td colspan="9"><div class="pay-grid">
+        ${(pl.lines || []).map((l, k) => `<div class="pay-line" data-k="${k}">
+          <label>Mese di incasso <input type="month" data-l="month" placeholder="AAAA-MM" value="${esc(l.month)}"${dis}></label>
+          <label>Importo € <input type="number" data-l="amount" min="0" step="10" value="${l.amount}"${dis}></label>
+          <span class="muted">≈ ${eur.format(a.d.amount ? (a.gross * (Number(l.amount) || 0)) / a.d.amount : 0)} di commissione</span>
+          ${canEdit ? '<button data-del aria-label="Rimuovi pagamento">×</button>' : ''}</div>`).join('')}
+        ${canEdit ? '<button data-add>+ Aggiungi pagamento</button>' : ''}
+        <span class="muted">Totale pagamenti ${eur.format((pl.lines || []).reduce((s, l) => s + (Number(l.amount) || 0), 0))} su ${eur.format(a.d.amount)}</span>
+      </div></td></tr>`;
+    }
   });
   el.querySelector('table').innerHTML = h + '</tbody>';
   const msg = el.querySelector('#payMsg');
   if (!canEdit) msg.textContent = 'Solo il proprietario della dashboard può modificare i piani di incasso.';
-  el.querySelectorAll('tbody tr').forEach((tr) => {
-    tr.querySelectorAll('select, input').forEach((inp) => inp.addEventListener('change', async () => {
-      const id = tr.dataset.id;
+  const persist = async (id, plan) => {
+    try {
+      const where = await savePayment(id, plan);
+      render();
+      document.getElementById('payMsg').textContent = where === 'db' ? 'Piano di incasso salvato.' : 'Piano di incasso salvato in questo browser.';
+    } catch (e) {
+      document.getElementById('payMsg').textContent = `Non salvato (${e?.code || 'errore'}): riprova`;
+    }
+  };
+  const byId = Object.fromEntries(alloc.map((a) => [String(a.d.id), a]));
+  el.querySelectorAll('tbody tr[data-id]').forEach((tr) => {
+    tr.querySelectorAll('select, input').forEach((inp) => inp.addEventListener('change', () => {
+      const id = tr.dataset.id, a = byId[id];
       const plan = { ...payPlan(id) };
       tr.querySelectorAll('select, input').forEach((i) => { plan[i.dataset.f] = i.tagName === 'SELECT' ? i.value : Number(i.value); });
-      try {
-        const where = await savePayment(id, plan);
-        render();
-        document.getElementById('payMsg').textContent = where === 'db' ? 'Piano di incasso salvato.' : 'Piano di incasso salvato in questo browser.';
-      } catch (e) {
-        document.getElementById('payMsg').textContent = `Non salvato (${e?.code || 'errore'}): riprova`;
-      }
+      // Primo passaggio a pagamenti specifici: un unico pagamento dell'intero importo nel mese di firma
+      if (plan.plan === 'custom' && !(plan.lines || []).length) plan.lines = [{ month: a.m, amount: a.d.amount }];
+      persist(id, plan);
     }));
+  });
+  el.querySelectorAll('tbody tr.pay-lines').forEach((tr) => {
+    const id = tr.dataset.for, a = byId[id];
+    const lines = () => [...tr.querySelectorAll('.pay-line')].map((row) => ({
+      month: row.querySelector('[data-l=month]').value, amount: Number(row.querySelector('[data-l=amount]').value) || 0 }));
+    tr.querySelectorAll('.pay-line input').forEach((inp) => inp.addEventListener('change', () => persist(id, { ...payPlan(id), lines: lines() })));
+    tr.querySelectorAll('[data-del]').forEach((bt) => bt.addEventListener('click', () => {
+      const k = Number(bt.closest('.pay-line').dataset.k);
+      persist(id, { ...payPlan(id), lines: lines().filter((_, j) => j !== k) });
+    }));
+    tr.querySelector('[data-add]')?.addEventListener('click', () => {
+      const cur = lines(), last = cur.length ? cur[cur.length - 1].month : a.m;
+      const left = Math.max(0, a.d.amount - cur.reduce((s, l) => s + l.amount, 0));
+      persist(id, { ...payPlan(id), lines: [...cur, { month: D.month(D.addMonths(`${last || a.m}-01`, 1)), amount: Math.round(left) }] });
+    });
   });
 }
 

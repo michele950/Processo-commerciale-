@@ -201,3 +201,9 @@ td.name a { color: inherit; }
 #simTable td, #simTable th { padding-left: 4px; padding-right: 4px; }
 #payPlans input[type=number] { width: 64px; }
 #payPlans td.muted { white-space: normal; min-width: 160px; }
+#payPlans tr.pay-lines td { background: var(--accent-wash); }
+.pay-grid { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.pay-line { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pay-line label { font-size: 12px; color: var(--ink-2); display: inline-flex; gap: 6px; align-items: center; }
+.pay-line input[type=month] { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--ring); border-radius: 6px; padding: 3px 6px; }
+.pay-line input[type=number] { width: 90px; }

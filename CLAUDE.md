@@ -56,7 +56,7 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
 - Fisso mensile 1.800 € = 1.600 € netti + 200 € di buoni pasto esenti.
 - Contrattato vs incassato: la commissione matura sul contrattato del mese di firma (scaglioni sul totale del mese),
   si ripartisce sui deal in proporzione all'importo ed entra in busta nei mesi in cui il cliente paga. Piano di incasso
-  per deal nel db (collection `payments`, doc = id deal: plan close | next | rate, deposit %, n rate, start mesi);
+  per deal nel db (collection `payments`, doc = id deal: plan close | next | rate (deposit %, n rate, start mesi) | custom (lines: [{month, amount}]));
   default alla firma (`payout_default`). Benefit e aliquota si applicano al totale erogato in ogni busta.
 - Netto commissioni (`compensation.payroll`): stima con IRPEF sul reddito annuo cumulato (INPS 9,19%, scaglioni
   2026 23/33/43%, detrazioni art. 13, cuneo 2025, addizionali ~2,3%). Ipotesi A = RAL 24.000 (default),
