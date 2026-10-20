@@ -207,3 +207,4 @@ td.name a { color: inherit; }
 .pay-line label { font-size: 12px; color: var(--ink-2); display: inline-flex; gap: 6px; align-items: center; }
 .pay-line input[type=month] { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--ring); border-radius: 6px; padding: 3px 6px; }
 .pay-line input[type=number] { width: 90px; }
+.pay-k { font-size: 12px; min-width: 52px; }

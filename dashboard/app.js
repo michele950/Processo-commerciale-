@@ -475,7 +475,7 @@ function renderResult(latest, A, B) {
 // Piani salvati nel database della dashboard (collection `payments`, un documento per deal) o, nella pagina
 // statica, in questo browser.
 const PAY_KEY = 'kpi-payment-plans';
-const PLAN_LABELS = { close: 'Unica soluzione alla firma', next: 'Unica soluzione il mese dopo', rate: 'Acconto + rate mensili', custom: 'Pagamenti specifici (mese e importo)' };
+const PLAN_LABELS = { close: 'Unica soluzione alla firma', next: 'Unica soluzione il mese dopo', rate: 'Acconto + rate mensili', custom: 'Rate con mese e importo a scelta' };
 function payPlan(id) {
   return { plan: state.config.compensation?.payout_default || 'close', deposit: 0, n: 3, start: 1, ...(state.payments?.[id] || {}) };
 }
@@ -625,7 +625,7 @@ function renderCommissions(latest) {
     .reduce((s, a) => s + Math.max(0, customResidual(a.plan, a.d.amount)) * a.gross / a.d.amount, 0);
   t += tile('Già maturate, da erogare', eur.format(deferredAll + unplanned), '',
     (futureSlips.length ? futureSlips.map((s) => `busta di ${monthLabel(s.P)}: ${eur.format(s.gross)}`).join(' · ') + ' (lordi, da contratti già firmati)' : 'Nessuna commissione in attesa di incasso')
-    + (unplanned > 0.5 ? ` · <b>${eur.format(unplanned)} senza mese di incasso</b>: completa i pagamenti specifici` : ''));
+    + (unplanned > 0.5 ? ` · <b>${eur.format(unplanned)} senza mese di incasso</b>: assegna un mese alle rate mancanti` : ''));
   document.getElementById('tilesComm').innerHTML = t;
 
   let h = `<thead><tr><th>Mese di firma</th><th class="n">Quota</th><th class="n">Soglia ${pc(c.threshold_pct)}</th><th class="n">Contrattato</th><th class="n">% quota</th><th class="n">Commissione maturata</th><th class="n">In busta dello stesso mese</th><th class="n">Nelle buste successive</th><th class="n">Contrattato previsto</th><th class="n">Commissione prevista</th></tr></thead><tbody>`;
@@ -673,11 +673,12 @@ function renderPaymentPlans(alloc, lag) {
     if (pl.plan === 'custom') {
       h += `<tr class="pay-lines" data-for="${esc(a.d.id)}"><td colspan="9"><div class="pay-grid">
         ${(pl.lines || []).map((l, k) => `<div class="pay-line" data-k="${k}">
+          <b class="pay-k">${k === 0 ? 'Acconto' : `Rata ${k + 1}`}</b>
           <label>Mese di incasso <input type="month" data-l="month" placeholder="AAAA-MM" value="${esc(l.month)}"${dis}></label>
           <label>Importo € <input type="number" data-l="amount" min="0" step="10" value="${l.amount}"${dis}></label>
           <span class="muted">≈ ${eur.format(a.d.amount ? (a.gross * (Number(l.amount) || 0)) / a.d.amount : 0)} di commissione</span>
           ${canEdit ? '<button data-del aria-label="Rimuovi pagamento">×</button>' : ''}</div>`).join('')}
-        ${canEdit ? '<button data-add>+ Aggiungi pagamento</button>' : ''}
+        ${canEdit ? '<button data-add>+ Aggiungi rata</button>' : ''}
         <span class="muted">Totale pagamenti ${eur.format((pl.lines || []).reduce((s, l) => s + (Number(l.amount) || 0), 0))} su ${eur.format(a.d.amount)}</span>
       </div></td></tr>`;
     }
@@ -700,8 +701,13 @@ function renderPaymentPlans(alloc, lag) {
       const id = tr.dataset.id, a = byId[id];
       const plan = { ...payPlan(id) };
       tr.querySelectorAll('select, input').forEach((i) => { plan[i.dataset.f] = i.tagName === 'SELECT' ? i.value : Number(i.value); });
-      // Primo passaggio a pagamenti specifici: un unico pagamento dell'intero importo nel mese di firma
-      if (plan.plan === 'custom' && !(plan.lines || []).length) plan.lines = [{ month: a.m, amount: a.d.amount }];
+      // Primo passaggio alle rate a scelta: parte dal piano attuale del deal (es. acconto + rate mensili), poi si modifica mese e importo
+      if (plan.plan === 'custom' && !(plan.lines || []).length) {
+        plan.lines = a.sched.length ? a.sched.map((x) => ({ month: D.month(D.addMonths(`${a.m}-01`, x.off)), amount: Math.round(x.pct * a.d.amount) }))
+          : [{ month: a.m, amount: a.d.amount }];
+        // gli arrotondamenti vanno sull'ultima rata, così il totale torna con l'importo del deal
+        plan.lines[plan.lines.length - 1].amount += Math.round(customResidual(plan, a.d.amount));
+      }
       persist(id, plan);
     }));
   });
