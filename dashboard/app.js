@@ -61,6 +61,8 @@ async function load() {
     state.config = EMBEDDED.config; state.index = EMBEDDED.index;
     EMBEDDED.snapshots.forEach((s) => { state.snaps[s.snapshot_date] = s; });
     state.asOf = state.index.latest;
+    // Piani di incasso: base da data/payments.json, poi le modifiche salvate in questo browser
+    state.payments = { ...(EMBEDDED.payments?.plans || {}), ...loadLocalPayments() };
     // Nella pagina statica i target modificati restano solo in questo browser
     try {
       const saved = JSON.parse(localStorage.getItem(TARGETS_KEY) || 'null');
@@ -72,6 +74,7 @@ async function load() {
   const list = await Promise.all(state.index.snapshots.map((d) => getJSON(`../data/snapshots/${d}.json`).catch(() => null)));
   list.filter(Boolean).forEach((s) => { state.snaps[s.snapshot_date] = s; });
   state.asOf = state.index.latest;
+  state.payments = { ...((await getJSON('../data/payments.json').catch(() => null))?.plans || {}), ...loadLocalPayments() };
 }
 
 /* ---------- modello: deal arricchiti ---------- */
@@ -471,40 +474,49 @@ function renderResult(latest, A, B) {
 
 /* ---------- Commissioni: maturate sul chiuso del mese e previste sul forecast ---------- */
 /* ---------- Piani di incasso dei deal chiusi ---------- */
-// La commissione si calcola sul contrattato del mese di firma, ma entra in busta nei mesi in cui il cliente paga.
-// Piani salvati nel database della dashboard (collection `payments`, un documento per deal) o, nella pagina
-// statica, in questo browser.
+// FIRMATO vs INCASSATO: la commissione MATURA sul contrattato del mese di firma (closedate HubSpot, scaglioni sul
+// totale del mese) e viene EROGATA in busta solo nel mese in cui il cliente paga ciascuna rata.
+// Ogni deal ha un piano con le sue rate, salvate così come sono (non ricalcolate a ogni apertura): nel database
+// della dashboard (collection `payments`, un documento per deal) e, come base, in data/payments.json.
+// Rata: { amount, date: 'AAAA-MM-GG' oppure '' (data da confermare), status: 'paid' (incassata) | 'expected' (da incassare) }.
 const PAY_KEY = 'kpi-payment-plans';
-const PLAN_LABELS = { close: 'Unica soluzione alla firma', next: 'Unica soluzione il mese dopo', rate: 'Acconto + rate mensili', custom: 'Rate con mese e importo a scelta' };
-function payPlan(id) {
-  return { plan: state.config.compensation?.payout_default || 'close', deposit: 0, n: 3, start: 1, ...(state.payments?.[id] || {}) };
+const PLAN_LABELS = { single: 'Unica soluzione', quarterly: 'Trimestrale (3 rate ogni 3 mesi)', semiannual: 'Semestrale (2 rate ogni 6 mesi)', custom: 'Personalizzato' };
+const PLAN_TEMPLATES = { single: { n: 1, every: 0 }, quarterly: { n: 3, every: 3 }, semiannual: { n: 2, every: 6 } };
+
+/** Stessa data N mesi dopo (31/01 + 1 mese = 28/02). */
+function addMonthsDay(date, n) {
+  const [y, m, d] = date.split('-').map(Number);
+  const t = new Date(Date.UTC(y, m - 1 + n, 1));
+  const last = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth() + 1, 0)).getUTCDate();
+  t.setUTCDate(Math.min(d, last));
+  return t.toISOString().slice(0, 10);
 }
-const monthDiff = (a, b) => (Number(b.slice(0, 4)) - Number(a.slice(0, 4))) * 12 + Number(b.slice(5, 7)) - Number(a.slice(5, 7));
-/** Importo del contratto non ancora assegnato a un mese di incasso (negativo se i pagamenti superano l'importo). */
-const customResidual = (pl, amount) => amount - (pl.lines || []).reduce((s, l) => s + (Number(l.amount) || 0), 0);
-/** Quote di incasso: [{ off: mesi dopo la firma, pct }]. m = mese di firma, amount = importo del deal. */
-function payoutSchedule(pl, m, amount) {
-  if (pl.plan === 'next') return [{ off: 1, pct: 1 }];
-  // Pagamenti specifici: la parte non pianificata non entra in nessuna busta finché non le si dà un mese
-  if (pl.plan === 'custom') {
-    return (pl.lines || []).filter((l) => /^\d{4}-\d{2}$/.test(l.month || '') && Number(l.amount) > 0 && amount > 0)
-      .map((l) => ({ off: monthDiff(m, l.month), pct: Number(l.amount) / amount }));
-  }
-  if (pl.plan === 'rate') {
-    const n = Math.max(1, Math.round(Number(pl.n) || 1)), dep = Math.min(100, Math.max(0, Number(pl.deposit) || 0)) / 100;
-    const start = Math.max(0, Math.round(Number(pl.start) || 0));
-    const out = dep > 0 ? [{ off: 0, pct: dep }] : [];
-    for (let k = 0; k < n; k++) out.push({ off: start + k, pct: (1 - dep) / n });
-    return out;
-  }
-  return [{ off: 0, pct: 1 }];
+/** Rate generate da un modello: importi uguali (arrotondamento sull'ultima), prima rata alla firma. Solo alla scelta del piano. */
+function buildInstallments(plan, deal) {
+  const tpl = PLAN_TEMPLATES[plan] || PLAN_TEMPLATES.single;
+  const each = Math.round(deal.amount / tpl.n);
+  return Array.from({ length: tpl.n }, (_, k) => ({
+    amount: k === tpl.n - 1 ? deal.amount - each * (tpl.n - 1) : each,
+    date: addMonthsDay(deal.closedate, k * tpl.every),
+    // la rata alla firma di un deal già firmato si considera incassata; le successive sono da incassare
+    status: k === 0 && deal.closedate <= state.asOf ? 'paid' : 'expected',
+  }));
+}
+/** Piano salvato del deal o, se non c'è, il caso standard: unica soluzione incassata alla firma. */
+function payPlan(deal) {
+  const saved = state.payments?.[deal.id];
+  if (saved?.installments?.length) return { plan: saved.plan in PLAN_LABELS ? saved.plan : 'custom', installments: saved.installments, saved: true };
+  return { plan: 'single', installments: buildInstallments('single', deal), saved: false };
 }
 function loadLocalPayments() {
   try { return JSON.parse(localStorage.getItem(PAY_KEY) || 'null') || {}; } catch (e) { return {}; }
 }
 async function savePayment(id, plan) {
-  state.payments = { ...(state.payments || {}), [id]: plan };
-  if (state.db) { await state.db.doc(`payments/${id}`).set({ ...plan, deal_id: id }); return 'db'; }
+  const doc = { deal_id: String(id), plan: plan.plan, installments: plan.installments, updated_at: new Date().toISOString() };
+  const note = state.payments?.[id]?.note;
+  if (note) doc.note = note;
+  state.payments = { ...(state.payments || {}), [id]: doc };
+  if (state.db) { await state.db.doc(`payments/${id}`).set(doc); return 'db'; }
   try { localStorage.setItem(PAY_KEY, JSON.stringify(state.payments)); } catch (e) { /* storage non disponibile */ }
   return 'local';
 }
@@ -512,7 +524,7 @@ async function savePayment(id, plan) {
 function renderCommissions(latest) {
   const c = state.config.compensation;
   if (!c) return;
-  if (!state.payments) state.payments = loadLocalPayments();
+  if (!state.payments) state.payments = {};
   const cur = D.month(state.asOf);
   const lag = c.payment_lag_months ?? 0;
   const addM = (m, n) => D.month(D.addMonths(`${m}-01`, n));
@@ -531,35 +543,38 @@ function renderCommissions(latest) {
   const rowOf = Object.fromEntries(rows.map((x) => [x.m, x]));
   const r = rowOf[cur] || rows[rows.length - 1];
 
-  // Commissione del mese ripartita sui deal firmati in proporzione all'importo, poi erogata secondo il piano di incasso
+  // FIRMATO: la commissione del mese di firma si ripartisce sui deal in proporzione all'importo.
   const alloc = latest.deals.filter((d) => isWon(d) && d.closedate && rowOf[D.month(d.closedate)]).map((d) => {
     const x = rowOf[D.month(d.closedate)];
     const gross = x.closed ? (x.comm * d.amount) / x.closed : 0;
     const grossF = x.m >= cur && x.forecast ? (x.commF * d.amount) / x.forecast : gross;
-    const pl = payPlan(d.id);
-    return { d, m: x.m, gross, grossF, plan: pl, sched: payoutSchedule(pl, x.m, d.amount) };
+    return { d, m: x.m, gross, grossF, plan: payPlan(d) };
   }).sort((a, b) => b.d.closedate.localeCompare(a.d.closedate));
-  const slip = {}; // busta -> { gross, grossF, parts: { mese contratto: lordo } }
-  const slot = (P) => (slip[P] ||= { gross: 0, grossF: 0, parts: {}, partsF: {} });
-  alloc.forEach((a) => a.sched.forEach((s) => {
-    const P = addM(a.m, s.off + lag), o = slot(P);
-    o.gross += a.gross * s.pct; o.grossF += a.grossF * s.pct;
-    o.parts[a.m] = (o.parts[a.m] || 0) + a.gross * s.pct; o.partsF[a.m] = (o.partsF[a.m] || 0) + a.grossF * s.pct;
+  // INCASSATO: ogni rata porta la sua quota di commissione (importo rata / importo deal) nella busta del mese
+  // in cui il cliente paga. gross = erogato (rate incassate), grossF = erogato + previsto (rate da incassare),
+  // pend = maturato ma non ancora incassato. Una rata senza data resta fuori da ogni busta (unplanned).
+  const slip = {};
+  const slot = (P) => (slip[P] ||= { gross: 0, grossF: 0, pend: 0, parts: {}, partsF: {} });
+  let unplanned = 0, overdue = 0;
+  alloc.forEach((a) => a.plan.installments.forEach((ins) => {
+    const share = a.d.amount ? (Number(ins.amount) || 0) / a.d.amount : 0;
+    if (!ins.date) { unplanned += a.gross * share; return; }
+    const P = addM(D.month(ins.date), lag), o = slot(P);
+    o.grossF += a.grossF * share; o.partsF[a.m] = (o.partsF[a.m] || 0) + a.grossF * share;
+    if (ins.status === 'paid') { o.gross += a.gross * share; o.parts[a.m] = (o.parts[a.m] || 0) + a.gross * share; }
+    else { o.pend += a.gross * share; if (ins.date < state.asOf) overdue += 1; }
   }));
-  // La parte pesata della pipeline si incassa alla firma (piano di default)
+  // La parte pesata della pipeline (non ancora firmata) si assume incassata in unica soluzione nel mese previsto
   rows.filter((x) => x.m >= cur).forEach((x) => {
     const rest = x.commF - (x.forecast ? (x.commF * x.closed) / x.forecast : 0);
-    payoutSchedule(payPlan(null)).forEach((s) => {
-      const P = addM(x.m, s.off + lag), o = slot(P);
-      o.grossF += rest * s.pct; o.partsF[x.m] = (o.partsF[x.m] || 0) + rest * s.pct;
-    });
+    const o = slot(addM(x.m, lag));
+    o.grossF += rest; o.partsF[x.m] = (o.partsF[x.m] || 0) + rest;
   });
   const slips = [];
   const lastSlip = [addM(months[months.length - 1], lag), ...Object.keys(slip)].sort().pop();
   for (let P = addM(months[0], lag); P <= lastSlip; P = addM(P, 1)) slips.push({ P, ...slot(P) });
   rows.forEach((x) => {
-    const own = slot(addM(x.m, lag));
-    x.paidNow = own.parts[x.m] || 0;
+    x.paidNow = slot(addM(x.m, lag)).parts[x.m] || 0;
     x.deferred = x.comm - x.paidNow;
   });
 
@@ -609,8 +624,8 @@ function renderCommissions(latest) {
     nextLabel = 'Scaglione massimo'; nextVal = pc(c.upper_rate);
     next = `Oltre ${eur.format(c.upper_from)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
   }
-  const deferredAll = slips.filter((s) => s.P > now.P).reduce((t, s) => t + s.gross, 0);
-  const futureSlips = slips.filter((s) => s.P > addM(cur, lag) && s.gross > 0.5);
+  const pending = slips.reduce((t, s) => t + s.pend, 0);
+  const pendSlips = slips.filter((s) => s.pend > 0.5);
   let t = '';
   t += tile(`Commissione maturata ${monthLabel(r.m)} (sul contrattato)`, eur.format(r.comm), '',
     `Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} della quota ${eur.format(r.target)}` : ''} · ${eur.format(r.paidNow)} in busta di ${monthLabel(addM(r.m, lag))}${r.deferred > 0.5 ? `, <b>${eur.format(r.deferred)} nelle buste successive</b>` : ''}`,
@@ -620,12 +635,10 @@ function renderCommissions(latest) {
     `Pagata a inizio ${paidOn(now.P)}: ${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(now.net)} netti di commissioni (${eur.format(now.gross)} lordi: ${partsText(now.parts)})`);
   t += tile(`Busta di ${monthLabel(now.P)}: previsto`, eur.format(salary + now.netF), '',
     `Se ${monthLabel(r.m)} chiude a ${eur.format(r.forecast)}: ${eur.format(now.grossF)} lordi ≈ ${eur.format(now.netF)} netti (${partsText(now.partsF)})`);
-  // Pagamenti specifici che non coprono tutto l'importo: commissione maturata ma senza mese di incasso
-  const unplanned = alloc.filter((a) => a.plan.plan === 'custom' && a.d.amount)
-    .reduce((s, a) => s + Math.max(0, customResidual(a.plan, a.d.amount)) * a.gross / a.d.amount, 0);
-  t += tile('Già maturate, da erogare', eur.format(deferredAll + unplanned), '',
-    (futureSlips.length ? futureSlips.map((s) => `busta di ${monthLabel(s.P)}: ${eur.format(s.gross)}`).join(' · ') + ' (lordi, da contratti già firmati)' : 'Nessuna commissione in attesa di incasso')
-    + (unplanned > 0.5 ? ` · <b>${eur.format(unplanned)} senza mese di incasso</b>: assegna un mese alle rate mancanti` : ''));
+  t += tile('Già maturate, da incassare', eur.format(pending + unplanned), '',
+    (pendSlips.length ? pendSlips.map((s) => `busta di ${monthLabel(s.P)}: ${eur.format(s.pend)}`).join(' · ') + ' (lordi, rate di contratti firmati)' : 'Nessuna rata in attesa')
+    + (unplanned > 0.5 ? ` · <b>${eur.format(unplanned)} con data da confermare</b>` : '')
+    + (overdue ? ` · <b>${overdue} ${overdue === 1 ? 'rata scaduta' : 'rate scadute'}</b>: segna se incassate` : ''));
   document.getElementById('tilesComm').innerHTML = t;
 
   let h = `<thead><tr><th>Mese di firma</th><th class="n">Quota</th><th class="n">Soglia ${pc(c.threshold_pct)}</th><th class="n">Contrattato</th><th class="n">% quota</th><th class="n">Commissione maturata</th><th class="n">In busta dello stesso mese</th><th class="n">Nelle buste successive</th><th class="n">Contrattato previsto</th><th class="n">Commissione prevista</th></tr></thead><tbody>`;
@@ -658,30 +671,25 @@ function renderPaymentPlans(alloc, lag) {
   if (!el) return;
   const canEdit = !state.db || state.owner !== false;
   const dis = canEdit ? '' : ' disabled';
-  const sched = (a) => a.sched.map((s) => `${monthLabel(D.month(D.addMonths(`${a.m}-01`, s.off + lag)))} ${Math.round(s.pct * 100)}%`).join(' · ') || '—';
-  let h = `<thead><tr><th>Deal</th><th>Firmato</th><th class="n">Importo</th><th class="n">Commissione attribuita</th><th>Incasso</th><th class="n">Acconto %</th><th class="n">Rate</th><th class="n">Prima rata dopo (mesi)</th><th>Erogazione in busta</th></tr></thead><tbody>`;
+  const insText = (ins) => (ins.date ? `${dLabel(ins.date)} ${ins.date.slice(2, 4)}` : 'data da confermare');
+  let h = `<thead><tr><th>Deal</th><th>Firmato</th><th class="n">Importo</th><th class="n">Commissione maturata</th><th>Piano di incasso</th><th>Rate</th></tr></thead><tbody>`;
   alloc.forEach((a) => {
-    const pl = a.plan, rate = pl.plan === 'rate';
-    const left = pl.plan === 'custom' ? customResidual(pl, a.d.amount) : 0;
+    const pl = a.plan, tot = pl.installments.reduce((s, i) => s + (Number(i.amount) || 0), 0), left = a.d.amount - tot;
+    const paid = pl.installments.filter((i) => i.status === 'paid').reduce((s, i) => s + (Number(i.amount) || 0), 0);
     h += `<tr data-id="${esc(a.d.id)}"><td class="name"><a href="${HUBSPOT_URL(a.d.id)}" target="_blank" rel="noopener">${esc(a.d.name)}</a></td>
       <td>${dLabel(a.d.closedate)}</td><td class="n">${eur.format(a.d.amount)}</td><td class="n">${eur.format(a.gross)}</td>
-      <td><select data-f="plan"${dis}>${Object.entries(PLAN_LABELS).map(([k, v]) => `<option value="${k}"${pl.plan === k ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
-      <td class="n"><input type="number" data-f="deposit" min="0" max="100" step="5" value="${pl.deposit}"${rate ? '' : ' hidden'}${dis}></td>
-      <td class="n"><input type="number" data-f="n" min="1" max="24" step="1" value="${pl.n}"${rate ? '' : ' hidden'}${dis}></td>
-      <td class="n"><input type="number" data-f="start" min="0" max="12" step="1" value="${pl.start}"${rate ? '' : ' hidden'}${dis}></td>
-      <td class="muted">${sched(a)}${Math.abs(left) > 0.5 ? ` <span class="flag">${left > 0 ? `${eur.format(left)} da pianificare` : `${eur.format(-left)} oltre l'importo`}</span>` : ''}</td></tr>`;
-    if (pl.plan === 'custom') {
-      h += `<tr class="pay-lines" data-for="${esc(a.d.id)}"><td colspan="9"><div class="pay-grid">
-        ${(pl.lines || []).map((l, k) => `<div class="pay-line" data-k="${k}">
-          <b class="pay-k">${k === 0 ? 'Acconto' : `Rata ${k + 1}`}</b>
-          <label>Mese di incasso <input type="month" data-l="month" placeholder="AAAA-MM" value="${esc(l.month)}"${dis}></label>
-          <label>Importo € <input type="number" data-l="amount" min="0" step="10" value="${l.amount}"${dis}></label>
-          <span class="muted">≈ ${eur.format(a.d.amount ? (a.gross * (Number(l.amount) || 0)) / a.d.amount : 0)} di commissione</span>
-          ${canEdit ? '<button data-del aria-label="Rimuovi pagamento">×</button>' : ''}</div>`).join('')}
-        ${canEdit ? '<button data-add>+ Aggiungi rata</button>' : ''}
-        <span class="muted">Totale pagamenti ${eur.format((pl.lines || []).reduce((s, l) => s + (Number(l.amount) || 0), 0))} su ${eur.format(a.d.amount)}</span>
-      </div></td></tr>`;
-    }
+      <td><select data-plan${dis}>${Object.entries(PLAN_LABELS).map(([k, v]) => `<option value="${k}"${pl.plan === k ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
+      <td class="muted">${pl.installments.length} ${pl.installments.length === 1 ? 'rata' : 'rate'} · incassato ${eur.format(paid)} su ${eur.format(a.d.amount)}${Math.abs(left) > 0.5 ? ` <span class="flag">${left > 0 ? `${eur.format(left)} senza rata` : `rate oltre l'importo di ${eur.format(-left)}`}</span>` : ''}${pl.saved ? '' : ' · <span class="muted">predefinito</span>'}${state.payments?.[a.d.id]?.note ? `<br>${esc(state.payments[a.d.id].note)}` : ''}</td></tr>
+      <tr class="pay-lines" data-for="${esc(a.d.id)}"><td colspan="6"><div class="pay-grid">
+      ${pl.installments.map((ins, k) => `<div class="pay-line" data-k="${k}">
+        <b class="pay-k">${pl.installments.length === 1 ? 'Rata unica' : k === 0 ? 'Acconto' : `Rata ${k + 1}`}</b>
+        <label>Data <input type="date" data-l="date" value="${esc(ins.date || '')}"${dis}></label>
+        <label>Importo € <input type="number" data-l="amount" min="0" step="1" value="${ins.amount}"${dis}></label>
+        <select data-l="status"${dis}><option value="paid"${ins.status === 'paid' ? ' selected' : ''}>Incassata</option><option value="expected"${ins.status !== 'paid' ? ' selected' : ''}>Da incassare</option></select>
+        <span class="muted">≈ ${eur.format(a.d.amount ? (a.gross * (Number(ins.amount) || 0)) / a.d.amount : 0)} di commissione${ins.date ? ` · busta di ${monthLabel(D.month(D.addMonths(`${D.month(ins.date)}-01`, lag)))}` : ''}</span>
+        ${!ins.date ? '<span class="flag">data da confermare</span>' : ins.status !== 'paid' && ins.date < state.asOf ? '<span class="flag crit">scaduta: incassata?</span>' : ''}
+        ${canEdit ? '<button data-del aria-label="Rimuovi rata">×</button>' : ''}</div>`).join('')}
+      ${canEdit ? '<button data-add>+ Aggiungi rata</button>' : ''}</div></td></tr>`;
   });
   el.querySelector('table').innerHTML = h + '</tbody>';
   const msg = el.querySelector('#payMsg');
@@ -696,34 +704,30 @@ function renderPaymentPlans(alloc, lag) {
     }
   };
   const byId = Object.fromEntries(alloc.map((a) => [String(a.d.id), a]));
-  el.querySelectorAll('tbody tr[data-id]').forEach((tr) => {
-    tr.querySelectorAll('select, input').forEach((inp) => inp.addEventListener('change', () => {
-      const id = tr.dataset.id, a = byId[id];
-      const plan = { ...payPlan(id) };
-      tr.querySelectorAll('select, input').forEach((i) => { plan[i.dataset.f] = i.tagName === 'SELECT' ? i.value : Number(i.value); });
-      // Primo passaggio alle rate a scelta: parte dal piano attuale del deal (es. acconto + rate mensili), poi si modifica mese e importo
-      if (plan.plan === 'custom' && !(plan.lines || []).length) {
-        plan.lines = a.sched.length ? a.sched.map((x) => ({ month: D.month(D.addMonths(`${a.m}-01`, x.off)), amount: Math.round(x.pct * a.d.amount) }))
-          : [{ month: a.m, amount: a.d.amount }];
-        // gli arrotondamenti vanno sull'ultima rata, così il totale torna con l'importo del deal
-        plan.lines[plan.lines.length - 1].amount += Math.round(customResidual(plan, a.d.amount));
-      }
-      persist(id, plan);
-    }));
-  });
+  // Cambio di piano: rigenera le rate dal modello (le date restano poi modificabili a mano).
+  // Personalizzato parte dalle rate attuali, così si corregge solo quello che è cambiato.
+  el.querySelectorAll('tbody tr[data-id] select[data-plan]').forEach((sel) => sel.addEventListener('change', () => {
+    const a = byId[sel.closest('tr').dataset.id];
+    const installments = sel.value === 'custom' ? a.plan.installments : buildInstallments(sel.value, a.d);
+    persist(a.d.id, { plan: sel.value, installments });
+  }));
   el.querySelectorAll('tbody tr.pay-lines').forEach((tr) => {
-    const id = tr.dataset.for, a = byId[id];
-    const lines = () => [...tr.querySelectorAll('.pay-line')].map((row) => ({
-      month: row.querySelector('[data-l=month]').value, amount: Number(row.querySelector('[data-l=amount]').value) || 0 }));
-    tr.querySelectorAll('.pay-line input').forEach((inp) => inp.addEventListener('change', () => persist(id, { ...payPlan(id), lines: lines() })));
+    const a = byId[tr.dataset.for];
+    const read = () => [...tr.querySelectorAll('.pay-line')].map((row) => ({
+      amount: Number(row.querySelector('[data-l=amount]').value) || 0,
+      date: row.querySelector('[data-l=date]').value || '',
+      status: row.querySelector('[data-l=status]').value,
+    }));
+    // Una modifica a mano (data, importo, stato) aggiorna solo le rate: il piano resta quello scelto
+    tr.querySelectorAll('.pay-line input, .pay-line select').forEach((inp) => inp.addEventListener('change', () => persist(a.d.id, { plan: a.plan.plan, installments: read() })));
     tr.querySelectorAll('[data-del]').forEach((bt) => bt.addEventListener('click', () => {
       const k = Number(bt.closest('.pay-line').dataset.k);
-      persist(id, { ...payPlan(id), lines: lines().filter((_, j) => j !== k) });
+      persist(a.d.id, { plan: 'custom', installments: read().filter((_, j) => j !== k) });
     }));
     tr.querySelector('[data-add]')?.addEventListener('click', () => {
-      const cur = lines(), last = cur.length ? cur[cur.length - 1].month : a.m;
-      const left = Math.max(0, a.d.amount - cur.reduce((s, l) => s + l.amount, 0));
-      persist(id, { ...payPlan(id), lines: [...cur, { month: D.month(D.addMonths(`${last || a.m}-01`, 1)), amount: Math.round(left) }] });
+      const cur = read(), last = cur.filter((i) => i.date).pop()?.date;
+      const left = Math.max(0, a.d.amount - cur.reduce((s, i) => s + i.amount, 0));
+      persist(a.d.id, { plan: 'custom', installments: [...cur, { amount: Math.round(left), date: last ? addMonthsDay(last, 1) : '', status: 'expected' }] });
     });
   });
 }
@@ -1253,7 +1257,8 @@ async function startLive(refresh = false) {
             if (!state.snaps[d] || (s.generated_at || '') > (state.snaps[d].generated_at || '')) state.snaps[d] = s;
           });
           const pays = await db.collection('payments').get();
-          state.payments = Object.fromEntries(pays.docs.map((d) => [String(d.data()?.deal_id ?? d.id), d.data()]));
+          // Il database ha la precedenza, deal per deal, sulla base incorporata
+          state.payments = { ...(state.payments || {}), ...Object.fromEntries(pays.docs.map((d) => [String(d.data()?.deal_id ?? d.id), d.data()])) };
           const t = await db.doc('settings/targets').get();
           if (t.exists) state.config.targets = { ...state.config.targets, monthly: { ...(state.config.targets?.monthly || {}), ...(t.data().monthly || {}) } };
         } catch (e) { /* storico non leggibile: restano gli snapshot incorporati */ }

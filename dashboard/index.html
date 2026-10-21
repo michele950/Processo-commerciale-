@@ -81,12 +81,12 @@
     <div class="table-wrap" style="margin-top:12px"><table id="commTable"></table></div>
     <div class="bridge">
       <div class="bridge-head"><h3>Buste paga: commissioni erogate per mese di busta</h3></div>
-      <p class="hint">Ogni busta contiene le commissioni dei contratti incassati in quel mese, anche se firmati nei mesi precedenti (acconti, rate, pagamenti differiti).</p>
+      <p class="hint">Ogni busta contiene le commissioni delle rate incassate in quel mese, anche di contratti firmati nei mesi precedenti. <b>Lorde/Nette</b> = rate già incassate; <b>Previste</b> = anche le rate da incassare e la pipeline del mese.</p>
       <div class="table-wrap"><table id="slipTable"></table></div>
     </div>
     <div class="bridge" id="payPlans">
       <div class="bridge-head"><h3>Incasso dei deal chiusi</h3><span class="muted" id="payMsg"></span></div>
-      <p class="hint">Per ogni deal firmato indica come paga il cliente: la sua quota della commissione entra in busta nei mesi di incasso. Di default l'incasso è alla firma. Per le rate: acconto alla firma (anche 0%), numero di rate mensili e dopo quanti mesi dalla firma arriva la prima. Con <b>Rate con mese e importo a scelta</b> decidi il mese e l'importo di ogni rata (es. acconto alla firma, seconda rata a gennaio, terza ad aprile): la parte non ancora pianificata resta in attesa e non entra in nessuna busta.</p>
+      <p class="hint">La commissione <b>matura alla firma</b> (contrattato) ma <b>entra in busta solo quando il cliente paga</b> ogni rata. Per ogni deal scegli il piano: <b>Unica soluzione</b> (predefinito), <b>Trimestrale</b> (3 rate uguali ogni 3 mesi, la prima alla firma), <b>Semestrale</b> (2 rate uguali a 6 mesi, la prima alla firma) o <b>Personalizzato</b>. Le rate si salvano così come sono: puoi cambiare a mano data, importo e stato (incassata / da incassare) se il cliente cambia piano in corsa. Una rata senza data resta "da confermare" e non entra in nessuna busta.</p>
       <div class="table-wrap"><table></table></div>
     </div>
     <div class="bridge" id="sim"></div>

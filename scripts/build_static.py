@@ -23,6 +23,8 @@ def main():
         "config": json.loads((DATA / "config.json").read_text()),
         "index": index,
         "snapshots": [json.loads((DATA / "snapshots" / f"{d}.json").read_text()) for d in index["snapshots"]],
+        # Piani di incasso dei deal chiusi (base; nella pagina live il database ha la precedenza)
+        "payments": json.loads((DATA / "payments.json").read_text()) if (DATA / "payments.json").exists() else {},
     }
     data = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 

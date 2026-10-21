@@ -1,0 +1,133 @@
+{
+  "_note": "Piani di incasso dei deal chiusi (base; nella dashboard live il database `payments` ha la precedenza per deal). Rata: amount, date AAAA-MM-GG ('' = data da confermare), status paid|expected.",
+  "plans": {
+    "522963976400": {
+      "deal_id": "522963976400",
+      "plan": "single",
+      "installments": [
+        {
+          "amount": 900,
+          "date": "2026-11-02",
+          "status": "expected"
+        }
+      ],
+      "note": "Non ancora firmato: incasso atteso la prima settimana di novembre"
+    },
+    "522642467050": {
+      "deal_id": "522642467050",
+      "plan": "quarterly",
+      "installments": [
+        {
+          "amount": 716,
+          "date": "2026-10-15",
+          "status": "paid"
+        },
+        {
+          "amount": 716,
+          "date": "2027-01-15",
+          "status": "expected"
+        },
+        {
+          "amount": 716,
+          "date": "2027-04-15",
+          "status": "expected"
+        }
+      ],
+      "note": "Prima rata incassata come acconto"
+    },
+    "522277450951": {
+      "deal_id": "522277450951",
+      "plan": "single",
+      "installments": [
+        {
+          "amount": 2988,
+          "date": "2026-10-15",
+          "status": "paid"
+        }
+      ]
+    },
+    "521865572564": {
+      "deal_id": "521865572564",
+      "plan": "single",
+      "installments": [
+        {
+          "amount": 948,
+          "date": "2026-10-15",
+          "status": "paid"
+        }
+      ]
+    },
+    "521496546544": {
+      "deal_id": "521496546544",
+      "plan": "single",
+      "installments": [
+        {
+          "amount": 1788,
+          "date": "2026-10-12",
+          "status": "paid"
+        }
+      ]
+    },
+    "521016611027": {
+      "deal_id": "521016611027",
+      "plan": "custom",
+      "installments": [
+        {
+          "amount": 5000,
+          "date": "2026-10-15",
+          "status": "paid"
+        },
+        {
+          "amount": 4478,
+          "date": "",
+          "status": "expected"
+        }
+      ],
+      "note": "Acconto 5.000 incassato; residuo dilazionato, cadenza da definire"
+    },
+    "520578888919": {
+      "deal_id": "520578888919",
+      "plan": "quarterly",
+      "installments": [
+        {
+          "amount": 716,
+          "date": "2026-10-16",
+          "status": "paid"
+        },
+        {
+          "amount": 716,
+          "date": "2027-01-16",
+          "status": "expected"
+        },
+        {
+          "amount": 716,
+          "date": "2027-04-16",
+          "status": "expected"
+        }
+      ],
+      "note": "Prima rata incassata"
+    },
+    "510120836313": {
+      "deal_id": "510120836313",
+      "plan": "single",
+      "installments": [
+        {
+          "amount": 1788,
+          "date": "2026-10-08",
+          "status": "paid"
+        }
+      ]
+    },
+    "510122974413": {
+      "deal_id": "510122974413",
+      "plan": "single",
+      "installments": [
+        {
+          "amount": 1788,
+          "date": "2026-10-12",
+          "status": "paid"
+        }
+      ]
+    }
+  }
+}

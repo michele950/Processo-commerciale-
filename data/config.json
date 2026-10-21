@@ -387,8 +387,8 @@
       "addizionali_rate": 0.023,
       "annual_commission_override": null
     },
-    "payout_default": "close",
-    "_payout_note": "Le commissioni maturano sul contrattato del mese di firma ed entrano in busta nei mesi in cui il cliente paga (piano per deal nel db, collection payments). payout_default: close = alla firma."
+    "payout_default": "single",
+    "_payout_note": "Firmato vs incassato: la commissione matura sul contrattato del mese di firma ed entra in busta nei mesi in cui il cliente paga le rate (data/payments.json + db payments). Senza piano: unica soluzione incassata alla firma."
   },
   "maturity": {
     "_note": "Tassi solo su coorti mature: demo da almeno N giorni per demo->attivazione, prove concluse o attivate da almeno N giorni per attivazione->contratto.",
