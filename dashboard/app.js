@@ -676,11 +676,15 @@ function renderPaymentPlans(alloc, lag) {
   alloc.forEach((a) => {
     const pl = a.plan, tot = pl.installments.reduce((s, i) => s + (Number(i.amount) || 0), 0), left = a.d.amount - tot;
     const paid = pl.installments.filter((i) => i.status === 'paid').reduce((s, i) => s + (Number(i.amount) || 0), 0);
+    // Rate chiuse di default: si apre solo il deal che si vuole modificare (resta aperto mentre lo si modifica)
+    const open = state.openPlans?.has(String(a.d.id));
+    const tbd = pl.installments.filter((i) => !i.date).length;
+    const late = pl.installments.filter((i) => i.date && i.status !== 'paid' && i.date < state.asOf).length;
     h += `<tr data-id="${esc(a.d.id)}"><td class="name"><a href="${HUBSPOT_URL(a.d.id)}" target="_blank" rel="noopener">${esc(a.d.name)}</a></td>
       <td>${dLabel(a.d.closedate)}</td><td class="n">${eur.format(a.d.amount)}</td><td class="n">${eur.format(a.gross)}</td>
       <td><select data-plan${dis}>${Object.entries(PLAN_LABELS).map(([k, v]) => `<option value="${k}"${pl.plan === k ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
-      <td class="muted">${pl.installments.length} ${pl.installments.length === 1 ? 'rata' : 'rate'} · incassato ${eur.format(paid)} su ${eur.format(a.d.amount)}${Math.abs(left) > 0.5 ? ` <span class="flag">${left > 0 ? `${eur.format(left)} senza rata` : `rate oltre l'importo di ${eur.format(-left)}`}</span>` : ''}${pl.saved ? '' : ' · <span class="muted">predefinito</span>'}${state.payments?.[a.d.id]?.note ? `<br>${esc(state.payments[a.d.id].note)}` : ''}</td></tr>
-      <tr class="pay-lines" data-for="${esc(a.d.id)}"><td colspan="6"><div class="pay-grid">
+      <td class="muted"><button class="pay-toggle" data-toggle aria-expanded="${open ? 'true' : 'false'}">${open ? '▾' : '▸'} ${pl.installments.length} ${pl.installments.length === 1 ? 'rata' : 'rate'}</button> incassato ${eur.format(paid)} su ${eur.format(a.d.amount)}${Math.abs(left) > 0.5 ? ` <span class="flag">${left > 0 ? `${eur.format(left)} senza rata` : `rate oltre l'importo di ${eur.format(-left)}`}</span>` : ''}${tbd ? ` <span class="flag">${tbd} da confermare</span>` : ''}${late ? ` <span class="flag crit">${late} scadut${late === 1 ? 'a' : 'e'}</span>` : ''}${pl.saved ? '' : ' · <span class="muted">predefinito</span>'}${state.payments?.[a.d.id]?.note ? `<br>${esc(state.payments[a.d.id].note)}` : ''}</td></tr>
+      <tr class="pay-lines" data-for="${esc(a.d.id)}"${open ? '' : ' hidden'}><td colspan="6"><div class="pay-grid">
       ${pl.installments.map((ins, k) => `<div class="pay-line" data-k="${k}">
         <b class="pay-k">${pl.installments.length === 1 ? 'Rata unica' : k === 0 ? 'Acconto' : `Rata ${k + 1}`}</b>
         <label>Data <input type="date" data-l="date" value="${esc(ins.date || '')}"${dis}></label>
@@ -704,11 +708,21 @@ function renderPaymentPlans(alloc, lag) {
     }
   };
   const byId = Object.fromEntries(alloc.map((a) => [String(a.d.id), a]));
+  el.querySelectorAll('[data-toggle]').forEach((bt) => bt.addEventListener('click', () => {
+    const id = bt.closest('tr').dataset.id;
+    state.openPlans ||= new Set();
+    if (state.openPlans.has(id)) state.openPlans.delete(id); else state.openPlans.add(id);
+    const open = state.openPlans.has(id);
+    el.querySelector(`tr.pay-lines[data-for="${CSS.escape(id)}"]`).hidden = !open;
+    bt.setAttribute('aria-expanded', String(open));
+    bt.textContent = bt.textContent.replace(/^[▸▾]/, open ? '▾' : '▸');
+  }));
   // Cambio di piano: rigenera le rate dal modello (le date restano poi modificabili a mano).
   // Personalizzato parte dalle rate attuali, così si corregge solo quello che è cambiato.
   el.querySelectorAll('tbody tr[data-id] select[data-plan]').forEach((sel) => sel.addEventListener('change', () => {
     const a = byId[sel.closest('tr').dataset.id];
     const installments = sel.value === 'custom' ? a.plan.installments : buildInstallments(sel.value, a.d);
+    (state.openPlans ||= new Set()).add(String(a.d.id)); // dopo il cambio di piano mostra le rate generate
     persist(a.d.id, { plan: sel.value, installments });
   }));
   el.querySelectorAll('tbody tr.pay-lines').forEach((tr) => {

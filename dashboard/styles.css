@@ -208,3 +208,4 @@ td.name a { color: inherit; }
 .pay-line input[type=month] { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--ring); border-radius: 6px; padding: 3px 6px; }
 .pay-line input[type=number] { width: 90px; }
 .pay-k { font-size: 12px; min-width: 52px; }
+.pay-toggle { padding: 1px 8px; font-size: 12px; margin-right: 4px; }
