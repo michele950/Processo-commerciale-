@@ -181,6 +181,11 @@ function flowKpis(deals, events, r, today) {
     heldMatureCount: heldMature.length, trialMatureCount: trialMature.length, demoToTrial,
     trialCount: trialDeals.length, trialOpen: trialDeals.filter(isOpen).length,
     trialResolvedCount: trialResolved.length, trialWonCount: trialResolvedWon.length, trialToWon,
+    // Prima data in cui una prova ancora aperta diventa matura (attivazione + giorni di maturità)
+    firstMatureOn: trialDeals.filter((d) => isOpen(d) && d.activation_date && !trialResolved.includes(d))
+      .map((d) => D.add(d.activation_date, mat.trial_days)).sort()[0] || null,
+    // Deal vinti nel periodo, per mese della demo da cui arrivano (le chiusure di un mese vengono dalle demo del mese prima)
+    wonByDemoMonth: won.reduce((o, d) => { const k = d.demo_date ? D.month(d.demo_date) : 'senza demo'; o[k] = (o[k] || 0) + 1; return o; }, {}),
     // Demo svolta -> contratto = prodotto dei due passaggi maturi
     demoToWon: demoToTrial != null && trialToWon != null ? demoToTrial * trialToWon : null,
     trialResolvedValue: trialResolved.reduce((s, d) => s + d.amount, 0),
@@ -455,10 +460,25 @@ function renderResult(latest, A, B) {
     `${fa.heldCount} svolte su ${fa.cohortSize} fissate · ${fa.noshowCount} no-show${fa.unrecorded ? ` · ${fa.unrecorded} senza esito in HubSpot (contate come svolte)` : ''} · da ${sinceL}: <b>${pct(fk.showUp)}</b>`);
   k += tile('Demo → trial', pct(fa.demoToTrial), delta(fa.demoToTrial, fb.demoToTrial, { isPct: true }),
     `${fa.trialMatureCount} attivazioni su ${fa.heldMatureCount} demo svolte da almeno ${state.config.maturity?.demo_days ?? 7} giorni · da ${sinceL}: <b>${pct(fk.demoToTrial)}</b> (${fk.trialMatureCount} su ${fk.heldMatureCount})`);
-  k += tile('Trial → chiusura', pct(fa.trialToWon), delta(fa.trialToWon, fb.trialToWon, { isPct: true }),
-    `${fa.trialWonCount} vinte su ${fa.trialResolvedCount} prove concluse${fa.trialOpen ? ` · ${fa.trialOpen} in corso` : ''} · da ${sinceL}: <b>${pct(fk.trialToWon)}</b> (${fk.trialWonCount} su ${fk.trialResolvedCount})`);
-  k += tile('Demo → chiusura', pct(fa.demoToWon), delta(fa.demoToWon, fb.demoToWon, { isPct: true }),
-    `demo → trial × trial → chiusura, su coorti mature · da ${sinceL}: <b>${pct(fk.demoToWon)}</b>`);
+  // Coorte non ancora matura (es. il mese in corso): invece del trattino, stima con il tasso storico e data in cui diventa reale
+  const wonFrom = Object.entries(fa.wonByDemoMonth).sort().map(([m, n]) => `${m === 'senza demo' ? `${n} senza demo in calendario` : `${n} da demo di ${monthLabel(m)}`}`).join(', ');
+  const closedNote = fa.wonCount ? ` · chiusure del periodo: ${fa.wonCount} (${wonFrom})` : '';
+  const maturing = fa.firstMatureOn ? `prime prove mature dal <b>${dLabel(fa.firstMatureOn)}</b>` : 'nessuna prova ancora matura';
+  if (fa.trialToWon != null) {
+    k += tile('Trial → chiusura', pct(fa.trialToWon), delta(fa.trialToWon, fb.trialToWon, { isPct: true }),
+      `${fa.trialWonCount} vinte su ${fa.trialResolvedCount} prove concluse${fa.trialOpen ? ` · ${fa.trialOpen} in corso` : ''} · da ${sinceL}: <b>${pct(fk.trialToWon)}</b> (${fk.trialWonCount} su ${fk.trialResolvedCount})${closedNote}`);
+  } else {
+    k += tile('Trial → chiusura', 'In maturazione', `<span class="flat">stima ${pct(fk.trialToWon)} (media da ${sinceL})</span>`,
+      `Le ${fa.trialCount} prove nate dalle demo del periodo sono ancora in corso: ${maturing}${closedNote}`);
+  }
+  if (fa.demoToWon != null) {
+    k += tile('Demo → chiusura', pct(fa.demoToWon), delta(fa.demoToWon, fb.demoToWon, { isPct: true }),
+      `demo → trial × trial → chiusura, su coorti mature · da ${sinceL}: <b>${pct(fk.demoToWon)}</b>`);
+  } else {
+    const est = fa.demoToTrial != null && fk.trialToWon != null ? fa.demoToTrial * fk.trialToWon : fk.demoToWon;
+    k += tile('Demo → chiusura', 'In maturazione', `<span class="flat">stima ${pct(est)}</span>`,
+      `Demo → trial del periodo ${pct(fa.demoToTrial)} × trial → chiusura da ${sinceL} ${pct(fk.trialToWon)} · dato reale quando le prove si concludono · da ${sinceL}: <b>${pct(fk.demoToWon)}</b>`);
+  }
   // Ritmo: demo fissate (eventi demo in calendario fino a oggi, no-show compresi) e svolte (fissate × presentazione)
   // per giorno lavorativo trascorso, confrontate col fabbisogno: le demo di un mese alimentano il target del mese dopo.
   const elapsedTo = state.a.to < state.asOf ? state.a.to : state.asOf;
