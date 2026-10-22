@@ -396,6 +396,26 @@ function lineChart(el, series) {
   el.querySelector('.hit').addEventListener('mouseleave', () => { hair.setAttribute('visibility', 'hidden'); hideTip(); });
 }
 
+/** Giorni lavorativi (lun-ven, escluse le festività nazionali) tra due date incluse. */
+function workdays(from, to) {
+  if (!from || !to || to < from) return 0;
+  const easterMonday = (y) => { // calcolo di Pasqua (algoritmo di Gauss/Meeus) + 1 giorno
+    const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+    const g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4;
+    const l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+    const month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+    return D.add(`${y}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`, 1);
+  };
+  const fixed = ['01-01', '01-06', '04-25', '05-01', '06-02', '08-15', '11-01', '12-08', '12-25', '12-26'];
+  let n = 0;
+  for (let d = from; d <= to; d = D.add(d, 1)) {
+    const wd = D.parse(d).getUTCDay();
+    if (wd === 0 || wd === 6 || fixed.includes(d.slice(5)) || d === easterMonday(Number(d.slice(0, 4)))) continue;
+    n += 1;
+  }
+  return n;
+}
+
 /* ---------- sezioni ---------- */
 function renderResult(latest, A, B) {
   const fa = flowKpis(latest.deals, latest.events, state.a, state.asOf);
@@ -430,6 +450,7 @@ function renderResult(latest, A, B) {
   let k = '';
   k += tile('Demo fatte', num.format(fa.demosDone), delta(fa.demosDone, fb.demosDone),
     `+ <b>${fa.demosPlanned}</b> ancora in calendario → <b>${fa.demosDone + fa.demosPlanned}</b> demo nel periodo (eventi demo del calendario, anche senza deal)`);
+  const kFirst = k; k = '';
   k += tile('Tasso di presentazione', pct(fa.showUp), delta(fa.showUp, fb.showUp, { isPct: true }),
     `${fa.heldCount} svolte su ${fa.cohortSize} fissate · ${fa.noshowCount} no-show${fa.unrecorded ? ` · ${fa.unrecorded} senza esito in HubSpot (contate come svolte)` : ''} · da ${sinceL}: <b>${pct(fk.showUp)}</b>`);
   k += tile('Demo → trial', pct(fa.demoToTrial), delta(fa.demoToTrial, fb.demoToTrial, { isPct: true }),
@@ -438,7 +459,35 @@ function renderResult(latest, A, B) {
     `${fa.trialWonCount} vinte su ${fa.trialResolvedCount} prove concluse${fa.trialOpen ? ` · ${fa.trialOpen} in corso` : ''} · da ${sinceL}: <b>${pct(fk.trialToWon)}</b> (${fk.trialWonCount} su ${fk.trialResolvedCount})`);
   k += tile('Demo → chiusura', pct(fa.demoToWon), delta(fa.demoToWon, fb.demoToWon, { isPct: true }),
     `demo → trial × trial → chiusura, su coorti mature · da ${sinceL}: <b>${pct(fk.demoToWon)}</b>`);
-  document.getElementById('tilesKey').innerHTML = k;
+  // Ritmo: demo fissate (eventi demo in calendario fino a oggi, no-show compresi) e svolte (fissate × presentazione)
+  // per giorno lavorativo trascorso, confrontate col fabbisogno: le demo di un mese alimentano il target del mese dopo.
+  const elapsedTo = state.a.to < state.asOf ? state.a.to : state.asOf;
+  const wdA = workdays(state.a.from, elapsedTo), wdB = workdays(state.b.from, state.b.to < state.asOf ? state.b.to : state.asOf);
+  const showA = fa.showUp ?? fk.showUp, showB = fb.showUp ?? fk.showUp;
+  const bookedDay = wdA ? fa.demosDone / wdA : null, bookedDayB = wdB ? fb.demosDone / wdB : null;
+  const heldDay = bookedDay != null && showA != null ? bookedDay * showA : null;
+  const heldDayB = bookedDayB != null && showB != null ? bookedDayB * showB : null;
+  const fall0 = flowKpis(latest.deals, latest.events, { from: analysisStart(), to: state.asOf }, state.asOf);
+  const perDemo0 = fall0.demoToWon != null && fall0.avgTicket ? fall0.demoToWon * fall0.avgTicket : null;
+  // Il fabbisogno giornaliero vale per qualsiasi periodo: si usa il mese in cui il periodo inizia
+  const feedM = D.month(D.addMonths(state.a.from, 1)), feedT = targetOf(feedM);
+  const wdMonth = workdays(D.monthStart(state.a.from), D.monthEnd(state.a.from));
+  const needHeld = perDemo0 && feedT ? feedT / perDemo0 : null; // demo svolte nel mese per il target del mese dopo
+  const needHeldDay = needHeld && wdMonth ? needHeld / wdMonth : null;
+  const needBookedDay = needHeldDay && fk.showUp ? needHeldDay / fk.showUp : null;
+  const wdLeft = isMonth ? workdays(D.add(elapsedTo, 1), state.a.to) : 0;
+  const heldSoFar = fa.demosDone * (showA ?? 1);
+  const leftPerDay = needHeld && wdLeft ? Math.max(0, needHeld - heldSoFar) / wdLeft : null;
+  const dec = (v) => (v == null ? '—' : v.toLocaleString('it-IT', { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+  const vsNeed = (v, need) => (v == null || need == null ? '' : v >= need
+    ? `<span class="up">in linea: fabbisogno ${dec(need)}/giorno</span>` : `<span class="down">sotto il fabbisogno di ${dec(need)}/giorno (−${dec(need - v)})</span>`);
+  let kp = '';
+  kp += tile('Demo fissate al giorno', dec(bookedDay), vsNeed(bookedDay, needBookedDay),
+    `${fa.demosDone} demo in calendario su ${wdA} giorni lavorativi trascorsi${bookedDayB != null ? ` · periodo di confronto: ${dec(bookedDayB)}` : ''}${needBookedDay ? ` · fabbisogno = svolte necessarie ÷ presentazione ${pct(fk.showUp)}` : ''}`);
+  kp += tile('Demo svolte al giorno', dec(heldDay), vsNeed(heldDay, needHeldDay),
+    `Fissate × tasso di presentazione ${pct(showA)}${heldDayB != null ? ` · periodo di confronto: ${dec(heldDayB)}` : ''}${needHeld ? ` · per il target di ${monthLabel(feedM)} (${eur.format(feedT)}) servono ${num.format(Math.ceil(needHeld))} svolte a ${monthLabel(D.month(state.a.from))} (${wdMonth} giorni lavorativi)${wdLeft ? (leftPerDay > 0 ? `: nei ${wdLeft} giorni rimasti <b>${dec(leftPerDay)}/giorno</b>` : ': <b>fabbisogno del mese già coperto</b>') : ''}` : ''}`);
+  // Ritmo subito dopo le demo fatte, poi le conversioni
+  document.getElementById('tilesKey').innerHTML = kFirst + kp + k;
 
   // Conversione e vendite: periodo selezionato + totale dall'inizio dei dati
   const fall = flowKpis(latest.deals, latest.events, { from: analysisStart(), to: state.asOf }, state.asOf);
