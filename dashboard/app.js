@@ -1313,9 +1313,21 @@ function renderLiveStatus() {
   const el = document.getElementById('liveStatus');
   el.dataset.state = st;
   document.getElementById('liveText').textContent = text;
+  // Freschezza: dice sempre a che ora sono stati letti da HubSpot i dati mostrati, e avvisa se non sono di oggi
+  const shown = state.snaps[state.asOf];
+  const fetched = shown?.source?.hubspot_fetched_at || shown?.generated_at;
+  const fetchedTxt = fetched ? new Date(fetched).toLocaleString('it-IT', { timeZone: 'Europe/Rome', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : null;
+  const latestDate = Object.keys(state.snaps).sort().pop();
+  const today = typeof Live !== 'undefined' ? Live.todayRome() : latestDate;
+  const notes = [...errors];
+  if (st !== 'loading' && state.asOf !== latestDate) notes.push(`Stai guardando i dati del ${dLabel(state.asOf)} (menu "Dati al"): scegli la data più recente per lo stato attuale dei deal.`);
+  else if (st !== 'loading' && st !== 'live' && st !== 'partial' && latestDate < today) {
+    notes.push(`Attenzione: i dati sono fermi al ${fetchedTxt || dLabel(latestDate)}. Le modifiche fatte dopo in HubSpot (es. un deal passato a Lost) qui non compaiono finché la pagina non si aggiorna da HubSpot: aprila da claude.ai con il connettore HubSpot attivo e premi "Aggiorna ora".`);
+  }
   const msg = document.getElementById('liveMsg');
-  msg.hidden = !errors.length;
-  msg.textContent = errors.join(' ');
+  msg.hidden = !notes.length;
+  msg.textContent = notes.join(' ');
+  document.getElementById('generated').textContent = fetchedTxt ? `HubSpot letto il ${fetchedTxt}` : '';
   document.getElementById('refresh').hidden = !state.mcp || st === 'loading';
 }
 
@@ -1390,7 +1402,7 @@ function render() {
   const snap = state.snaps[state.asOf];
   const latest = { deals: enrich(snap, state.asOf), events: snap.events };
   document.getElementById('who').textContent = `${state.config.owner.name} · ${state.config.owner.role}, ${state.config.owner.company} — HelloSmile / HelloVet`;
-  document.getElementById('generated').textContent = `${Object.keys(state.snaps).length} snapshot salvati`;
+  renderLiveStatus(); // aggiorna l'indicazione di freschezza dei dati mostrati
   renderResult(latest);
   renderBridge(latest);
   renderCommissions(latest);
