@@ -342,10 +342,11 @@
     "_max_days_note": "Un evento più vecchio di N giorni rispetto alla creazione del deal appartiene a una trattativa precedente e non viene abbinato."
   },
   "compensation": {
-    "_note": "Da contratto (Nuove disposizioni concordate): base = valore annuo dei nuovi contratti firmati (rinnovi al 50%); soglia 70% della quota del mese; 8% fino alla quota, 10% sulla parte oltre la quota fino a 35.000, 15% oltre 35.000; commissioni nella busta paga dello stesso mese, pagata la prima settimana del mese successivo (accordo con Antonio). net_salary = fisso mensile complessivo (netto + buoni pasto).",
+    "_note": "Accordo di trasformazione (1/10/2026), art. 6: base = valore annuo dei nuovi contratti sottoscritti nel mese (rinnovi al 50%); soglia 70% della quota; 8% fino al 100% della quota, 10% dal 100% al 140%, 15% oltre il 140% (a regime 25.000/35.000, ottobre 20.000/28.000); matura alla firma, liquidato dopo l'incasso nel primo cedolino utile (al più tardi quello del mese dopo l'incasso); valido fino al 31/12/2026. net_salary = fisso mensile indicativo.",
     "threshold_pct": 0.7,
     "base_rate": 0.08,
     "quota_rate": 0.1,
+    "upper_pct": 1.4,
     "upper_from": 35000,
     "upper_rate": 0.15,
     "payment_lag_months": 0,
@@ -365,6 +366,8 @@
       },
       "net_fixed": 1600,
       "meal_vouchers": 200,
+      "meal_voucher_daily": 8,
+      "_meal_note": "Accordo art. 7: buono pasto elettronico da 8 € per ogni giornata lavorata (sede o agile). meal_vouchers resta come valore di riserva.",
       "commission_benefit_monthly": 1000,
       "_benefit_note": "Quota della commissione del mese (circa 1.000 €) erogata come benefit esenti: è già netta. Solo la parte eccedente è tassata.",
       "inps_rate": 0.0919,

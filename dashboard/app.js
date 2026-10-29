@@ -248,11 +248,16 @@ function targetOf(m) {
   return null;
 }
 
-/** Commissioni del mese (contratto): 0 sotto il 70% della quota; poi 8% fino alla quota, 10% oltre la quota fino a 35.000, 15% oltre. */
+/** Inizio dello scaglione più alto: 140% della quota del mese (accordo art. 6.3: 35.000 a regime, 28.000 a ottobre 2026). */
+function upperFrom(target) {
+  const c = state.config.compensation;
+  return target && c.upper_pct ? target * c.upper_pct : c.upper_from;
+}
+/** Commissioni del mese (accordo art. 6.3): 0 sotto il 70% della quota; poi 8% fino alla quota, 10% dal 100% al 140%, 15% oltre il 140%. */
 function commissionFor(sales, target) {
   const c = state.config.compensation;
   if (!c || !target || sales < c.threshold_pct * target) return 0;
-  const top = Math.max(target, c.upper_from);
+  const top = Math.max(target, upperFrom(target));
   return c.base_rate * Math.min(sales, target) + c.quota_rate * Math.max(0, Math.min(sales, top) - target)
     + c.upper_rate * Math.max(0, sales - top);
 }
@@ -650,7 +655,10 @@ function renderCommissions(latest) {
   // Netto stimato per busta: i primi ~1.000 € di commissione in ogni busta sono benefit esenti, il resto è tassato
   // con l'aliquota effettiva dell'anno della busta (IRPEF sul reddito annuo cumulato; mesi senza dati = media).
   const p = c.payroll;
-  const fixedNet = p ? p.net_fixed : c.net_salary, meal = p ? p.meal_vouchers : 0, salary = fixedNet + meal;
+  // Buoni pasto (accordo art. 7): valore giornaliero per ogni giornata lavorata, quindi variano col mese della busta
+  const fixedNet = p ? p.net_fixed : c.net_salary;
+  const mealFor = (P) => (!p ? 0 : p.meal_voucher_daily ? p.meal_voucher_daily * workdays(`${P}-01`, D.monthEnd(`${P}-01`)) : p.meal_vouchers || 0);
+  const salaryFor = (P) => fixedNet + mealFor(P);
   const benefit = (gross) => (p ? Math.min(gross, p.commission_benefit_monthly || 0) : 0);
   const taxable = (gross) => gross - benefit(gross);
   const expected = (s) => (s.P >= cur ? s.grossF : s.gross);
@@ -675,8 +683,8 @@ function renderCommissions(latest) {
   const partsText = (parts) => Object.entries(parts).filter(([, v]) => v > 0.5).sort().map(([m, v]) => `${eur.format(v)} da ${monthLabel(m)}`).join(' + ') || 'nessuna';
 
   document.getElementById('commHint').innerHTML =
-    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese (i rinnovi contano al 50%; in HubSpot non sono distinti, quindi qui tutto conta come nuovo). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} sulla parte oltre la quota fino a ${eur.format(c.upper_from)}</b>, <b>${pc(c.upper_rate)} oltre ${eur.format(c.upper_from)}</b>. <b>Maturano sul contrattato</b> del mese di firma e <b>si erogano quando il cliente paga</b>: ogni deal porta la sua quota della commissione del mese (in proporzione all'importo) e la versa nelle buste dei mesi di incasso, secondo il piano impostato sotto. La busta del mese si paga la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata, che si assume incassata alla firma.` +
-    (p ? ` Fisso mensile ${eur.format(salary)} = ${eur.format(fixedNet)} netti + ${eur.format(meal)} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> di commissione in ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno: la parte tassata delle commissioni in busta nel ${cur.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
+    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese (i rinnovi contano al 50%; in HubSpot non sono distinti, quindi qui tutto conta come nuovo). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} dal 100% al ${pc(c.upper_pct)} della quota</b>, <b>${pc(c.upper_rate)} oltre il ${pc(c.upper_pct)}</b> (con quota ${eur.format(r.target || 0)}: fino a ${eur.format(r.target || 0)}, da ${eur.format(r.target || 0)} a ${eur.format(upperFrom(r.target))}, oltre ${eur.format(upperFrom(r.target))}). <b>Maturano sul contrattato</b> del mese di firma e <b>si erogano quando il cliente paga</b>: ogni deal porta la sua quota della commissione del mese (in proporzione all'importo) e la versa nelle buste dei mesi di incasso, secondo il piano impostato sotto. La busta del mese si paga la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata, che si assume incassata alla firma.` +
+    (p ? ` Fisso mensile ${eur.format(salaryFor(cur))} a ${monthLabel(cur)} = ${eur.format(fixedNet)} netti + ${eur.format(mealFor(cur))} di buoni pasto esenti (${eur.format(p.meal_voucher_daily || 0)} × ${workdays(`${cur}-01`, D.monthEnd(`${cur}-01`))} giorni lavorativi). <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> di commissione in ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno: la parte tassata delle commissioni in busta nel ${cur.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
 
   let next = '', nextVal = '—', nextLabel = 'Prossimo scaglione';
   if (!r.target) next = 'Target del mese non impostato';
@@ -686,12 +694,12 @@ function renderCommissions(latest) {
   } else if (r.closed < r.target) {
     nextLabel = 'Mancano alla quota'; nextVal = eur.format(r.target - r.closed);
     next = `Ogni 1.000 € in più vale ${eur.format(1000 * c.base_rate)}; oltre la quota di ${eur.format(r.target)} vale ${eur.format(1000 * c.quota_rate)}`;
-  } else if (r.closed < c.upper_from) {
-    nextLabel = `Mancano allo scaglione ${pc(c.upper_rate)}`; nextVal = eur.format(c.upper_from - r.closed);
-    next = `Oltre la quota: ogni 1.000 € in più vale ${eur.format(1000 * c.quota_rate)}; oltre ${eur.format(c.upper_from)} vale ${eur.format(1000 * c.upper_rate)}`;
+  } else if (r.closed < upperFrom(r.target)) {
+    nextLabel = `Mancano allo scaglione ${pc(c.upper_rate)}`; nextVal = eur.format(upperFrom(r.target) - r.closed);
+    next = `Oltre la quota: ogni 1.000 € in più vale ${eur.format(1000 * c.quota_rate)}; oltre ${eur.format(upperFrom(r.target))} (${pc(c.upper_pct)} della quota) vale ${eur.format(1000 * c.upper_rate)}`;
   } else {
     nextLabel = 'Scaglione massimo'; nextVal = pc(c.upper_rate);
-    next = `Oltre ${eur.format(c.upper_from)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
+    next = `Oltre ${eur.format(upperFrom(r.target))}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
   }
   const pending = slips.reduce((t, s) => t + s.pend, 0);
   const pendSlips = slips.filter((s) => s.pend > 0.5);
@@ -700,9 +708,9 @@ function renderCommissions(latest) {
     `Venduto ${eur.format(r.closed)}${r.target ? ` = ${pct(r.closed / r.target)} della quota ${eur.format(r.target)}` : ''} · ${eur.format(r.paidNow)} in busta di ${monthLabel(addM(r.m, lag))}${r.deferred > 0.5 ? `, <b>${eur.format(r.deferred)} nelle buste successive</b>` : ''}`,
     r.target ? `<div class="bar"><span style="width:${Math.min(100, (r.closed / r.target) * 100)}%"></span></div>` : '');
   t += tile(nextLabel, nextVal, '', next);
-  t += tile(`Busta di ${monthLabel(now.P)}: erogato finora`, eur.format(salary + now.net), '',
-    `Pagata a inizio ${paidOn(now.P)}: ${eur.format(fixedNet)} netti + ${eur.format(meal)} buoni pasto + ${eur.format(now.net)} netti di commissioni (${eur.format(now.gross)} lordi: ${partsText(now.parts)})`);
-  t += tile(`Busta di ${monthLabel(now.P)}: previsto`, eur.format(salary + now.netF), '',
+  t += tile(`Busta di ${monthLabel(now.P)}: erogato finora`, eur.format(salaryFor(now.P) + now.net), '',
+    `Pagata a inizio ${paidOn(now.P)}: ${eur.format(fixedNet)} netti + ${eur.format(mealFor(now.P))} buoni pasto + ${eur.format(now.net)} netti di commissioni (${eur.format(now.gross)} lordi: ${partsText(now.parts)})`);
+  t += tile(`Busta di ${monthLabel(now.P)}: previsto`, eur.format(salaryFor(now.P) + now.netF), '',
     `Se ${monthLabel(r.m)} chiude a ${eur.format(r.forecast)}: ${eur.format(now.grossF)} lordi ≈ ${eur.format(now.netF)} netti (${partsText(now.partsF)})`);
   t += tile('Già maturate, da incassare', eur.format(pending + unplanned), '',
     (pendSlips.length ? pendSlips.map((s) => `busta di ${monthLabel(s.P)}: ${eur.format(s.pend)}`).join(' · ') + ' (lordi, rate di contratti firmati)' : 'Nessuna rata in attesa')
@@ -726,13 +734,13 @@ function renderCommissions(latest) {
     const future = s.P >= addM(cur, lag);
     h += `<tr class="${s.P === now.P ? 'current' : ''}"><td>${monthLabel(s.P)}${s.P === now.P ? ' (corrente)' : ''}</td><td>${paidOn(s.P)}</td>
       <td class="name">${partsText(s.parts)}${future && Math.abs(s.grossF - s.gross) > 0.5 ? ` <span class="muted">· previste: ${partsText(s.partsF)}</span>` : ''}</td>
-      <td class="n">${eur.format(s.gross)}</td><td class="n"><b>${eur.format(s.net)}</b></td><td class="n">${eur.format(salary + s.net)}</td>
-      <td class="n">${future ? `${eur.format(s.grossF)} / ${eur.format(s.netF)}` : '—'}</td><td class="n">${future ? eur.format(salary + s.netF) : '—'}</td></tr>`;
+      <td class="n">${eur.format(s.gross)}</td><td class="n"><b>${eur.format(s.net)}</b></td><td class="n">${eur.format(salaryFor(s.P) + s.net)}</td>
+      <td class="n">${future ? `${eur.format(s.grossF)} / ${eur.format(s.netF)}` : '—'}</td><td class="n">${future ? eur.format(salaryFor(s.P) + s.netF) : '—'}</td></tr>`;
   });
   document.getElementById('slipTable').innerHTML = h + '</tbody>';
 
   renderPaymentPlans(alloc, lag);
-  renderSimulator({ rows, cur, c, salary, lag, slipOf, slot, netPay });
+  renderSimulator({ rows, cur, c, salaryFor, lag, slipOf, slot, netPay });
 }
 
 function renderPaymentPlans(alloc, lag) {
@@ -826,7 +834,7 @@ function simSave(sim) {
 }
 
 function renderSimulator(model) {
-  const { rows, cur, c, salary, lag, slot, netPay } = model;
+  const { rows, cur, c, salaryFor, lag, slot, netPay } = model;
   const el = document.getElementById('sim');
   if (!el) return;
   if (!state.sim) state.sim = { base: 'closed', items: [], ...simLoad() };
@@ -880,7 +888,7 @@ function renderSimulator(model) {
       const v = s.sales;
       if (v < x.threshold) band = `Mancano ${eur.format(x.threshold - v)} alla soglia del ${pc(c.threshold_pct)} (${eur.format(x.threshold)})`;
       else if (v < x.target) band = `Mancano ${eur.format(x.target - v)} alla quota: oltre, ogni 1.000 € vale ${eur.format(1000 * c.quota_rate)}`;
-      else if (v < c.upper_from) band = `Mancano ${eur.format(c.upper_from - v)} allo scaglione del ${pc(c.upper_rate)}`;
+      else if (v < upperFrom(x.target)) band = `Mancano ${eur.format(upperFrom(x.target) - v)} allo scaglione del ${pc(c.upper_rate)} (${eur.format(upperFrom(x.target))})`;
       else band = `Nello scaglione del ${pc(c.upper_rate)}: ogni 1.000 € in più vale ${eur.format(1000 * c.upper_rate)}`;
     }
     const pay = `busta di ${monthLabel(P)} (pagata a inizio ${monthLabel(D.month(D.addMonths(`${P}-01`, 1)))})`;
@@ -891,8 +899,8 @@ function renderSimulator(model) {
     t += tile(`Commissione maturata ${monthLabel(x.m)} simulata`, eur.format(s.gross), plus(s.gross - b.gross), `Sul contrattato del mese · senza le tue stime: ${eur.format(b.gross)}`);
     t += tile(`Commissioni nette in busta di ${monthLabel(P)}`, eur.format(s.net), plus(s.net - b.net),
       `${eur.format(s.slipGross)} lordi, comprese le rate di contratti precedenti · senza le tue stime: ${eur.format(b.net)} netti`);
-    t += tile(`Busta di ${monthLabel(P)} simulata`, eur.format(salary + s.net), plus(s.net - b.net), `Netto in ${pay}`);
-    t += tile('Se chiudono tutte (100%)', eur.format(salary + all.net), plus(all.net - b.net),
+    t += tile(`Busta di ${monthLabel(P)} simulata`, eur.format(salaryFor(P) + s.net), plus(s.net - b.net), `Netto in ${pay}`);
+    t += tile('Se chiudono tutte (100%)', eur.format(salaryFor(P) + all.net), plus(all.net - b.net),
       `Venduto ${eur.format(all.sales)} · commissione ${eur.format(all.gross)} lordi ≈ ${eur.format(all.net)} netti`);
     el.querySelector('#simTiles').innerHTML = t;
   };

@@ -46,14 +46,17 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
 
 ## Target e commissioni (`config.json` → `targets`, `compensation`)
 
-- Fonte: contratto "Nuove disposizioni concordate" (Agendoo AI S.R.L.).
-- Base di calcolo: valore annuo dei nuovi contratti firmati nel mese (closedate); i rinnovi contano al 50%
+- Fonte: "Accordo di trasformazione" del 1/10/2026, art. 6-7 (prima: lettera "Nuove disposizioni concordate").
+- Base di calcolo: valore annuo dei nuovi contratti sottoscritti nel mese (closedate); i rinnovi contano al 50%
   (in HubSpot non sono distinti: oggi tutto conta come nuovo).
 - Quote: settembre 14.000, ottobre 20.000, da novembre 25.000 (`default_from`; anche in `settings/targets` del db).
-- Commissioni: 0 sotto il 70% della quota; sopra, 8% fino alla quota, 10% sulla parte oltre la quota fino a
-  35.000, 15% oltre 35.000. Entrano nella busta paga dello stesso mese,
-  pagata la prima settimana del mese successivo (accordo con Antonio; `payment_lag_months` = 0).
-- Fisso mensile 1.800 € = 1.600 € netti + 200 € di buoni pasto esenti.
+  Quote, soglia e aliquote valide fino al 31/12/2026.
+- Commissioni: 0 sotto il 70% della quota; sopra, 8% fino al 100% della quota, 10% dal 100% al 140%
+  (`upper_pct`), 15% oltre il 140% (a regime 25.000 / 35.000; ottobre 20.000 / 28.000). Maturano alla firma,
+  liquidate dopo l'incasso nel primo cedolino utile (al più tardi quello del mese dopo l'incasso); con Antonio:
+  busta dello stesso mese, pagata la prima settimana del mese successivo (`payment_lag_months` = 0).
+- Fisso: RAL 24.000 su 13 mensilità (ipotesi A confermata dall'accordo), ≈ 1.600 € netti + buoni pasto da 8 €
+  per giornata lavorata (`meal_voucher_daily`, art. 7).
 - Firmato vs incassato: la commissione MATURA sul contrattato del mese di firma (scaglioni sul totale del mese),
   si ripartisce sui deal in proporzione all'importo ed è EROGATA in busta nel mese in cui il cliente paga ogni rata.
   Piani: single (predefinito, rata unica alla firma), quarterly (3 rate uguali ogni 3 mesi), semiannual (2 rate a 6 mesi),
@@ -62,7 +65,7 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
   `data/payments.json` (il db ha la precedenza per deal). Erogato = rate incassate; previsto = anche quelle da incassare.
   Benefit e aliquota si applicano al totale erogato in ogni busta.
 - Netto commissioni (`compensation.payroll`): stima con IRPEF sul reddito annuo cumulato (INPS 9,19%, scaglioni
-  2026 23/33/43%, detrazioni art. 13, cuneo 2025, addizionali ~2,3%). Ipotesi A = RAL 24.000 (default),
+  2026 23/33/43%, detrazioni art. 13, cuneo 2025, addizionali ~2,3%). Ipotesi A = RAL 24.000 (confermata dall'accordo),
   ipotesi B = 1.600 netti garantiti (lordo ≈ 29.500). I primi ~1.000 € della commissione di ogni busta sono
   benefit esenti (`commission_benefit_monthly`), già netti: si tassa solo l'eccedenza. Da confermare con la busta paga di ottobre.
 
