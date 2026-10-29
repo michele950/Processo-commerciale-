@@ -55,8 +55,9 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
   (`upper_pct`), 15% oltre il 140% (a regime 25.000 / 35.000; ottobre 20.000 / 28.000). Maturano alla firma,
   liquidate dopo l'incasso nel primo cedolino utile (al più tardi quello del mese dopo l'incasso); con Antonio:
   busta dello stesso mese, pagata la prima settimana del mese successivo (`payment_lag_months` = 0).
-- Fisso: RAL 24.000 su 13 mensilità (ipotesi A confermata dall'accordo), ≈ 1.600 € netti + buoni pasto da 8 €
-  per giornata lavorata (`meal_voucher_daily`, art. 7).
+- Fisso: RAL 24.000 su 13 mensilità. Accordo con Antonio: in busta escono SEMPRE 1.600 € netti + 200 € di buoni
+  pasto, a prescindere dall'IRPEF (`net_fixed`, `meal_vouchers`; l'art. 7 da 8 €/giorno non si usa). Le commissioni
+  portano solo la loro tassazione marginale sul reddito annuo (RAL + commissioni).
 - Firmato vs incassato: la commissione MATURA sul contrattato del mese di firma (scaglioni sul totale del mese),
   si ripartisce sui deal in proporzione all'importo ed è EROGATA in busta nel mese in cui il cliente paga ogni rata.
   Piani: single (predefinito, rata unica alla firma), quarterly (3 rate uguali ogni 3 mesi), semiannual (2 rate a 6 mesi),

@@ -1,0 +1,7159 @@
+{
+ "deals": [
+  {
+   "activation_date": "2026-11-02",
+   "amount": 1788,
+   "closedate": "2026-11-18",
+   "createdate": "2026-10-23",
+   "demo_date": "2026-10-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "64ml9fv9cug2l8tp54v6sij5fg",
+    "16igdqq1roqfqhi7jg7apb6p7n"
+   ],
+   "id": "530448999660",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Medicina Estetica - Dr Sibaud",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-22",
+   "createdate": "2026-10-23",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "530619594997",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Poliambulatorio Vallerano",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-22",
+   "createdate": "2026-10-23",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "530519055603",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio dentistico Dott. Pellino Giulio",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-22",
+   "createdate": "2026-10-23",
+   "demo_date": "2026-11-05",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "a67397i7igqjuala6bntbr3djc"
+   ],
+   "id": "530619275511",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio dentistico Dr Alfredo Riccardi Medico Chirurgo Odontoiatra",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-22",
+   "createdate": "2026-10-23",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "530644177132",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Lepidi & Suriano Srl tra Professionisti",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-22",
+   "createdate": "2026-10-23",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "530544556232",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Dentistico Dott. Enzo Di Iorio",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-22",
+   "createdate": "2026-10-23",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "530636975330",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Centro Odontoiatrico Morando srl",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-22",
+   "createdate": "2026-10-23",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "530520654042",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio di andrea castellani",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-29",
+   "createdate": "2026-10-23",
+   "demo_date": "2026-10-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "c0h3ul6vmmblod3panvaic260o"
+   ],
+   "id": "530354789579",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Medico Gagliardo - dr nicola gagliardo",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-30",
+   "createdate": "2026-10-22",
+   "demo_date": "2026-10-22",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "j6d3ts48gpq646thl9paifmid0"
+   ],
+   "id": "529916750042",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Odontoiatrico Associato Dottori Marco e Massimiliano Licata – Marco Licata",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-22",
+   "demo_date": "2026-10-26",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "ci3q2k4skkt0t27orf3e7d20m8"
+   ],
+   "id": "529986574564",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Gioia – Albertini Massimiliano",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-28",
+   "createdate": "2026-10-22",
+   "demo_date": "2026-10-29",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "lepf75s6vpvpcdtuvi02j5clc4"
+   ],
+   "id": "529947782351",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "CLINICA VETERINARIA PRIMAVERA – Dottor Piazza",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-27",
+   "createdate": "2026-10-22",
+   "demo_date": "2026-10-28",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "nl3sgatj203ng4ht2bq6rpf89g"
+   ],
+   "id": "530018075874",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Odontoiatrico Dott.ssa Chiara Pennacchioni – Lorella Zanini",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-22",
+   "demo_date": "2026-10-26",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "g28fdcnkk2sfsl8aasnlestrf0"
+   ],
+   "id": "530042455267",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "https://www.studiotia.it",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-22",
+   "demo_date": "2026-10-27",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-10-13",
+   "events": [
+    "3s0lnach9dfn86oiomaok2gjue",
+    "2gf9fdgdvcrpp9ahm65mte4v68"
+   ],
+   "id": "529879764161",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio medico-odontoiatrico Dr.Francesco Gennaro",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-27",
+   "createdate": "2026-10-22",
+   "demo_date": "2026-10-28",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "6op541ce39upjmthghbhtudtik"
+   ],
+   "id": "529855391976",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "San Raffaele Odontoiatria Integrata – Italo Gosetti",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-21",
+   "demo_date": "2026-10-26",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "njolv3f7hl8rk9gsh72vjhaueo"
+   ],
+   "id": "529554960619",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Studio Fabrizio Montilla",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-13",
+   "createdate": "2026-10-21",
+   "demo_date": "2026-10-21",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "ffdlf6v019ujit350rnsb3bvr4"
+   ],
+   "id": "529401230565",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Studio Dentistico - Dr. Luigi Di Bari",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-22",
+   "createdate": "2026-10-21",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "529491331267",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "https://www.giuseppesito.it/",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-20",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "528664279269",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "https://www.ticcadent.it",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-12-12",
+   "createdate": "2026-10-20",
+   "demo_date": "2026-11-12",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "p4ocaj61k41sv9kk11m17s7t9g"
+   ],
+   "id": "528738867418",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Studio di EUGENIO VAROTTO PADOVA – Nicole Battaglia",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-20",
+   "createdate": "2026-10-19",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "528428103901",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Vet Plus",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526999639279",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Centro Cuore Carcagnì - Ada Carcagnì",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527303120085",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Dottor Perillo",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527340943555",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Dr. Acquaviva Oculista - Antonio Acquaviva",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527340943554",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Perpetuini STP SRL",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527142268122",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Clinical Vet Medical - Christian Silighini",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526956426452",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Kinesis Sport",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527142268121",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Dental Smile - Salvatore Rubino",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526970806489",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Centro Dentale Parmese - Dott Nawfal Salih",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527389240522",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Ambulatorio Vet Pulcani - Stefano Pulcani",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527174831299",
+   "lastmod": "2026-10-21",
+   "lost_reason": "No budget",
+   "name": "Dentista Dr. De Angelis - Riccardo De Angelis",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526954861761",
+   "lastmod": "2026-10-21",
+   "lost_reason": "No budget",
+   "name": "Family Addiction (Tattoo Parlor) - Tony Picozzi",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526892910807",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Gessica (Gessy Ge)",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527389302971",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio di Fisioterapia e Osteopatia di Caldana Marco - Marco Caldana",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526967413957",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Apulia Vet - Federico Italia",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527151500522",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Dottor Panzarella - Clinica Himera - Dott Carmelo Panzarella",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526974574803",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Agl Dental - Adriano Guidi",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527389302009",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Centro Odontoiatrico AB Dental - Claudio anacardi",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527339180256",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Progetto Salute",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "9c2gapemo6gvj9bg83k6aj30fk"
+   ],
+   "id": "526878455025",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria Gaia Srls - Simone Cipriani",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527389240519",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Centro Veterinario Lungonera - Marco Cozza",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527151500521",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Bacoli Vet - Mariano Colandrea",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527146207419",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Clinica Odontoiatrica Dentalfarini - Mara",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-27",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-28",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "rt8flpbi939eftmhic9oihokjg"
+   ],
+   "id": "526994669794",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Odontoiatrico Mattei - Rossella",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-27",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "iirovis594jjip5ggt36r4n464"
+   ],
+   "id": "527140643045",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Proesse srl - Leonardo Procopio",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-26",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "eoau3lrl95pksok9nloevcmavo"
+   ],
+   "id": "527158669543",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Rigoni @San Babila (Milano) - Alessandra Rigoni",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": "2026-10-26",
+   "amount": 1308,
+   "closedate": "2026-11-21",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "0ujm47ijk8ubm1pr8pbvcdiu5q"
+   ],
+   "id": "526967413950",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Odontoiatria dr Monja Celotto - Francesca",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 2988,
+   "closedate": "2026-11-06",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-21",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-11-03",
+   "events": [
+    "s8j3rv5l9a5aagjpibfjhi47ck",
+    "48aa220nntnum4uohq8il8tdn7"
+   ],
+   "id": "526962044141",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Ambulatorio Veterinario Monti Parioli - Costantino Melis",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-15",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-19",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "09j5da13u1rdskma0886a031r4"
+   ],
+   "id": "526999639243",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Studio Patruno Minerva - Nicola Minerva",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-19",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-20",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "pvoep0hkpqtuv2vmgcmula941g"
+   ],
+   "id": "527162118340",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Dentistico Costa - Giuseppe Costa",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-13",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "fghcv0g2tiaa462e7i4ho91mbc"
+   ],
+   "id": "526958208207",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Cavacece - Fernando Cavacece",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-13",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "2215284s4bcqk6rslqd3t8n3bo"
+   ],
+   "id": "527005191372",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Veterinaria Corlazzoli - Dott. Corlazzoli",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-30",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-29",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "1244nbfppg2imejctak7r3gn1g"
+   ],
+   "id": "526901655756",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Studio Dentistico Satta Stefania Srl - Federica",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-07",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527340942547",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ambulatorio veterinario Di Mauro– Motta Sant'Anastasia - Emanuela Di Mauro",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "g81ilobnsgkm7jrk113efa9fh4"
+   ],
+   "id": "526890807487",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Rosalba Spatafora (Corleone)",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526901655755",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Centro Medico Redentore - Laura",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-01",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "fu50f1oh73grcav75v3g14mq6g"
+   ],
+   "id": "526956425441",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Alessandra Fusco",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527340942545",
+   "lastmod": "2026-10-21",
+   "lost_reason": "Timing : not for now",
+   "name": "Dott.ssa Anna De Nitto - Veterinaria per Gatti (Bari)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527001527531",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Annabelle Mascetta (Roma)",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526999639240",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Centro Medico Sedita Nutrizione - Antonio Sedita",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526887153893",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Maragliano (Palermo)",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526899838142",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ballarini Veterinario Verona - Gioacchino Ardisia",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526970805466",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Dentistico Silvana Ferrante",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": "2026-10-06",
+   "events": [
+    "5785ksgqgju5o9e2fpd21rap4a"
+   ],
+   "id": "527001527529",
+   "lastmod": "2026-10-21",
+   "lost_reason": "No budget",
+   "name": "Arturo Sgrò (Messina)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527129644227",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Dott. Angelo Rossetti (Palermo)",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527340942539",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ambulatorio Veterinario Melendugno - dr Andrea Stella",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527149353187",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ilaria Pugliesi (Roma)",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526956425437",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Federico Maria D'Alessio",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527005190380",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Marco Di Maita",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526970805444",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Dott. Michele D'Anna (Palermo)",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526890806489",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Erik Geiger",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527142265070",
+   "lastmod": "2026-10-21",
+   "lost_reason": "Others",
+   "name": "Antonio Braucci",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526885396708",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Giovanna Nuara",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527005190379",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "AMD CLINIC SRL",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527131501769",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Giuseppe Sebastio",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "9br8i7ekn98n9tsms24s3077eo"
+   ],
+   "id": "527340941538",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Dott. Pasquale Cozzolino",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527149353155",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "DE VITA STUDIO ODONTOIATRICO STP/SRL",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-20",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "trlpsjhcatdf6q22o3j0ucdpck"
+   ],
+   "id": "526947521735",
+   "lastmod": "2026-10-20",
+   "lost_reason": "Unqualified",
+   "name": "Studio Del Sorriso (Cagliari) - Valeria Zuddas",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-15",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "56h5rnkgcak11ptblrb115qa94",
+    "cs3olp4723r0p7m1i30s3mii34"
+   ],
+   "id": "526961971434",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ambulatorio Veterinario Spadaro - Aldo Alibrandi",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-20",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-15",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "p827cnk3lolqvldc1md0eiddls",
+    "592828bouk8spc3otoquauj794",
+    "2cd6jlk4rms2pvj3nthdn1sdd0"
+   ],
+   "id": "527144276211",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Studio Pandolfo - Savio Pandolfo",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 960,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-15",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "o6fg79nmqaa9moii0comn9sg4g"
+   ],
+   "id": "526967341255",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Nutrizionista Giordano - Dott. Sebastiano Giordano",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-28",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526901307607",
+   "lastmod": "2026-10-16",
+   "lost_reason": null,
+   "name": "Studio Dentistico Dr. Fabio Zappatore - Stefania",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-27",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "7md5ej0vme2bu4kl0r9rfeb8go"
+   ],
+   "id": "527302769895",
+   "lastmod": "2026-10-16",
+   "lost_reason": null,
+   "name": "Universo Saluto - Chiara Lagorio",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-26",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "dnr2fnsi0d854n6h74liempi54"
+   ],
+   "id": "527340567792",
+   "lastmod": "2026-10-16",
+   "lost_reason": null,
+   "name": "Studio Dentistico Di Gregorio - Dott.ssa Cinzia Di Gregorio",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-19",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-20",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "8f11056gmkb3dl4q5jjma37dfo"
+   ],
+   "id": "527004846305",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Studio Odontoiatrico Cristiana Corrias - Alessia Serra",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-18",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-19",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "19p8u9gc5pci69t4hvpubjjmdg"
+   ],
+   "id": "526947159226",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Asia Carletti Biologa Nutrizionista - Asia Carletti",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-20",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "3hu4s6gqueerqr8qsda1ic8bis"
+   ],
+   "id": "527340567791",
+   "lastmod": "2026-10-19",
+   "lost_reason": null,
+   "name": "Linfocare - Guido Aurelio Benedetto",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "527152700606",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Centro Internazionale Uro-Andrologico - Raffaele",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-18",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-19",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "k34afh10vbhctcne35rpu8qjoc"
+   ],
+   "id": "527141937364",
+   "lastmod": "2026-10-19",
+   "lost_reason": null,
+   "name": "Lumas - Dott. Luigi Calasanzio",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-15",
+   "createdate": "2026-10-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "t5g2hlhquusbga23uk4e77sk3s"
+   ],
+   "id": "527152700605",
+   "lastmod": "2026-10-16",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria Vicari - Dott. Calogero Vicari",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-15",
+   "createdate": "2026-10-15",
+   "demo_date": "2026-10-16",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "b6qtj5bcb0on5dg3lfai9go518"
+   ],
+   "id": "527001208009",
+   "lastmod": "2026-10-17",
+   "lost_reason": null,
+   "name": "Studio Ortopedico Sala - Dott. Carlo Emanuele Sala",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-22",
+   "createdate": "2026-10-14",
+   "demo_date": "2026-10-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "5qks6c7mecnqnossudj1a67pj4"
+   ],
+   "id": "526864216272",
+   "lastmod": "2026-10-22",
+   "lost_reason": "Others",
+   "name": "Studio Lo Grasso - Dott. Antonio Lo Grasso",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-02",
+   "createdate": "2026-10-14",
+   "demo_date": "2026-10-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "a2d4hsb550bsrtkfmsgjr377vs"
+   ],
+   "id": "526908178625",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ambulatorio Veterinario Geavet - Erika Mocci",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": "2026-10-28",
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-02",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "47ujh7o7loknvi6rjfag2r92sg",
+    "0c1pkd80bt212g17ut8eeg6qka"
+   ],
+   "id": "526185736429",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria Zambelli - Maristella Zambelli",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-08",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "bnv5nn1bhqk3h77s2mcel1l4vk"
+   ],
+   "id": "526190912744",
+   "lastmod": "2026-10-21",
+   "lost_reason": "Unqualified",
+   "name": "Avenir Group - Sig.ra Tafuro",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-07",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-08",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "bmco2a8geolu1huas1q7dkuvjk"
+   ],
+   "id": "526185781441",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Dental Care - Loredana Farris",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-12",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "vnmr7ethuiduspt5ti86rj7658"
+   ],
+   "id": "526185867480",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Studio Dermatologico Mattozzi - Carlo Mattozzi",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-19",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "jnqvlkp5esfbrdjs7kk1fft510",
+    "2shhe6m638qu07nj721ths22lg"
+   ],
+   "id": "526190801101",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Studio Mattia Sagona - Mattia Sagona",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "hg0a2fjp9rv83nd7kqv627dirs"
+   ],
+   "id": "526185736427",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Dental Coach Solutions - Maurizio Curreli",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-12",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "e60iq4gu8ta96lbte7d3bl4rp8"
+   ],
+   "id": "526185553099",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Studio Trematerra - Michele Trematerra",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-12",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "4lnq4vi4to9ifbc5s84l1g0ms4"
+   ],
+   "id": "526186006731",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Petsanat - Valerio Cominato",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": "2026-10-13",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-12",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "sqgrps75j3kgbl39jkpmdnt5fs"
+   ],
+   "id": "526183830752",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Studio Veronica Felice - Veronica Felice",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-11",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-12",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "l7s2tbpaqjl5dcejbs5vg47b28"
+   ],
+   "id": "526183830751",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Studio Giannini - Valeriano Giannini",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": "2026-10-01",
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-12",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "2v0cbcs839a5qaj2demm2e4v0j",
+    "eqt8olj7gmhbode9rgig3bh904"
+   ],
+   "id": "526190801091",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Centro Europeo Laser in Oftalmologia - Silvia Morselli",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-12",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-10-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "2e95tn6u0mo6ddq7ievv2526lk"
+   ],
+   "id": "526186299579",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Studio Dott.ssa Simona Spoto - Simona Spoto",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-13",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "526185474239",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Studio Federico Campedelli - Chiara",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-13",
+   "demo_date": "2026-09-29",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "2ci6lnj1riiq15dfn0pe85acdp"
+   ],
+   "id": "526185817278",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Dentistico Gennaro - Loredana",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-12",
+   "demo_date": "2026-10-12",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "bd3ef63l60q9d2msjtlbu3qul0"
+   ],
+   "id": "526111585471",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Veterinario Di Martino - Dott. Riccardo Di Martino",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-25",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-26",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "5rsf8s9ktdfsbc0ersejlvjdrc"
+   ],
+   "id": "525770884320",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Studio Nannelli (Livorno) - Elena Nannelli",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 500,
+   "closedate": "2027-01-29",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-20",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "e8tihn8al87n4ob4e6rm8er46k"
+   ],
+   "id": "525431837937",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Celeste Tanzini",
+   "stage": "4431899834"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-30",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-19",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "phkvitcclbl7qsggab9v55p5hk"
+   ],
+   "id": "525450069192",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "HumanFisio - Rausa Nicola",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-30",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-15",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "7ub5j2pnl92ui9jespqrj0ruot"
+   ],
+   "id": "525450191081",
+   "lastmod": "2026-10-19",
+   "lost_reason": null,
+   "name": "Studio Dentistico dr. Matteo Cravedi",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": "2026-10-20",
+   "amount": 1788,
+   "closedate": "2026-11-30",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-11-03",
+   "events": [
+    "k60mjhc20kif116d6dffb7q8kk",
+    "2b2ofef6teuuqd3ee6b27o4v71",
+    "10ejjn3m7suc7ldhj6ff8t1oot"
+   ],
+   "id": "525796404452",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Polispecialistico Manzoni - Consuelo Urbani",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-16",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-09",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "vtb0ko4ahjii411l28innads8g"
+   ],
+   "id": "525795473620",
+   "lastmod": "2026-10-16",
+   "lost_reason": null,
+   "name": "Nadia Bellini",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-10-16",
+   "amount": 1788,
+   "closedate": "2026-11-27",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-09",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "bdcp7l4frhqbe3f4eml0monp3g",
+    "4cq0j9iv53gn09km52qgq4a0t0",
+    "2kgo0arnfu7tt96kfn80us24ma"
+   ],
+   "id": "525449659636",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Federica Clemente",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-08",
+   "createdate": "2026-10-08",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "525755019477",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studi Dentistici Dr. Curreli - Debora",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-16",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "mhrc511p0rj79cdc3ei43dpa4c"
+   ],
+   "id": "525796268221",
+   "lastmod": "2026-10-21",
+   "lost_reason": "Unqualified",
+   "name": "Studio Umanesimo - Luigi Cetta",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-12",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "tpvmlq3a3gj7q75sr9h0k8uph8"
+   ],
+   "id": "525795471552",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Marco Cacciò",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": "2026-10-29",
+   "amount": 1788,
+   "closedate": "2026-11-09",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-16",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "r96kra6sah6ljtvihd8rpcgnr4",
+    "k1mvbe1gn6tq3i0ajhuj3idd7g",
+    "24a49a0ijerumh32ppflbf1p97"
+   ],
+   "id": "525450063079",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Alessandra Ninfa Giacalone - Urologa",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-31",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-12",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "i8dpidbmcnvnnnki3t9u3qcbbs"
+   ],
+   "id": "525796134082",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Damiano Ponzi - SGF Medical",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-30",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-19",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "1e3nhtb102tevonkthh2c98ri8"
+   ],
+   "id": "525452000448",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Bozzolo - Gianluca Bozzolo",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-11",
+   "createdate": "2026-10-08",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "525796581592",
+   "lastmod": "2026-10-19",
+   "lost_reason": null,
+   "name": "Dr. Urtis Clinic (Roma) - Sara",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 2988,
+   "closedate": "2026-10-23",
+   "createdate": "2026-10-08",
+   "demo_date": "2026-10-08",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-10-23",
+   "events": [
+    "amsessa30sn1krsgd9ic49vtvs",
+    "02gornsnrf78n6nacsafo0vom7"
+   ],
+   "id": "525795164363",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Amb sant'antonio vet - Paolo Losi",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": "2026-10-27",
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-07",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "d7jtnmibk5n0q29rh5l54nqr2k",
+    "6j6g9e50b9ngk63l6c8rfj6bee"
+   ],
+   "id": "525753815267",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Rondinelli - Marisa Rondinelli",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": "2026-10-13",
+   "amount": 1788,
+   "closedate": "2026-11-07",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-07",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-11-11",
+   "events": [
+    "dfosuu05lqmnuamqnk0b657qfo",
+    "2n2chfp0sd11ipf0dgr5h2oi41",
+    "4e0fvbp71irob2b9iag9ea91vj"
+   ],
+   "id": "525384808664",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Clinica Pangea - Giulia Catini Ciletti",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-07",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "343grcg1ikfbullja3b4rp51hg"
+   ],
+   "id": "525761176801",
+   "lastmod": "2026-10-21",
+   "lost_reason": "Unqualified",
+   "name": "Pietro Corbella",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-05",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "98piv5epg2p52rl30v16qn0ivk"
+   ],
+   "id": "525409504466",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria - Dott. Bernardo Ciervo",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-05",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "p056un0i6c7vq9002dvbuessmc"
+   ],
+   "id": "525762151670",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Dentistico Cassandrini - Ghelareh Karkuti",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": "2026-10-13",
+   "amount": 1788,
+   "closedate": "2026-10-30",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-05",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "abbdop64u0vl5uc9f8kut6upeo",
+    "3okavdiacg4j45t41bm066egsc"
+   ],
+   "id": "525762499825",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria Opera",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 2988,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-07",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "6tjap0t18ppr6djgoihgve6auo"
+   ],
+   "id": "525762367726",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Omnia Group Med - Matteo Arcuri",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-05",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-05",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "rcqet5a8mo0hvap890t2d3dha0",
+    "7fal606p28bdtoop5a9a5pir4i"
+   ],
+   "id": "525387410662",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "Studio Dentistico Segù - Dott.ssa Marzia Segù",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-07",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "525693451487",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Medico Porta Nuova - Dott.ssa Maria Teresa Zaccaria",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-06",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "u51r1j6adolc0j072g95a2n9e0"
+   ],
+   "id": "525386941655",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Ortopedico Bosco - Dott. Francesco Bosco",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-07",
+   "demo_date": "2026-10-06",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "r2spr8r9haf3hfordrsv51q44g"
+   ],
+   "id": "525387252979",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Spalla Sicilia - Dott. Massimo Cassarino",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-02",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "524403948730",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Dentistico dr. Fiammenghi",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-01",
+   "demo_date": "2026-10-01",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "gngav2n379gpqpoi8i06seaj78"
+   ],
+   "id": "524361758906",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Dott. Giuseppe Leonardi - Giuseppe Leonardi",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-10-01",
+   "demo_date": "2026-10-01",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "qqhgtjg1f3sals95g6hs2ilhqo",
+    "166qe156t9rek1rpaspi75g5j4"
+   ],
+   "id": "524368534729",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria Borgo Nuovo - Dott. Gabriele Tenti",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 357,
+   "closedate": "2026-10-01",
+   "createdate": "2026-10-01",
+   "demo_date": "2026-10-01",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "7apu4j53r9o5ph4v054jl6dee0"
+   ],
+   "id": "524178651345",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Prana Massage - Olga Maruzhenko",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-10-08",
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-30",
+   "demo_date": "2026-09-30",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "02pf3f6m0r07an4ogd9ocv3u8c",
+    "2tifrtiq0987q3gso218jrehjv"
+   ],
+   "id": "524148384960",
+   "lastmod": "2026-10-19",
+   "lost_reason": null,
+   "name": "Studio Peroni/Lappolla - Cinzia Innocenti",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 2000,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-30",
+   "demo_date": "2026-09-30",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "02hdn6sjsvb4im0aat6fqbfh8j"
+   ],
+   "id": "524135797977",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Gruppo Cliniche (partnership Giacomo Schuller) - Giacomo Schuller",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-30",
+   "demo_date": "2026-10-08",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "38l05vjsrj93516hhf8elrl1og"
+   ],
+   "id": "523909748982",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Roberto Cacace",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-12",
+   "createdate": "2026-09-28",
+   "demo_date": "2026-09-28",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "6sebp8mia5k3t6j07s6l7826gp"
+   ],
+   "id": "523266553028",
+   "lastmod": "2026-10-12",
+   "lost_reason": "Others",
+   "name": "Studio Dentistico Arduini - Dott. Paolo Arduini",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-30",
+   "amount": 1788,
+   "closedate": "2026-10-25",
+   "createdate": "2026-09-28",
+   "demo_date": "2026-09-28",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "dbhsu6vhl7hog8t1jk9u1is3to",
+    "2mdvi6ege5seuvjkkdqo9dvn1u"
+   ],
+   "id": "523177535703",
+   "lastmod": "2026-10-23",
+   "lost_reason": null,
+   "name": "PoliambulatorioVet San Nicola la Strada - Dott. Tommaso Tranquillo",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-19",
+   "createdate": "2026-09-28",
+   "demo_date": "2026-09-28",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "oi9u80a4depheduci8je3ubsco"
+   ],
+   "id": "523203585229",
+   "lastmod": "2026-10-19",
+   "lost_reason": "No budget",
+   "name": "Frisario DermoEstetica - Dott.ssa Rosa Frisario",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 900,
+   "closedate": "2026-10-21",
+   "createdate": "2026-09-25",
+   "demo_date": "2026-09-25",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "qivl8fdafu2bnpcgibbg85kf48"
+   ],
+   "id": "522963976400",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Studio Dentistico Mandelli - Dott. Leonardo Mandelli",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": "2026-09-23",
+   "amount": 2148,
+   "closedate": "2026-10-15",
+   "createdate": "2026-09-23",
+   "demo_date": "2026-09-16",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-10-12",
+   "events": [
+    "qeik6hkv01vlh4dladiuvgk90s",
+    "3nkpsfojs7far4ijcv9m82qloa",
+    "55eo37abum6dvublb1ekj0gm1p"
+   ],
+   "id": "522642467050",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Centro Odontoiatrico Dott. Francesco Gaglio - Pietro Gaglio",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": "2026-09-30",
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-23",
+   "demo_date": "2026-09-22",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "veosrpea0ljdsvrkn6o75ghq2o",
+    "51ulmjpa04l1qequ4mvcqk8svi"
+   ],
+   "id": "522452289757",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Centro Odontoiatrico Dr. Romano - Nicolò",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-07",
+   "createdate": "2026-09-23",
+   "demo_date": "2026-09-22",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "g4grtitntr9jnfth5h6jju928k"
+   ],
+   "id": "522468198610",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Nutrizione Veterinaria Vedove - Dott. Vittorio Vedove",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-28",
+   "amount": 2988,
+   "closedate": "2026-10-15",
+   "createdate": "2026-09-22",
+   "demo_date": "2026-09-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-10-14",
+   "events": [
+    "0rge6v2b714djqn4ri0bm03t1e",
+    "40rd90aj6rcodfd7vnn5klmer6",
+    "3g8vt1o9o93fluno3lsdpmbsmj"
+   ],
+   "id": "522277450951",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria Giulia Mancini",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-13",
+   "createdate": "2026-09-22",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "522273653956",
+   "lastmod": "2026-10-13",
+   "lost_reason": "No budget",
+   "name": "Dott PaoloArduini",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-28",
+   "amount": 1788,
+   "closedate": "2026-10-08",
+   "createdate": "2026-09-22",
+   "demo_date": "2026-09-24",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "0pper3tahbmgmla7fcnjfg0r7n",
+    "3qfn8k5b7il5t2cbqef4h56nna"
+   ],
+   "id": "522298389710",
+   "lastmod": "2026-10-10",
+   "lost_reason": "Phone Provider Integration",
+   "name": "Veterinario Barbara Caneppele",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-09-21",
+   "demo_date": "2026-09-21",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "lpsqmupm9chqcjl89flj82s44o"
+   ],
+   "id": "522205339870",
+   "lastmod": "2026-10-18",
+   "lost_reason": null,
+   "name": "Studio Dott. Mattia Ventriglia - Mattia Ventriglia",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-21",
+   "demo_date": "2026-09-21",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "a9ds5mo4n0u16q8j589k6hjlt0"
+   ],
+   "id": "522205522118",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Dott.ssa Ilaria Cerina - Ilaria Cerina",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-28",
+   "createdate": "2026-09-21",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "522181740738",
+   "lastmod": "2026-09-28",
+   "lost_reason": null,
+   "name": "Collega Veterinario Nova (referral Salvati) - referente da identificare",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-09-21",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "522181379260",
+   "lastmod": "2026-10-09",
+   "lost_reason": null,
+   "name": "Centro Veterinario Milanese Cologno Monzese (referral Salvati) - Dott. Bonfiglio / Dott. Meroni",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-09-21",
+   "demo_date": "2026-09-24",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "3r1e0uhipbbdos2af4g3cv2rth"
+   ],
+   "id": "522181522630",
+   "lastmod": "2026-10-17",
+   "lost_reason": null,
+   "name": "Buda Domenico Massimo",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": "2026-09-23",
+   "amount": 948,
+   "closedate": "2026-10-15",
+   "createdate": "2026-09-18",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": "2026-10-12",
+   "events": [
+    "3egrplptmmihgeegbutapeb9mc",
+    "4dgesgld8ejdocs2oia3eaan26"
+   ],
+   "id": "521865572564",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Diagnostica Veterinaria Modenese - Mario Cappi",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-09-18",
+   "demo_date": "2026-09-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "hj4fltp18ltrk67ht22ce6mri4"
+   ],
+   "id": "521865341142",
+   "lastmod": "2026-10-18",
+   "lost_reason": null,
+   "name": "Simona Taibi",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-18",
+   "demo_date": "2026-09-21",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "0l69ab2m9l51pgeg9rc70p8dms"
+   ],
+   "id": "521943259361",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ilaria de Santis",
+   "stage": "5637009636"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-18",
+   "demo_date": "2026-09-21",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "6ek21kv71fhjd0scu5morrqf78"
+   ],
+   "id": "521942728927",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Valentina Mantovani",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-17",
+   "demo_date": "2026-09-17",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "4tcpnjgfgl93bkjr5ung90o6c7"
+   ],
+   "id": "521811317958",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Centro Odontoiatrico Bellemo - Elena (assistente)",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-21",
+   "createdate": "2026-09-17",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "521818472678",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Calderoni Vet Dentist - Thomas Calderoni",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 2988,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-17",
+   "demo_date": "2026-09-29",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "js9v8jkuipjuf3265d806uabsk"
+   ],
+   "id": "521732388044",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Studio Rocci - Cecilia Rocci",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-11",
+   "createdate": "2026-09-16",
+   "demo_date": "2026-10-12",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "qol0tb7p57lejv16rk3fng7qic"
+   ],
+   "id": "521673926881",
+   "lastmod": "2026-10-19",
+   "lost_reason": null,
+   "name": "Hygea Fisioterapia - Monica Laera",
+   "stage": "4984102085"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-28",
+   "createdate": "2026-09-16",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "521664943320",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Centro Odontoiatrico Bellemo – Elena Moretti",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-18",
+   "createdate": "2026-09-16",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "521646729435",
+   "lastmod": "2026-09-18",
+   "lost_reason": "Unqualified",
+   "name": "Inva Sako",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": null,
+   "createdate": "2026-09-15",
+   "demo_date": "2026-09-15",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "vg2blo27iroi3psb7k5sfuu1l4"
+   ],
+   "id": "521601831133",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Chirurgia Plastica Palla - Ludovico Palla",
+   "stage": "6053470413"
+  },
+  {
+   "activation_date": "2026-09-21",
+   "amount": 1788,
+   "closedate": "2026-10-07",
+   "createdate": "2026-09-15",
+   "demo_date": "2026-09-15",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "nbmekpuisf610ssvtkt10ogdv8",
+    "16n1npfar88r5v8d99cnof7uto"
+   ],
+   "id": "521602289858",
+   "lastmod": "2026-10-07",
+   "lost_reason": null,
+   "name": "Studio Dentistico Sgrò - Mauro Sgrò",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-14",
+   "demo_date": "2026-09-24",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "40o6u3hbfkfmsp7n0sev7hoa5e"
+   ],
+   "id": "521514105018",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ginecologa Palermo (Cristina Cicerone)",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": "2026-09-30",
+   "amount": 2447,
+   "closedate": "2026-09-29",
+   "createdate": "2026-09-14",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "3d92e21rucpakgvdkmjl299l33"
+   ],
+   "id": "521516306630",
+   "lastmod": "2026-10-06",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria Omniavet - Chiara",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": "2026-09-15",
+   "amount": 1788,
+   "closedate": "2026-10-12",
+   "createdate": "2026-09-14",
+   "demo_date": "2026-09-11",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-10-06",
+   "events": [
+    "bmp13ej9flevrhf31lltnts3p0",
+    "0ft512n5rlkdi6ofogv3tjr77d",
+    "4bt6t0v7demo4ukkkp4lp7lrsi"
+   ],
+   "id": "521496546544",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Fisioterapia Attivazione (Dr. Angelo Vella – Fisioterapista)",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-11-26",
+   "createdate": "2026-09-14",
+   "demo_date": "2026-09-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "qhnkro6kidvepc9frn25fkh03k",
+    "1lq4o01rvi9oq1e5s2l13h1lov"
+   ],
+   "id": "521449526461",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria La Lupa (Dr.ssa Alessandra Pieriboni)",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-09-11",
+   "demo_date": "2026-09-03",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "1t2ls5rlv0f1pmbj9uiumr8jnq",
+    "hcp19du59cado176863uvef8d8"
+   ],
+   "id": "521031768272",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Vesuvio Dental - Alberto Esposito",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-09-11",
+   "demo_date": "2026-09-11",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "fon4eoms9309l1qfrp0efe0g08"
+   ],
+   "id": "521027692785",
+   "lastmod": "2026-10-17",
+   "lost_reason": null,
+   "name": "Dott.ssa Iole D'Angelo - Medicina Estetica (Montesilvano)",
+   "stage": "6053470413"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-21",
+   "createdate": "2026-09-11",
+   "demo_date": "2026-09-11",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "3g3tdllgt5jfhkim9268u9otcc",
+    "sgho4gnlhjlark93588t94nmsc"
+   ],
+   "id": "521027478753",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Studio Dentistico Rizzo Palermo",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-17",
+   "amount": 9478,
+   "closedate": "2026-10-15",
+   "createdate": "2026-09-11",
+   "demo_date": "2026-09-15",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "ik9hrk4ib8r4c8o81uoqmigap8",
+    "4ppdup7nn0bnjp87g2lch1n4s9"
+   ],
+   "id": "521016611027",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Futura Vet - Daniele Spaziante",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": "2026-09-10",
+   "createdate": "2026-09-10",
+   "demo_date": "2026-09-10",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "31fuo4dl3qj1ckqgk3usidar38"
+   ],
+   "id": "520790983910",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Dr. Fausto La Vecchia",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": "2026-09-09",
+   "createdate": "2026-09-09",
+   "demo_date": "2026-09-09",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "j13ui404hi27gifl09od3i7pl0"
+   ],
+   "id": "520800782546",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Dr. Filippo Maria Ranaldi",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-17",
+   "amount": 2148,
+   "closedate": "2026-10-16",
+   "createdate": "2026-09-09",
+   "demo_date": "2026-09-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "ar3qj98rg02j2op8hl0u4poiuc",
+    "7brjnei9muakua29ohlg4m917r"
+   ],
+   "id": "520578888919",
+   "lastmod": "2026-10-16",
+   "lost_reason": null,
+   "name": "Centro Veterinario Frascheta (Paola Carlotta Costa)",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-21",
+   "createdate": "2026-09-09",
+   "demo_date": "2026-09-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "s5mbpv5kcfjv7jljkdvomnoivc"
+   ],
+   "id": "520578625739",
+   "lastmod": "2026-09-21",
+   "lost_reason": null,
+   "name": "Ambulatorio Veterinario De Francesco & Gentile",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-09-08",
+   "demo_date": "2026-09-08",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "5d6d4vl1mq07onuj8668ei9ogl"
+   ],
+   "id": "520570686662",
+   "lastmod": "2026-10-09",
+   "lost_reason": null,
+   "name": "Roberto Bosco",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": "2026-10-07",
+   "amount": 1788,
+   "closedate": "2026-10-31",
+   "createdate": "2026-09-08",
+   "demo_date": "2026-09-10",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-10-21",
+   "events": [
+    "3vi0qkvkh9k83ksia0f5im478b",
+    "72labnjlf4smh6280af84tn9tg",
+    "61ihenlk0qst83jm5leolrpd1f"
+   ],
+   "id": "520332026061",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Ambulatorio Veterinario Summano",
+   "stage": "4431898873"
+  },
+  {
+   "activation_date": "2026-09-18",
+   "amount": 1500,
+   "closedate": "2026-10-30",
+   "createdate": "2026-09-08",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "2baon954k0k8kgvtqc721kpipn"
+   ],
+   "id": "520344485051",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Giuseppe Lombardo - Studio Odontoiatrico (Alcamo)",
+   "stage": "4431899834"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": null,
+   "createdate": "2026-09-08",
+   "demo_date": "2026-09-08",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "0j1h872ftai1dd0u87bf6so354"
+   ],
+   "id": "520324811990",
+   "lastmod": "2026-09-08",
+   "lost_reason": null,
+   "name": "Dott. Gioacchino Carlo D'Aleo",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-09",
+   "amount": 2988,
+   "closedate": "2026-09-18",
+   "createdate": "2026-09-08",
+   "demo_date": "2026-09-04",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "7kqv2s6krtg724dnni87luluuo",
+    "0irltgmuffvps3bfjmk2dts850"
+   ],
+   "id": "520407275720",
+   "lastmod": "2026-09-18",
+   "lost_reason": "Unqualified",
+   "name": "AmbVet Monastier - Alberto Perin",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-10-14",
+   "amount": 1788,
+   "closedate": "2026-11-08",
+   "createdate": "2026-09-07",
+   "demo_date": "2026-09-09",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "aq8ag3n811so9uaqaq8lubrigc",
+    "6e4njbdmhdar7f2lrojjp0m8jh",
+    "1eg7motfpa21gq0abdv9r31nbf",
+    "7pjt1f5738jv2qa0u3870jtn6h"
+   ],
+   "id": "520187600064",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "C.M.O. Nisseno (Michele Giunta)",
+   "stage": "4984091861"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-10-21",
+   "createdate": "2026-09-07",
+   "demo_date": "2026-09-07",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "4jqticvvk5h63e2rtf57s788ts"
+   ],
+   "id": "520267814093",
+   "lastmod": "2026-10-21",
+   "lost_reason": "No budget",
+   "name": "Eliana Lanza (Medico Estetico Catania)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 2388,
+   "closedate": "2026-09-11",
+   "createdate": "2026-09-07",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "520098561231",
+   "lastmod": "2026-09-18",
+   "lost_reason": null,
+   "name": "Dottor Scuro - Cliente di Fagiani Consulting",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-10-07",
+   "amount": 948,
+   "closedate": "2026-10-31",
+   "createdate": "2026-09-07",
+   "demo_date": "2026-09-11",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-10-21",
+   "events": [
+    "6a1rp3spsrfo2dv6t08qg2j62j",
+    "21n4jii7r3ag6tq6e52ar791tt",
+    "6vc1nhg9je2fsekrs3n2l96f9b",
+    "0msllvfk80ct988euei0rm600l"
+   ],
+   "id": "520168486080",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Clinica Veterinaria Città di Fermo - Francesco Ciribè",
+   "stage": "4431899834"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-10",
+   "createdate": "2026-09-01",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "519107442915",
+   "lastmod": "2026-09-18",
+   "lost_reason": null,
+   "name": "Dr.ssa Dentista Ferro",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-09-01",
+   "demo_date": "2026-09-01",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "6altopuostvkto3nkh6j7ieb9k"
+   ],
+   "id": "519143844078",
+   "lastmod": "2026-10-22",
+   "lost_reason": null,
+   "name": "Dentista Annalisa Longobardi",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": "2026-09-04",
+   "amount": 1788,
+   "closedate": "2026-09-10",
+   "createdate": "2026-07-30",
+   "demo_date": "2026-07-30",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "8p5aqt8bskv5kmi2so9rnptci8",
+    "4b5q08d5miqal10rm27mu59gn9"
+   ],
+   "id": "513636395207",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Dentista Elisabetta Torre",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-11",
+   "createdate": "2026-07-30",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "513866129600",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Marco Leo (studio tecnico ingegnere marco leo)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-11",
+   "createdate": "2026-07-29",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "i3dqil0jctgl4796damhvjq2tk"
+   ],
+   "id": "513787958511",
+   "lastmod": "2026-10-15",
+   "lost_reason": "Unqualified",
+   "name": "Ruggero Schiavone (studio schiavone)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 500,
+   "closedate": "2026-09-18",
+   "createdate": "2026-07-29",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "37qa28k5bve67o7tnviagc70e4"
+   ],
+   "id": "513698364638",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Stefano (Studio Olimpia)",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-11",
+   "createdate": "2026-07-28",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "bplm0qi777nc2100nr5hp0dpgk"
+   ],
+   "id": "513460935907",
+   "lastmod": "2026-10-15",
+   "lost_reason": "Others",
+   "name": "Davide Bongiorni (l'arte di prendersi cura)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-09",
+   "createdate": "2026-07-24",
+   "demo_date": "2026-07-28",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "38mm2j0m7ji219bk3mbvg55r9k"
+   ],
+   "id": "512563815645",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Studio Del Dottor Cavallaro",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-09",
+   "createdate": "2026-07-24",
+   "demo_date": "2026-07-30",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "ival83u4rcu3bgo8918okgvc90"
+   ],
+   "id": "512554298592",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Dottoressa Lazzarin (Libero professionista veterinario)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-21",
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-07-21",
+   "demo_date": "2026-07-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "niovb89tm339b7bopftj3lja7o",
+    "vg318pteaqtrm8cgakb7431jk0",
+    "1jkp4gofqubdgiftrrok8jcq1o"
+   ],
+   "id": "511471930617",
+   "lastmod": "2026-10-20",
+   "lost_reason": "Unqualified",
+   "name": "Studio Dentistico Dentalvi SRL - Dott. Fabio Legnani",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-18",
+   "createdate": "2026-07-20",
+   "demo_date": "2026-07-29",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "2i2rhaue3vvhc29fjm0f2v924s"
+   ],
+   "id": "511408488682",
+   "lastmod": "2026-09-18",
+   "lost_reason": "Others",
+   "name": "Oculista Roma Massimo Petrilli",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-10",
+   "createdate": "2026-07-20",
+   "demo_date": "2026-07-27",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "ljmtin1nvhnogbo2gjekujf670"
+   ],
+   "id": "511284608201",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Anna Pecorari",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-11",
+   "createdate": "2026-07-17",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "510649168087",
+   "lastmod": "2026-10-15",
+   "lost_reason": "Timing : not for now",
+   "name": "MP DENTAL STUDIO SRL",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-11",
+   "createdate": "2026-07-16",
+   "demo_date": "2026-07-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "7ga53935825ku7urqe1e7sn8h0"
+   ],
+   "id": "510267250889",
+   "lastmod": "2026-10-15",
+   "lost_reason": "Timing : not for now",
+   "name": "MAGDALONE DENTAL DESIGN S.R.L.",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-10",
+   "createdate": "2026-07-15",
+   "demo_date": "2026-07-20",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "g7e5s8grjn705hukbap63m1lac",
+    "fupi3jdg8f1itqiu27ulem8bf4"
+   ],
+   "id": "510207859938",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Dott. Zannini Aquilino (studio zannini)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-10",
+   "createdate": "2026-07-15",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "510162002106",
+   "lastmod": "2026-09-18",
+   "lost_reason": null,
+   "name": "Valeria Zuddas (centro del sorriso e QUALAB)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-02",
+   "amount": 1788,
+   "closedate": "2026-09-18",
+   "createdate": "2026-07-15",
+   "demo_date": "2026-07-17",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-09-30",
+   "events": [
+    "eg6gvopueteduenfvdp6igsruc",
+    "2mknu7l0pdmgt7o6hc89592le7",
+    "4isp6dqbf3vcesrqd2943jtmu6",
+    "0o22ud50plh87kdct608itv7go"
+   ],
+   "id": "510159957234",
+   "lastmod": "2026-10-15",
+   "lost_reason": "Unqualified",
+   "name": "Studio Dentistico Zanini Raphael Studio Dentistico Tradizionale",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": null,
+   "createdate": "2026-07-14",
+   "demo_date": "2026-07-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "8jg5mmchakmpd6lamesic32gl4"
+   ],
+   "id": "510132588759",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Francesca Faragalli (Ambulatorio Veterinario Maja)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-08-06",
+   "amount": 1788,
+   "closedate": "2026-10-08",
+   "createdate": "2026-07-14",
+   "demo_date": "2026-07-16",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "u9hpisjj8budt3hl6tqthhf8vs",
+    "4j0bgse9ujamrtqkahq8u3ei13",
+    "31ged4p8hjb3q43ssnk6mc1528"
+   ],
+   "id": "510120836313",
+   "lastmod": "2026-10-20",
+   "lost_reason": null,
+   "name": "Ambulatorio Veterinario Orlando – Margherita Trovato",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": "2026-09-15",
+   "amount": 1788,
+   "closedate": "2026-10-12",
+   "createdate": "2026-07-14",
+   "demo_date": "2026-07-09",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "7j22mfc65qtth9ie4ke34lstcd",
+    "4tac9mkk9r6650a7ak2mpn7f9c"
+   ],
+   "id": "510122974413",
+   "lastmod": "2026-10-12",
+   "lost_reason": null,
+   "name": "Studio Dentistico Dameno Ongaro",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": "2026-09-04",
+   "amount": 2988,
+   "closedate": "2026-09-17",
+   "createdate": "2026-07-13",
+   "demo_date": "2026-07-15",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-09-15",
+   "events": [
+    "c2uk576tifvolns3m6pttcdhg8",
+    "6b46rouefe20ubpctipm502kuc",
+    "3ouot5uv9gqmgcacg9je0mts37",
+    "5om7j3vrdgi71hr2o045jj40gk"
+   ],
+   "id": "510067538131",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Ambulatorio Veterinario Dottor Salvati",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-07-10",
+   "demo_date": "2026-07-17",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "3tvbht4id06298iu3ofgfn8bpc",
+    "1l2sbh1616q5rrecgp51fff4v3"
+   ],
+   "id": "509911353589",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Marco Blumetti (Ambulatorio Veterinario Santa Chiara)",
+   "stage": "6012495041"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-17",
+   "createdate": "2026-07-10",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "509883184353",
+   "lastmod": "2026-10-15",
+   "lost_reason": "Phone Provider Integration",
+   "name": "Dentist Family - Studio Cassino",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-30",
+   "amount": 2988,
+   "closedate": "2026-10-30",
+   "createdate": "2026-07-09",
+   "demo_date": "2026-07-14",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-10-15",
+   "events": [
+    "r7q6kton2o4pr4m3bi8jo2kenc",
+    "17ir9cpvju3pkbsca8epfujcen",
+    "0hh2j8711a4bfho97f975u9v6m"
+   ],
+   "id": "509862415598",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Rimini Alident - Carlotta Lucchese",
+   "stage": "4431899834"
+  },
+  {
+   "activation_date": null,
+   "amount": 2988,
+   "closedate": null,
+   "createdate": "2026-07-09",
+   "demo_date": "2026-07-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "pmjqbdgnid4hdov69toidnuuo8"
+   ],
+   "id": "509858811115",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Centro Veterinaro Almavet",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-10",
+   "createdate": "2026-07-09",
+   "demo_date": "2026-07-20",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "l1kfmbs4hmhi7o518ri5jp8eqg"
+   ],
+   "id": "509829729508",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Giuseppe Tagliaferro (clinica nolavet)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-07-16",
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-07-08",
+   "demo_date": "2026-07-13",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "qs9e0vlegj5h5vgqb9c91t8c4g",
+    "6pfug9970b512nhcahq9qj55g4"
+   ],
+   "id": "509808050390",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Carlo Mercadante (studio legale mercadante)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-07-15",
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-07-08",
+   "demo_date": "2026-07-09",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-07-30",
+   "events": [
+    "u0d0ubrdio7bf833ggkj9m4170",
+    "5ajpsraiuvqkdsm0d4o0cprvj7",
+    "61m0pgrv1tf0behk717dl6helt",
+    "7qaek0d9ak6tk15kamca5q3008"
+   ],
+   "id": "509787189488",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Clinica veterinaria Santa Rita (Lucia Fratantonio)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-07-16",
+   "amount": 3318,
+   "closedate": "2026-07-10",
+   "createdate": "2026-07-06",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "08g0j5aaulm152bdpotc5b4or2"
+   ],
+   "id": "509690357962",
+   "lastmod": "2026-10-02",
+   "lost_reason": null,
+   "name": "Studio Dr. Di Pietrantonio - HelloSmile Prenota + WhatsApp",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": null,
+   "createdate": "2026-07-06",
+   "demo_date": "2026-07-08",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "iu6eakp4rgn60i5nlvd1ic6ni8"
+   ],
+   "id": "509577862355",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Federica Ferro",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 5000,
+   "closedate": "2026-12-31",
+   "createdate": "2026-07-03",
+   "demo_date": "2026-09-10",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "3v46voeju6pprnrh443rg2euhp"
+   ],
+   "id": "509469635832",
+   "lastmod": "2026-10-21",
+   "lost_reason": null,
+   "name": "Colosseum Dental",
+   "stage": "5637822650"
+  },
+  {
+   "activation_date": "2026-07-07",
+   "amount": 1428,
+   "closedate": "2026-07-03",
+   "createdate": "2026-07-02",
+   "demo_date": "2026-07-02",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "03bhitd843tufc98ci5jn8tq2m",
+    "4583kv3fo51o29n5jv8k47v05q"
+   ],
+   "id": "509154912472",
+   "lastmod": "2026-10-02",
+   "lost_reason": null,
+   "name": "Dr. Renato Galanti Fisioterapista Lecco",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": "2026-07-13",
+   "amount": 1788,
+   "closedate": null,
+   "createdate": "2026-07-02",
+   "demo_date": "2026-07-07",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "khvne2bbsk29fctil1ttfat2c8",
+    "3kqutlqs397h9buf2emnl3j0jc",
+    "2tob7a9vulk3jcbgl5hjb6h4nb"
+   ],
+   "id": "509297986769",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Clinica Estetica Europa",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-07-07",
+   "amount": 1788,
+   "closedate": "2026-07-31",
+   "createdate": "2026-07-02",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "10s8gsvohbf5saoknn82troeut"
+   ],
+   "id": "509225767117",
+   "lastmod": "2026-09-18",
+   "lost_reason": null,
+   "name": "Vet Delle Grigne",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-07-03",
+   "amount": 600,
+   "closedate": "2026-07-02",
+   "createdate": "2026-07-02",
+   "demo_date": "2026-07-02",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-07-17",
+   "events": [
+    "0nb7bvh76ngb1htf7qamganucc",
+    "1r2gq4muagclnljc8um8b0hbfo",
+    "2bgcnmjqkft2jhs48q3gvq2r4n"
+   ],
+   "id": "509154827452",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Dentista Del Corso Bologna (Multi-sede, Jack con MIND)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": "2026-07-03",
+   "createdate": "2026-06-26",
+   "demo_date": "2026-07-02",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "fhnqbc26isd2ma71r1ps2dnfp0"
+   ],
+   "id": "508202217677",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "Giuliacausarano (Studio Causarano)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1500,
+   "closedate": "2026-09-11",
+   "createdate": "2026-06-26",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "508140317917",
+   "lastmod": "2026-10-15",
+   "lost_reason": "System Integration",
+   "name": "Linfologia.it (Primo Carino)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-07-10",
+   "amount": 1788,
+   "closedate": "2026-07-01",
+   "createdate": "2026-06-24",
+   "demo_date": "2026-07-02",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-07-20",
+   "events": [
+    "3ubhlil801mclhnfk4hk15hov0",
+    "5tpj6s3mj1v11ubiaqee66iavt",
+    "1qbhk3vv2oqflhio4ptc0cr1ht"
+   ],
+   "id": "507902675174",
+   "lastmod": "2026-09-18",
+   "lost_reason": null,
+   "name": "Villa Pompea (Michele)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 0,
+   "closedate": "2026-06-24",
+   "createdate": "2026-06-17",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "506277970118",
+   "lastmod": "2026-09-08",
+   "lost_reason": null,
+   "name": "Daniela (prinea)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-07-03",
+   "amount": 2988,
+   "closedate": "2026-07-17",
+   "createdate": "2026-06-14",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "77srisoli4gefh20roconfrr6u"
+   ],
+   "id": "506043188422",
+   "lastmod": "2026-10-02",
+   "lost_reason": null,
+   "name": "Poliambulatorio 2effe (GiulioFermanelli)",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": "2026-09-02",
+   "amount": 1440,
+   "closedate": "2026-10-08",
+   "createdate": "2026-06-04",
+   "demo_date": "2026-07-17",
+   "demo_date_source": "calendar",
+   "evaluation_date": "2026-09-18",
+   "events": [
+    "q3cta841lcolm4ipif89i1b9u8",
+    "0klvv4gcfdot588n7c7dipka62",
+    "14eo7ke3erbjfrmvuciijrcre6",
+    "3skhdnv2ovh3c2q1v2pbhbkast"
+   ],
+   "id": "505393502457",
+   "lastmod": "2026-10-08",
+   "lost_reason": "No budget",
+   "name": "De Angelis - Viterbo con calendario",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-07-27",
+   "amount": 447,
+   "closedate": "2026-07-23",
+   "createdate": "2026-05-28",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [
+    "3urb5rfhj543sfe6khj2ee0lpr"
+   ],
+   "id": "504593164476",
+   "lastmod": "2026-10-15",
+   "lost_reason": null,
+   "name": "DrJacopo Ferrarini (JF SRL)",
+   "stage": "4961139914"
+  },
+  {
+   "activation_date": null,
+   "amount": 1788,
+   "closedate": "2026-09-11",
+   "createdate": "2026-05-28",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "504592164070",
+   "lastmod": "2026-09-18",
+   "lost_reason": "Timing : not for now",
+   "name": "AndreaRossi",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1428,
+   "closedate": "2026-09-11",
+   "createdate": "2026-05-11",
+   "demo_date": null,
+   "demo_date_source": "createdate",
+   "evaluation_date": null,
+   "events": [],
+   "id": "502373939406",
+   "lastmod": "2026-09-18",
+   "lost_reason": "No budget",
+   "name": "CentroOsteopatico - Dr. Michele Mazzarano",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": "2026-09-29",
+   "amount": 2988,
+   "closedate": "2026-10-12",
+   "createdate": "2026-05-04",
+   "demo_date": "2026-07-24",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "0qh6do4clhr3putcf17gd1vg0k",
+    "1aovaen0je5sddlr8e1g64a2it"
+   ],
+   "id": "501722240190",
+   "lastmod": "2026-10-15",
+   "lost_reason": "Others",
+   "name": "GIAMA & PARTNERS SRL (outbound)",
+   "stage": "5340451029"
+  },
+  {
+   "activation_date": null,
+   "amount": 1428,
+   "closedate": "2026-07-29",
+   "createdate": "2026-03-13",
+   "demo_date": "2026-07-23",
+   "demo_date_source": "calendar",
+   "evaluation_date": null,
+   "events": [
+    "1ddf39i5hu0im8fsjhbedp26ps"
+   ],
+   "id": "493815445708",
+   "lastmod": "2026-10-02",
+   "lost_reason": null,
+   "name": "Foksi - Fisioterapia Spadaro",
+   "stage": "4961139914"
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-07-01",
+   "deal_id": null,
+   "id": "ouhkebibavv912ht95he38o8kc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Bacoli Vet",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-07-01",
+   "deal_id": null,
+   "id": "mg2fb6gmvmrkc6056bfjc7akfo",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio del Dottor Morella",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-01",
+   "deal_id": null,
+   "id": "l02pot92mhqud0faupkhi7ijbg",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Centro Veterinario Lungonera",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-07-02",
+   "deal_id": "509154827452",
+   "id": "0nb7bvh76ngb1htf7qamganucc",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Del Dottor del Corso",
+   "time": "10:15"
+  },
+  {
+   "date": "2026-07-02",
+   "deal_id": "508202217677",
+   "id": "fhnqbc26isd2ma71r1ps2dnfp0",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Odontoiatrico Causarano",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-07-02",
+   "deal_id": "507902675174",
+   "id": "3ubhlil801mclhnfk4hk15hov0",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Villa Pompea",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-07-02",
+   "deal_id": null,
+   "id": "5u4tej34cnggvjduhi6a2ud748",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Centro Cuore Carcagni'",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-07-02",
+   "deal_id": null,
+   "id": "4g08rg6l2ia6335kt86hqmuu2c",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio del Dottor Accetta (Fisioterapia)",
+   "time": "12:45"
+  },
+  {
+   "date": "2026-07-02",
+   "deal_id": "509154912472",
+   "id": "03bhitd843tufc98ci5jn8tq2m",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Dr. Galanti",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-02",
+   "deal_id": null,
+   "id": "h53dih2sf94t5v9c1iaocpimdg",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per OS Progetto Dentale",
+   "time": "13:15"
+  },
+  {
+   "date": "2026-07-02",
+   "deal_id": null,
+   "id": "4q6pl5e2edubes28fhgu5q0aeh",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile per Studio Stefani - Attivazione prova gratuita",
+   "time": "14:15"
+  },
+  {
+   "date": "2026-07-03",
+   "deal_id": "506043188422",
+   "id": "77srisoli4gefh20roconfrr6u",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "Hello Smile x 2Effe Medical Center attivazione",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-07-03",
+   "deal_id": "509154827452",
+   "id": "1r2gq4muagclnljc8um8b0hbfo",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "Hello Smile per Dr. Del Corso Attivazione Trial",
+   "time": "14:30"
+  },
+  {
+   "date": "2026-07-06",
+   "deal_id": null,
+   "id": "3gu2n4bolkurmv0cf0ohpqkpin",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile Demo x Medico Specialista",
+   "time": "13:15"
+  },
+  {
+   "date": "2026-07-06",
+   "deal_id": null,
+   "id": "26pvbiaoc35ubfd0i3ggsvfn66",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile per BacoliVet - Attivazione",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-07-06",
+   "deal_id": null,
+   "id": "6u9gibbn07pa7p25b4lk1qfj8o",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Pompei Smile",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-07-07",
+   "deal_id": null,
+   "id": "liajvh7lu2va3d6f89fh3q2pt0",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Agl Dental",
+   "time": "10:15"
+  },
+  {
+   "date": "2026-07-07",
+   "deal_id": "509225767117",
+   "id": "10s8gsvohbf5saoknn82troeut",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Servizi Veterinari Delle Grigne Attivazione prova",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-07-07",
+   "deal_id": "509154912472",
+   "id": "4583kv3fo51o29n5jv8k47v05q",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Dr. Galanti Attivazione servizio",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-07-07",
+   "deal_id": "509297986769",
+   "id": "khvne2bbsk29fctil1ttfat2c8",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Clinica Estetica Europa",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-07",
+   "deal_id": null,
+   "id": "l7bceoa3r7lstfo7kb7ittum70",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Centro Cuore Carcagni'",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-07-08",
+   "deal_id": null,
+   "id": "3dh4mj5ipi6tvqv6qgg1h8cch9",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Esovet.it - Demo per Francesca e Tiziana",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-07-08",
+   "deal_id": null,
+   "id": "u2d7kuui8vh482524b7v4l4c2s",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Dottor Panzarella - Clinica Himera",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-07-08",
+   "deal_id": "509577862355",
+   "id": "iu6eakp4rgn60i5nlvd1ic6ni8",
+   "kind": "demo",
+   "match_score": 9.16,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Dr. Ferro Federica",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-08",
+   "deal_id": null,
+   "id": "t8mg500auf9fbmvgm0rn57qhak",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Medico Ficco Gaeta Leuci",
+   "time": "13:45"
+  },
+  {
+   "date": "2026-07-08",
+   "deal_id": null,
+   "id": "56butlpl64nh6vm7o441nvk48d",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile per Genesi Studio - Attivazione prova gratuita",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-07-09",
+   "deal_id": "509787189488",
+   "id": "u0d0ubrdio7bf833ggkj9m4170",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Clinica Veterinaria Santa Rita",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-07-09",
+   "deal_id": "510122974413",
+   "id": "7j22mfc65qtth9ie4ke34lstcd",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Studio Dentistico Dameno Ongaro",
+   "time": "12:45"
+  },
+  {
+   "date": "2026-07-10",
+   "deal_id": null,
+   "id": "jei99722p9pgv2dn94rrbbq91o",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Apulia Vet",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-07-10",
+   "deal_id": "507902675174",
+   "id": "5tpj6s3mj1v11ubiaqee66iavt",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile x Villa Pompea Attivazione trial",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-07-10",
+   "deal_id": null,
+   "id": "qm8jfuho1175uo6s95i0d3hpm4",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per JF SRL",
+   "time": "12:45"
+  },
+  {
+   "date": "2026-07-10",
+   "deal_id": null,
+   "id": "hiuciugbgpcdisgcfa3uvud1i4",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio di Fisioterapia e Osteopatia di Caldana Marco",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-07-13",
+   "deal_id": "509297986769",
+   "id": "3kqutlqs397h9buf2emnl3j0jc",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Clinica Estetica Europa Attivazione Prova Gratuita",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-07-13",
+   "deal_id": "509858811115",
+   "id": "pmjqbdgnid4hdov69toidnuuo8",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Centro Veterinaro Almavet",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-07-13",
+   "deal_id": "509808050390",
+   "id": "qs9e0vlegj5h5vgqb9c91t8c4g",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Legale Mercadante",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-07-13",
+   "deal_id": null,
+   "id": "51kel03a58ibjeodvqflbasnpf",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "Hello Smile x ApuliaVet Attivazione trial gratuito",
+   "time": "12:15"
+  },
+  {
+   "date": "2026-07-13",
+   "deal_id": null,
+   "id": "7fciq0ssbm168s5bh7lu176j84",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Dentistico Costa",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-14",
+   "deal_id": "509862415598",
+   "id": "r7q6kton2o4pr4m3bi8jo2kenc",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Rimini Alident",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-07-14",
+   "deal_id": null,
+   "id": "6ksmlb1q94gj02rkaf46jghvqc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale pe Ragionier Simone Rossi Amministrazione",
+   "time": "11:15"
+  },
+  {
+   "date": "2026-07-14",
+   "deal_id": null,
+   "id": "ea15c0siupu6d326b4jm81m8to",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Family Addiction (Tattoo Parlor)",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-07-15",
+   "deal_id": "510067538131",
+   "id": "c2uk576tifvolns3m6pttcdhg8",
+   "kind": "demo",
+   "match_score": 4.38,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Ambulatorio Veterinario Dottor Salvati",
+   "time": "10:15"
+  },
+  {
+   "date": "2026-07-15",
+   "deal_id": null,
+   "id": "787j2l14757776caekbn7ipab0",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Patruno Minerva",
+   "time": "11:45"
+  },
+  {
+   "date": "2026-07-15",
+   "deal_id": null,
+   "id": "7rcflqvpbe5outmqh06u1me6hs",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile x per Dottor Panzarella - Clinica Himera - Attivazione trial",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-07-15",
+   "deal_id": null,
+   "id": "4r1usbiakbsueaj6tfi9bo6i51",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo Dentist Family Francesca Umbaldo WA",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-15",
+   "deal_id": "505393502457",
+   "id": "q3cta841lcolm4ipif89i1b9u8",
+   "kind": "cancellato",
+   "match_score": 4.78,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Dentista Dr. De Angelis",
+   "time": "14:30"
+  },
+  {
+   "date": "2026-07-15",
+   "deal_id": null,
+   "id": "3mp9fpmooek4i3h6gthdaptal4",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Centro Europeo Laser in Oftalmologia STP SRL",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-07-15",
+   "deal_id": "509787189488",
+   "id": "5ajpsraiuvqkdsm0d4o0cprvj7",
+   "kind": "attivazione",
+   "match_score": 10.25,
+   "summary": "Hello Smile x Clinica Veterinaria Santa Rita Attivazione trial",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-07-16",
+   "deal_id": null,
+   "id": "0kn23ecm54vo5pcsfmnmp6vaoj",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile & Apuliavet: Attivazione con Iliaria",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-07-16",
+   "deal_id": "509808050390",
+   "id": "6pfug9970b512nhcahq9qj55g4",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile x Studio Legale Mercadante Attivazione prova gratuita",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-07-16",
+   "deal_id": "509690357962",
+   "id": "08g0j5aaulm152bdpotc5b4or2",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Dr. Di Pietrantonio Attivazione gratuita",
+   "time": "16:15"
+  },
+  {
+   "date": "2026-07-16",
+   "deal_id": "510120836313",
+   "id": "u9hpisjj8budt3hl6tqthhf8vs",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Ambulatorio Veterinario Orlando",
+   "time": "16:30"
+  },
+  {
+   "date": "2026-07-17",
+   "deal_id": "509297986769",
+   "id": "2tob7a9vulk3jcbgl5hjb6h4nb",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Clinica Estetica Europa attivazione trial",
+   "time": "09:30"
+  },
+  {
+   "date": "2026-07-17",
+   "deal_id": "505393502457",
+   "id": "0klvv4gcfdot588n7c7dipka62",
+   "kind": "demo",
+   "match_score": 4.78,
+   "summary": "HelloSmile per Dottor De Angelis",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-07-17",
+   "deal_id": "510159957234",
+   "id": "eg6gvopueteduenfvdp6igsruc",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Dentistico Zanini Raphael",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-07-17",
+   "deal_id": null,
+   "id": "4e8f4560nj8fpqiahj8hgg7in2",
+   "kind": "valutazione",
+   "match_score": 0,
+   "summary": "HelloSmile per 2EffeMedicalCenter - Valutazione e prossimi passi",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-07-17",
+   "deal_id": null,
+   "id": "qj3fb9degpd7fasc99aq4os4pc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Ambulatorio Vet Pulcani",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-07-17",
+   "deal_id": null,
+   "id": "jj196a2s8mootb3oetlkjmdn28",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Centro Dentale Parmense",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-07-17",
+   "deal_id": "509154827452",
+   "id": "2bgcnmjqkft2jhs48q3gvq2r4n",
+   "kind": "valutazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile & Dentista Del Corso - Valutazione e prossimi passi",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-07-17",
+   "deal_id": "509911353589",
+   "id": "3tvbht4id06298iu3ofgfn8bpc",
+   "kind": "demo",
+   "match_score": 8.65,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Ambulatorio Veterinario Santa Chiara",
+   "time": "16:30"
+  },
+  {
+   "date": "2026-07-20",
+   "deal_id": "507902675174",
+   "id": "1qbhk3vv2oqflhio4ptc0cr1ht",
+   "kind": "valutazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Villa Chigi - Valutazione risultati e prossimi passi",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-07-20",
+   "deal_id": "509829729508",
+   "id": "l1kfmbs4hmhi7o518ri5jp8eqg",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Clinica Nolavet",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-07-20",
+   "deal_id": "510207859938",
+   "id": "g7e5s8grjn705hukbap63m1lac",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Zannini",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-07-21",
+   "deal_id": null,
+   "id": "a3ld7co0j1c3i0t4jr36ccn78g",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Dental Smile",
+   "time": "10:15"
+  },
+  {
+   "date": "2026-07-21",
+   "deal_id": "509911353589",
+   "id": "1l2sbh1616q5rrecgp51fff4v3",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Dottor Blumetti",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-07-21",
+   "deal_id": null,
+   "id": "mo0j3ech69vruu9uskro2fob2g",
+   "kind": "cancellato",
+   "match_score": 0,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Kinesis Sport",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-07-21",
+   "deal_id": null,
+   "id": "5slia8mgfgr1dvn1u8v94kscbc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Clinical Vet Medical",
+   "time": "11:15"
+  },
+  {
+   "date": "2026-07-22",
+   "deal_id": null,
+   "id": "2brna8fjusa9gm34npesr4g65u",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile & Himeravet - Attivazione con Dott. Panzarella",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-07-23",
+   "deal_id": "493815445708",
+   "id": "1ddf39i5hu0im8fsjhbedp26ps",
+   "kind": "demo",
+   "match_score": 4.78,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Clinica Veterinario Spadaro e Messina Lega del Cane",
+   "time": "10:15"
+  },
+  {
+   "date": "2026-07-23",
+   "deal_id": null,
+   "id": "nqbgnd7b9buffelue1sl0d7b2s",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per MP Dental Studio SRL",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-07-23",
+   "deal_id": "509787189488",
+   "id": "61m0pgrv1tf0behk717dl6helt",
+   "kind": "demo",
+   "match_score": 15.72,
+   "summary": "HelloSmile x Lucia Fratantonio Santa Rosa assistenza prova",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-07-23",
+   "deal_id": "510267250889",
+   "id": "7ga53935825ku7urqe1e7sn8h0",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Magdalone Dental Design",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-23",
+   "deal_id": "510132588759",
+   "id": "8jg5mmchakmpd6lamesic32gl4",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Ambulatorio Veterinario Maja",
+   "time": "13:45"
+  },
+  {
+   "date": "2026-07-23",
+   "deal_id": "511471930617",
+   "id": "niovb89tm339b7bopftj3lja7o",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Dentistico Dentalvi SRL",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-07-24",
+   "deal_id": null,
+   "id": "23mob9rf62f7q4ia56933adrpo",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Studio Ventura",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-07-24",
+   "deal_id": "501722240190",
+   "id": "0qh6do4clhr3putcf17gd1vg0k",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Giama & Partners - Poliambulatorio",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-07-27",
+   "deal_id": null,
+   "id": "475st86j31k11ii32vi6unta9u",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Dott.ssa Codara",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-07-27",
+   "deal_id": "504593164476",
+   "id": "3urb5rfhj543sfe6khj2ee0lpr",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Dr. Ferrarini attivazione",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-27",
+   "deal_id": "511284608201",
+   "id": "ljmtin1nvhnogbo2gjekujf670",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Anna Pecorari",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-07-27",
+   "deal_id": null,
+   "id": "qjbk6kdhk3k6aj56mtp2r3peco",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Perpetuini STP SRL",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-07-28",
+   "deal_id": "512563815645",
+   "id": "38mm2j0m7ji219bk3mbvg55r9k",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Del Dottor Cavallaro",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-07-28",
+   "deal_id": null,
+   "id": "22g7958ng065r5brp2vslv3tkp",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile per Studio Ciuffolo Ferritto - Attivazione per agosto",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-07-29",
+   "deal_id": null,
+   "id": "nj4m32hbgsg42jcpiuil51tb9k",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Dr. Acquaviva Oculista",
+   "time": "10:15"
+  },
+  {
+   "date": "2026-07-29",
+   "deal_id": null,
+   "id": "0ocanfbhs2aldvfp9qpcqvf9p9",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile x Studio Dentistico Duggento",
+   "time": "10:45"
+  },
+  {
+   "date": "2026-07-29",
+   "deal_id": null,
+   "id": "j3mi3at5djbunm4kl9b41ucfsc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Dottor Perillo",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-07-29",
+   "deal_id": "511408488682",
+   "id": "2i2rhaue3vvhc29fjm0f2v924s",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile x Dr. Petrilli",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-07-29",
+   "deal_id": null,
+   "id": "0a5st0r2jdbm26ti1mjvebbuih",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Studio Ventura",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-07-30",
+   "deal_id": "513636395207",
+   "id": "8p5aqt8bskv5kmi2so9rnptci8",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Elisabetta Torre",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-07-30",
+   "deal_id": "509787189488",
+   "id": "7qaek0d9ak6tk15kamca5q3008",
+   "kind": "valutazione",
+   "match_score": 10.25,
+   "summary": "HelloSmile: Valutazione risultati per Clinica Santa Rita",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-07-30",
+   "deal_id": "512554298592",
+   "id": "ival83u4rcu3bgo8918okgvc90",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Dottoressa Lazzarin (Veterinaria Libera Professionista)",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-07-30",
+   "deal_id": "513460935907",
+   "id": "bplm0qi777nc2100nr5hp0dpgk",
+   "kind": "cancellato",
+   "match_score": 16.4,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per L'Arte del prendersi cura (Fisioterapia)",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-07-30",
+   "deal_id": null,
+   "id": "dhdn2tf9dvu26ohd6pgtq5iqlg",
+   "kind": "cancellato",
+   "match_score": 0,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Ambulatorio Veterinario Geavet",
+   "time": "15:45"
+  },
+  {
+   "date": "2026-07-31",
+   "deal_id": "511471930617",
+   "id": "vg318pteaqtrm8cgakb7431jk0",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Dentistico Dentalvi SRL",
+   "time": "10:15"
+  },
+  {
+   "date": "2026-07-31",
+   "deal_id": "513698364638",
+   "id": "37qa28k5bve67o7tnviagc70e4",
+   "kind": "cancellato",
+   "match_score": 5.47,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Studio olimpia (fisioterapia)",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-07-31",
+   "deal_id": "513787958511",
+   "id": "i3dqil0jctgl4796damhvjq2tk",
+   "kind": "cancellato",
+   "match_score": 5.47,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Studio Schiavone",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-07-31",
+   "deal_id": null,
+   "id": "55u293eo8v2tbok4ts8qikfv1r",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile x Studio Dentistico Duggi Attivazione prova gratis",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-08-03",
+   "deal_id": null,
+   "id": "o4l74q7hmkni54d2tjqfa8t1h8",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per DE VITA STUDIO ODONTOIATRICO STP/SRL",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-08-05",
+   "deal_id": null,
+   "id": "1p2sp32brmdjv1li7k3p7rpfpr",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile x Centro Olympia attivazione gratis da 15.08/31.08",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-08-06",
+   "deal_id": "510120836313",
+   "id": "4j0bgse9ujamrtqkahq8u3ei13",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Ambulatorio Veterinario Orlando Attivazione",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-09-01",
+   "deal_id": null,
+   "id": "0cfbm05aeda04docda4nc7reup",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile x Studio Parmense feedback su attivazione",
+   "time": "01:30"
+  },
+  {
+   "date": "2026-09-01",
+   "deal_id": "519143844078",
+   "id": "6altopuostvkto3nkh6j7ieb9k",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile & Dario per lo Studio Dott.ssa Longobardi",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-02",
+   "deal_id": "505393502457",
+   "id": "14eo7ke3erbjfrmvuciijrcre6",
+   "kind": "attivazione",
+   "match_score": 4.78,
+   "summary": "HelloSmile x Dr. De Angelis attivazione prova gratuita",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-02",
+   "deal_id": "510159957234",
+   "id": "2mknu7l0pdmgt7o6hc89592le7",
+   "kind": "attivazione",
+   "match_score": 4.78,
+   "summary": "HelloSmile x Studio Zanini Attivazione prova gratuita",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-02",
+   "deal_id": null,
+   "id": "0a3lidfc5biu33j63l0o5133f0",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per @doc.pasquale_cozzolino",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-09-02",
+   "deal_id": null,
+   "id": "4k8iktctvik86he05t7btmuhfk",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Dottor Cartagine",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-09-03",
+   "deal_id": null,
+   "id": "4ugqku4mb6ialt3ud3vmt83ge5",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per G&G Ambulatorio Odontoiatrico",
+   "time": "09:00"
+  },
+  {
+   "date": "2026-09-03",
+   "deal_id": "521031768272",
+   "id": "1t2ls5rlv0f1pmbj9uiumr8jnq",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Vesuvio Dental",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-03",
+   "deal_id": null,
+   "id": "10m5haajaohom67eo6708uafm1",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile x DentistFamily attivazione trial gratuito",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-03",
+   "deal_id": null,
+   "id": "5shbsust9tpp5l9jj4moq9bc7q",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile per Dott.ssa Miccichè",
+   "time": "13:15"
+  },
+  {
+   "date": "2026-09-03",
+   "deal_id": "510207859938",
+   "id": "fupi3jdg8f1itqiu27ulem8bf4",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Aquilino Zannini",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-09-03",
+   "deal_id": null,
+   "id": "209g45s5fp28hoks5br35t9u5t",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Centro Veterinario Città dei Sassi",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-09-04",
+   "deal_id": null,
+   "id": "3larmlupc21a6072agt7ld6e18",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Giuseppe Sebastio",
+   "time": "09:30"
+  },
+  {
+   "date": "2026-09-04",
+   "deal_id": "510067538131",
+   "id": "6b46rouefe20ubpctipm502kuc",
+   "kind": "attivazione",
+   "match_score": 4.38,
+   "summary": "HelloSmile x Ambulatorio Veterinario Dottor Salvati Attivazione trial gratuito",
+   "time": "10:15"
+  },
+  {
+   "date": "2026-09-04",
+   "deal_id": "513636395207",
+   "id": "4b5q08d5miqal10rm27mu59gn9",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Dr.ssa Torre Attivazione prova gratuita",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-09-04",
+   "deal_id": "520407275720",
+   "id": "7kqv2s6krtg724dnni87luluuo",
+   "kind": "demo",
+   "match_score": 16.4,
+   "summary": "Demo: HelloSmile per Dott. Perin (AmbVet Monastier)",
+   "time": "14:30"
+  },
+  {
+   "date": "2026-09-04",
+   "deal_id": null,
+   "id": "0l6tujeunq5k7kuhl1d4ehde1u",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile x Dottoressa Lombardi Vet",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-09-07",
+   "deal_id": null,
+   "id": "4qs93j042r2ovr8fjmc7oams0k",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per AMD CLINIC SRL",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-07",
+   "deal_id": null,
+   "id": "5dg17gbqp8qolv0h09p3uaqvjc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Dott.ssa Clelia Sonia Alessandro",
+   "time": "11:15"
+  },
+  {
+   "date": "2026-09-07",
+   "deal_id": null,
+   "id": "5ao33sh5cnipcbm77ftqp3fbej",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile x Dentista Caccios",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-09-07",
+   "deal_id": null,
+   "id": "c4m2j8qe8vk8u8ikcgv0u5ln5k",
+   "kind": "cancellato",
+   "match_score": 0,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Giovanna Nuara",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-09-07",
+   "deal_id": "520267814093",
+   "id": "4jqticvvk5h63e2rtf57s788ts",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Eliana Lanza",
+   "time": "16:45"
+  },
+  {
+   "date": "2026-09-07",
+   "deal_id": null,
+   "id": "2m3cmcoappcdlc3bridevb5p02",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo: HelloSmile per CMONisseno",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-09-07",
+   "deal_id": null,
+   "id": "k87nbsgu17j9f919r4mb2qkovs",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Antonio Braucci",
+   "time": "18:30"
+  },
+  {
+   "date": "2026-09-08",
+   "deal_id": "520324811990",
+   "id": "0j1h872ftai1dd0u87bf6so354",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile per Dott. D’Aleo",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-09-08",
+   "deal_id": null,
+   "id": "4plvlhsijgcchpiqhmu3qe2iuu",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile per Centro Veterinario Città dei Sassi attivazione prova gratuita",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-08",
+   "deal_id": "520570686662",
+   "id": "5d6d4vl1mq07onuj8668ei9ogl",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "HelloSmile per RB Dental (Roberto Bosco)",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-09-09",
+   "deal_id": null,
+   "id": "q2nql1iie1ai2j344lhbti43hs",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Dott Michele D’anna",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-09-09",
+   "deal_id": null,
+   "id": "2co9b7ft88f2kpm49nqnluf50b",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Studio Milia Mila",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-09",
+   "deal_id": "520187600064",
+   "id": "aq8ag3n811so9uaqaq8lubrigc",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile per CMO Nisseno (Michele Giunta)",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-09-09",
+   "deal_id": "520407275720",
+   "id": "0irltgmuffvps3bfjmk2dts850",
+   "kind": "attivazione",
+   "match_score": 16.4,
+   "summary": "HelloSmile per Dott. Perin (AmbVet Monastier) attivazione prova",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-09",
+   "deal_id": "520800782546",
+   "id": "j13ui404hi27gifl09od3i7pl0",
+   "kind": "demo",
+   "match_score": 15.31,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Filippo Maria Ranaldi",
+   "time": "13:45"
+  },
+  {
+   "date": "2026-09-09",
+   "deal_id": "520187600064",
+   "id": "6e4njbdmhdar7f2lrojjp0m8jh",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile per CMO Nisseno (Michele Giunta)",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": null,
+   "id": "2h7dbffv0efc6d18l4cpeb33v3",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Vittoria De Leone",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": "510159957234",
+   "id": "4isp6dqbf3vcesrqd2943jtmu6",
+   "kind": "attivazione",
+   "match_score": 4.78,
+   "summary": "HelloSmile x Studio Zanini - Attivazione con Planetel",
+   "time": "10:05"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": "509469635832",
+   "id": "3v46voeju6pprnrh443rg2euhp",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile x Colosseum Dental",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": "520790983910",
+   "id": "31fuo4dl3qj1ckqgk3usidar38",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile per Dr La vecchia",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": "520332026061",
+   "id": "3vi0qkvkh9k83ksia0f5im478b",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo: HelloSmile per Ambulatorio Veterinario Summano",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": null,
+   "id": "7tr51qh3v9r35lrqe4pt0obkp2",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile per Dott. Danilo D'Ercole",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": null,
+   "id": "k79b3du9kgstitaf6uqge8apsc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Federico Maria D'Alessio",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": null,
+   "id": "59ev85s11oggodjfvs72c3l89k",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Yasmine Zavalloni",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": null,
+   "id": "hcc274ukn6e53i9mc8939gluqc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Ilaria Pugliesi",
+   "time": "16:15"
+  },
+  {
+   "date": "2026-09-10",
+   "deal_id": "521031768272",
+   "id": "hcp19du59cado176863uvef8d8",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Barbara Esposito Vulgo Gigante",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-09-11",
+   "deal_id": "521496546544",
+   "id": "bmp13ej9flevrhf31lltnts3p0",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Hellosmile per il Dott. Angelo Vella",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-11",
+   "deal_id": "521027478753",
+   "id": "3g3tdllgt5jfhkim9268u9otcc",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo: HelloSmile per Rizzo Daniele",
+   "time": "11:15"
+  },
+  {
+   "date": "2026-09-11",
+   "deal_id": "521027692785",
+   "id": "fon4eoms9309l1qfrp0efe0g08",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Iole D’Angelo",
+   "time": "11:45"
+  },
+  {
+   "date": "2026-09-11",
+   "deal_id": "520168486080",
+   "id": "6a1rp3spsrfo2dv6t08qg2j62j",
+   "kind": "demo",
+   "match_score": 9.34,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Francesco Ciribé",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-11",
+   "deal_id": null,
+   "id": "28t0s50ffsuq89qk530shmuid4",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Ambulatorio Veterinario Melendugno - dr Andrea Stella",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-09-14",
+   "deal_id": "520578888919",
+   "id": "ar3qj98rg02j2op8hl0u4poiuc",
+   "kind": "demo",
+   "match_score": 15.03,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Paola Carlotta Costa Vet",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-14",
+   "deal_id": null,
+   "id": "0n65q95opcsho5e5bsfpbvgvjd",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile per Studio Bozzolo",
+   "time": "13:45"
+  },
+  {
+   "date": "2026-09-14",
+   "deal_id": "521449526461",
+   "id": "qhnkro6kidvepc9frn25fkh03k",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Alessandra Pieriboni",
+   "time": "14:15"
+  },
+  {
+   "date": "2026-09-14",
+   "deal_id": "520578625739",
+   "id": "s5mbpv5kcfjv7jljkdvomnoivc",
+   "kind": "demo",
+   "match_score": 9.34,
+   "summary": "Demo HelloSmile per Ambulatorio Veterinario De Francesco & Gentile",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": "510067538131",
+   "id": "3ouot5uv9gqmgcacg9je0mts37",
+   "kind": "valutazione",
+   "match_score": 4.38,
+   "summary": "HelloSmile x Dr. Salvati valutazione prova",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": "521016611027",
+   "id": "ik9hrk4ib8r4c8o81uoqmigap8",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Futura Vet",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": null,
+   "id": "bmi1u6v6s8bdulel8736ruerq8",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo: HelloSmile per Dentisti Palermo Rossetti",
+   "time": "12:15"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": "521496546544",
+   "id": "0ft512n5rlkdi6ofogv3tjr77d",
+   "kind": "attivazione",
+   "match_score": 9.85,
+   "summary": "HelloSmile per Dott. Angelo Vella attivazione prova",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": "521601831133",
+   "id": "vg2blo27iroi3psb7k5sfuu1l4",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Dott. Ludovico Palla",
+   "time": "15:45"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": "520168486080",
+   "id": "21n4jii7r3ag6tq6e52ar791tt",
+   "kind": "demo",
+   "match_score": 9.34,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Francesco Ciribé",
+   "time": "16:30"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": "510120836313",
+   "id": "31ged4p8hjb3q43ssnk6mc1528",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Ambulatorio Orlando - attivazione prova gratuita",
+   "time": "16:30"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": "510122974413",
+   "id": "4tac9mkk9r6650a7ak2mpn7f9c",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "Attivazione HelloSmile per Doclinic - Dottor Dameno",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-09-15",
+   "deal_id": "521602289858",
+   "id": "nbmekpuisf610ssvtkt10ogdv8",
+   "kind": "demo",
+   "match_score": 4.78,
+   "summary": "Demo HelloSmile per il Dottor Sgroi",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-09-16",
+   "deal_id": "521027478753",
+   "id": "sgho4gnlhjlark93588t94nmsc",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Rizzo Daniele",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-09-16",
+   "deal_id": "522642467050",
+   "id": "qeik6hkv01vlh4dladiuvgk90s",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per il Centro Odontoiatrico Dott. Gaglio",
+   "time": "12:45"
+  },
+  {
+   "date": "2026-09-17",
+   "deal_id": "520578888919",
+   "id": "7brjnei9muakua29ohlg4m917r",
+   "kind": "attivazione",
+   "match_score": 10.25,
+   "summary": "HelloSmile per Centro Veterinario della Frascheta Dr.ssa Costa attivazione prova",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-17",
+   "deal_id": null,
+   "id": "0g570i7fdsr13js9bvjtp0k5b8",
+   "kind": "valutazione",
+   "match_score": 0,
+   "summary": "HelloSmile x DentistFamily - Valutazione risultati e prossimi passi",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-17",
+   "deal_id": "521811317958",
+   "id": "4tcpnjgfgl93bkjr5ung90o6c7",
+   "kind": "demo",
+   "match_score": 4.78,
+   "summary": "Demo: HelloSmile per Centro Odontoiatrico Bellemo",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-09-17",
+   "deal_id": null,
+   "id": "0hm3rd3421inf9c1065c5up6pn",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Clinica Veterinaria Euganea",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-09-17",
+   "deal_id": "521016611027",
+   "id": "4ppdup7nn0bnjp87g2lch1n4s9",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Futura Vet attivazione prova gratuita",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-09-18",
+   "deal_id": "505393502457",
+   "id": "3skhdnv2ovh3c2q1v2pbhbkast",
+   "kind": "valutazione",
+   "match_score": 4.78,
+   "summary": "HelloSmile x Dr. De Angelis valutazione risultati prova",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-09-18",
+   "deal_id": "520344485051",
+   "id": "2baon954k0k8kgvtqc721kpipn",
+   "kind": "attivazione",
+   "match_score": 9.34,
+   "summary": "HelloSmile per Giuseppe Lombardo Attivazione prova",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-21",
+   "deal_id": "522205339870",
+   "id": "lpsqmupm9chqcjl89flj82s44o",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile per Dr. Mattia Ventriglia",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-21",
+   "deal_id": "511471930617",
+   "id": "1jkp4gofqubdgiftrrok8jcq1o",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile x Studio Dentistico Dentalvi SRL attivazione prova gratis",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-09-21",
+   "deal_id": "521943259361",
+   "id": "0l69ab2m9l51pgeg9rc70p8dms",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Demo HelloSmile per Ilaria De Santis",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-21",
+   "deal_id": "521602289858",
+   "id": "16n1npfar88r5v8d99cnof7uto",
+   "kind": "attivazione",
+   "match_score": 4.78,
+   "summary": "HelloSmile per Studio dentistico Sgrò attivazione prova gratuita",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-21",
+   "deal_id": "510067538131",
+   "id": "5om7j3vrdgi71hr2o045jj40gk",
+   "kind": "attivazione",
+   "match_score": 4.38,
+   "summary": "HelloSmile per Ambulatorio Senago Salvati onboarding",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-09-21",
+   "deal_id": "522205522118",
+   "id": "a9ds5mo4n0u16q8j589k6hjlt0",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Demo HelloSmile per Dott.ssa Ilaria Cerina",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-09-21",
+   "deal_id": "521942728927",
+   "id": "6ek21kv71fhjd0scu5morrqf78",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile per Dr.ssa Mantovani Vet",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-09-21",
+   "deal_id": null,
+   "id": "vfnfq39pbenvnubnveums1ebnk",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile per Studio Maragliano",
+   "time": "18:15"
+  },
+  {
+   "date": "2026-09-22",
+   "deal_id": "522468198610",
+   "id": "g4grtitntr9jnfth5h6jju928k",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Vittorio Vedove",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-22",
+   "deal_id": "522452289757",
+   "id": "veosrpea0ljdsvrkn6o75ghq2o",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per il Centro Odontoiatrico del Dr. Romano",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-22",
+   "deal_id": null,
+   "id": "7l0eaq8t655ji25a7c7v1sfsvr",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloVet per Clinica Veterinaria Sempione",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-09-23",
+   "deal_id": "522642467050",
+   "id": "3nkpsfojs7far4ijcv9m82qloa",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Studio Dentistico Gaglio attivazione prova",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-09-23",
+   "deal_id": "521865572564",
+   "id": "3egrplptmmihgeegbutapeb9mc",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Mario Cappi attivazione prova gratuita",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-09-23",
+   "deal_id": "522277450951",
+   "id": "0rge6v2b714djqn4ri0bm03t1e",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile per Il Centro Veterinario Mancini",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-09-23",
+   "deal_id": "521865341142",
+   "id": "hj4fltp18ltrk67ht22ce6mri4",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Dottoressa Simona Taibi",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-09-24",
+   "deal_id": "522181522630",
+   "id": "3r1e0uhipbbdos2af4g3cv2rth",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Demo HelloSmile per Dr. Buda Massimo",
+   "time": "13:45"
+  },
+  {
+   "date": "2026-09-24",
+   "deal_id": "522298389710",
+   "id": "0pper3tahbmgmla7fcnjfg0r7n",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile per Ambulatorio Veterinario Caneppele",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-09-24",
+   "deal_id": "521514105018",
+   "id": "40o6u3hbfkfmsp7n0sev7hoa5e",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Dott.ssa Cicerone (Ginecologia)",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-09-25",
+   "deal_id": "522963976400",
+   "id": "qivl8fdafu2bnpcgibbg85kf48",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Dottor Mandelli",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-28",
+   "deal_id": "523203585229",
+   "id": "oi9u80a4depheduci8je3ubsco",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Dott.ssa Rosa Frisario",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-28",
+   "deal_id": null,
+   "id": "niik0n889bf88n7d8bv2469d0s",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloVet per Marco di VetPlus",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-09-28",
+   "deal_id": "522277450951",
+   "id": "40rd90aj6rcodfd7vnn5klmer6",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile e Centro Veterinario Mancini attivazione prova",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-28",
+   "deal_id": "523177535703",
+   "id": "dbhsu6vhl7hog8t1jk9u1is3to",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Dott. Tommaso Tranquillo",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-09-28",
+   "deal_id": "523266553028",
+   "id": "6sebp8mia5k3t6j07s6l7826gp",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo: HelloSmile per Studio Arduini",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-09-28",
+   "deal_id": "522298389710",
+   "id": "3qfn8k5b7il5t2cbqef4h56nna",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile e Ambulatorio Veterinario Caneppele attivazione prova",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-09-28",
+   "deal_id": null,
+   "id": "3hulii07vi2ek118q54m93a32k",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Pamela",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-09-29",
+   "deal_id": "526185817278",
+   "id": "2ci6lnj1riiq15dfn0pe85acdp",
+   "kind": "demo",
+   "match_score": 4.78,
+   "summary": "Demo HelloSmile per Studio Dentistico Gennaro",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-29",
+   "deal_id": null,
+   "id": "5bar1kgcdrccjbcvlkp907vqt2",
+   "kind": "valutazione",
+   "match_score": 0,
+   "summary": "HelloSmile per Dottor Vincenzo Viscusi - Valutazione risultati e prossimi passi",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-09-29",
+   "deal_id": "501722240190",
+   "id": "1aovaen0je5sddlr8e1g64a2it",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Giama & Partners attivazione prova",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-09-29",
+   "deal_id": "521732388044",
+   "id": "js9v8jkuipjuf3265d806uabsk",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Studio Rocci - Cecilia Rocci",
+   "time": "13:15"
+  },
+  {
+   "date": "2026-09-29",
+   "deal_id": null,
+   "id": "dcs5tchd16iq7kmttb5e127r9c",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Silvio Zagari",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-09-29",
+   "deal_id": null,
+   "id": "66ts6j8lnq00cnca8t28gcbdaq",
+   "kind": "valutazione",
+   "match_score": 0,
+   "summary": "HelloSmile - Valutazione risultati e prossimi passi",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-09-30",
+   "deal_id": "510159957234",
+   "id": "0o22ud50plh87kdct608itv7go",
+   "kind": "valutazione",
+   "match_score": 4.78,
+   "summary": "HelloSmile & Studio Zanini - Valutazione risultati",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-09-30",
+   "deal_id": "524135797977",
+   "id": "02hdn6sjsvb4im0aat6fqbfh8j",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "HelloSmile & Giacomo Schuller per cliniche veterinarie",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-09-30",
+   "deal_id": "522452289757",
+   "id": "51ulmjpa04l1qequ4mvcqk8svi",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Centro Odontoiatrico del Dr. Romano decisione su attivazione",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-09-30",
+   "deal_id": "521516306630",
+   "id": "3d92e21rucpakgvdkmjl299l33",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Omniavet: Attivazione",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-09-30",
+   "deal_id": "524148384960",
+   "id": "02pf3f6m0r07an4ogd9ocv3u8c",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile per Studio Peroni",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-09-30",
+   "deal_id": null,
+   "id": "n6pfhk5ph1lmoabkicph75k45g",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile per Dott.ssa Anna De Nitto",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-09-30",
+   "deal_id": "509862415598",
+   "id": "17ir9cpvju3pkbsca8epfujcen",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Alident attivazione prova",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-09-30",
+   "deal_id": "523177535703",
+   "id": "2mdvi6ege5seuvjkkdqo9dvn1u",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Dott. Tommaso Tranquillo attivazione prova",
+   "time": "18:00"
+  },
+  {
+   "date": "2026-10-01",
+   "deal_id": "524178651345",
+   "id": "7apu4j53r9o5ph4v054jl6dee0",
+   "kind": "demo",
+   "match_score": 16.4,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Prana Massage (Olga)",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-01",
+   "deal_id": "524368534729",
+   "id": "qqhgtjg1f3sals95g6hs2ilhqo",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Gabriele Tenti",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-01",
+   "deal_id": "526956425441",
+   "id": "fu50f1oh73grcav75v3g14mq6g",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Alessandra Fusco",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-01",
+   "deal_id": "524361758906",
+   "id": "gngav2n379gpqpoi8i06seaj78",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Pippo Leonardi",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-01",
+   "deal_id": "526190801091",
+   "id": "2v0cbcs839a5qaj2demm2e4v0j",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Centro Oculistico Europeo: Attivazione",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-10-02",
+   "deal_id": null,
+   "id": "7getq3j0mi4lfq5psnvf9oocte",
+   "kind": "valutazione",
+   "match_score": 0,
+   "summary": "HelloSmile per Doclinic - Valutazione Risultati e prossimi passi",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-02",
+   "deal_id": null,
+   "id": "2b5qmqvarl0b38opgakh86a5of",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "HelloSmile per Studio Dentistico Roberto Lappola",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-10-02",
+   "deal_id": "526185736429",
+   "id": "47ujh7o7loknvi6rjfag2r92sg",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Maristella Zambelli",
+   "time": "18:00"
+  },
+  {
+   "date": "2026-10-05",
+   "deal_id": null,
+   "id": "kubj7c8npjohuehogootokvnq8",
+   "kind": "cancellato",
+   "match_score": 0,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Doc Laura",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-05",
+   "deal_id": "525387410662",
+   "id": "rcqet5a8mo0hvap890t2d3dha0",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Marzia Segù",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-05",
+   "deal_id": "525409504466",
+   "id": "98piv5epg2p52rl30v16qn0ivk",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Bernardo Ciervo",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-05",
+   "deal_id": "525762499825",
+   "id": "abbdop64u0vl5uc9f8kut6upeo",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Clinica Veterinaria Opera",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-10-05",
+   "deal_id": null,
+   "id": "bb9l088vc716egqkmkh4ugm1b8",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Mirena Gallina",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-10-05",
+   "deal_id": "525762151670",
+   "id": "p056un0i6c7vq9002dvbuessmc",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Ghelareh Karkuti",
+   "time": "16:30"
+  },
+  {
+   "date": "2026-10-06",
+   "deal_id": "525386941655",
+   "id": "u51r1j6adolc0j072g95a2n9e0",
+   "kind": "demo",
+   "match_score": 8.65,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Francesco Bosco",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-06",
+   "deal_id": "525387252979",
+   "id": "r2spr8r9haf3hfordrsv51q44g",
+   "kind": "demo",
+   "match_score": 16.4,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Dott. Cassarino (Spalla Sicilia)",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-06",
+   "deal_id": "525387410662",
+   "id": "7fal606p28bdtoop5a9a5pir4i",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Segù",
+   "time": "13:45"
+  },
+  {
+   "date": "2026-10-06",
+   "deal_id": null,
+   "id": "k71bam24fktgpaldd8f5vdnjr0",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Sibilla Anesi",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-10-06",
+   "deal_id": "521496546544",
+   "id": "4bt6t0v7demo4ukkkp4lp7lrsi",
+   "kind": "valutazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile e Dott Vella valutazione prova e prossimi passi",
+   "time": "16:45"
+  },
+  {
+   "date": "2026-10-06",
+   "deal_id": "527001527529",
+   "id": "5785ksgqgju5o9e2fpd21rap4a",
+   "kind": "valutazione",
+   "match_score": 4.78,
+   "summary": "HelloSmile per Studio dentistico Sgrò - Valutazione risultati",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-10-07",
+   "deal_id": "525384808664",
+   "id": "dfosuu05lqmnuamqnk0b657qfo",
+   "kind": "demo",
+   "match_score": 15.72,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Giulia Catini Ciletti",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-07",
+   "deal_id": "525761176801",
+   "id": "343grcg1ikfbullja3b4rp51hg",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Corbella Pietro",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-07",
+   "deal_id": "520168486080",
+   "id": "6vc1nhg9je2fsekrs3n2l96f9b",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Clinica Veterinaria Città di Fermo Ciribè attivazione prova",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-07",
+   "deal_id": "526890807487",
+   "id": "g81ilobnsgkm7jrk113efa9fh4",
+   "kind": "cancellato",
+   "match_score": 10.94,
+   "summary": "Cancellato: Rosalba Spatafora e Michele Tomassini",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-07",
+   "deal_id": "520332026061",
+   "id": "72labnjlf4smh6280af84tn9tg",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Ambulatorio Veterinario Summano attivazione prova gratuita",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-07",
+   "deal_id": null,
+   "id": "atsn8kdopggjp9ttlbvbukjajg",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile per Ambulatorio Veterinario Antani",
+   "time": "14:30"
+  },
+  {
+   "date": "2026-10-07",
+   "deal_id": "525753815267",
+   "id": "d7jtnmibk5n0q29rh5l54nqr2k",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Rondinelli Marisa",
+   "time": "14:30"
+  },
+  {
+   "date": "2026-10-07",
+   "deal_id": "525762367726",
+   "id": "6tjap0t18ppr6djgoihgve6auo",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Matteo Arcuri (orario da confermare)",
+   "time": "17:45"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": "526185781441",
+   "id": "bmco2a8geolu1huas1q7dkuvjk",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Loredana farris",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": "525795164363",
+   "id": "amsessa30sn1krsgd9ic49vtvs",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Paolo Losi",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": "521449526461",
+   "id": "1lq4o01rvi9oq1e5s2l13h1lov",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile per Alessandro Gueb / Clinica la Lupa",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": "524148384960",
+   "id": "2tifrtiq0987q3gso218jrehjv",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Studio Peroni Lappolla attivazione prova",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": null,
+   "id": "fl6enpho32709koc9nmb5tnuns",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Emanuela Di Mauro",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": null,
+   "id": "1h0t18dofci3rukhg4o2aggicg",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Chiara",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": "523909748982",
+   "id": "38l05vjsrj93516hhf8elrl1og",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile per Dr. Cacace",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": "524368534729",
+   "id": "166qe156t9rek1rpaspi75g5j4",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile per Clinica Borgo Nuovo",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-10-08",
+   "deal_id": "526190912744",
+   "id": "bnv5nn1bhqk3h77s2mcel1l4vk",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Sig.ra Tafuro",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-10-09",
+   "deal_id": null,
+   "id": "uuvfj681gk398krns4d7i5q3os",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Debora",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-09",
+   "deal_id": "525449659636",
+   "id": "bdcp7l4frhqbe3f4eml0monp3g",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "HelloSmile per Dott.ssa Federica Clemente",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-09",
+   "deal_id": "525795473620",
+   "id": "vtb0ko4ahjii411l28innads8g",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Nadia Bellini",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "521865572564",
+   "id": "4dgesgld8ejdocs2oia3eaan26",
+   "kind": "valutazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Mario Cappi valutazione prova",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": null,
+   "id": "d226utnglj923ntv4g94u98ock",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Sara",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "522642467050",
+   "id": "55eo37abum6dvublb1ekj0gm1p",
+   "kind": "valutazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Studio Dentistico Gaglio valutazione risultati prova",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "526111585471",
+   "id": "bd3ef63l60q9d2msjtlbu3qul0",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Riccardo Di Martino",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "525796134082",
+   "id": "i8dpidbmcnvnnnki3t9u3qcbbs",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Damiana Ponzi",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "525450063079",
+   "id": "r96kra6sah6ljtvihd8rpcgnr4",
+   "kind": "cancellato",
+   "match_score": 9.56,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Doc Alessandra Giacalone",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "521673926881",
+   "id": "qol0tb7p57lejv16rk3fng7qic",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Monica Laera",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "526183830751",
+   "id": "l7s2tbpaqjl5dcejbs5vg47b28",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Valeriano Giannini",
+   "time": "14:30"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "525795471552",
+   "id": "tpvmlq3a3gj7q75sr9h0k8uph8",
+   "kind": "demo",
+   "match_score": 9.02,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Dott. Marco Caccio",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "526190801091",
+   "id": "eqt8olj7gmhbode9rgig3bh904",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Silvia Morselli",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-10-12",
+   "deal_id": "526183830752",
+   "id": "sqgrps75j3kgbl39jkpmdnt5fs",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Veronica Felice",
+   "time": "18:00"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "529879764161",
+   "id": "3s0lnach9dfn86oiomaok2gjue",
+   "kind": "valutazione",
+   "match_score": 4.78,
+   "summary": "HelloSmile per Studio Dentistico Gennaro valutazione prova e prossimi passi",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "525384808664",
+   "id": "2n2chfp0sd11ipf0dgr5h2oi41",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Clinica Pangea attivazione prova",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "526186299579",
+   "id": "2e95tn6u0mo6ddq7ievv2526lk",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Simona Spoto",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "526186006731",
+   "id": "4lnq4vi4to9ifbc5s84l1g0ms4",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Valerio Cominato",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "526185553099",
+   "id": "e60iq4gu8ta96lbte7d3bl4rp8",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Michele Trematerra",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "526947521735",
+   "id": "trlpsjhcatdf6q22o3j0ucdpck",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Valeria Zuddas",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "526185867480",
+   "id": "vnmr7ethuiduspt5ti86rj7658",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Carlo Mattozzi",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "526190801101",
+   "id": "jnqvlkp5esfbrdjs7kk1fft510",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "HelloSmile per Dott. Mattia Sagona",
+   "time": "14:30"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "525762499825",
+   "id": "3okavdiacg4j45t41bm066egsc",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Clinica Veterinaria Città di Opera attivazione prova",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-13",
+   "deal_id": "525796404452",
+   "id": "k60mjhc20kif116d6dffb7q8kk",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Consuelo Urbani",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-14",
+   "deal_id": "520187600064",
+   "id": "1eg7motfpa21gq0abdv9r31nbf",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "Hello Smile per CMO Nisseno attivazione prova gratuita",
+   "time": "09:45"
+  },
+  {
+   "date": "2026-10-14",
+   "deal_id": "522277450951",
+   "id": "3g8vt1o9o93fluno3lsdpmbsmj",
+   "kind": "valutazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile e Centro Veterinario Mancini - Valutazione risultati",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-14",
+   "deal_id": "526908178625",
+   "id": "a2d4hsb550bsrtkfmsgjr377vs",
+   "kind": "demo",
+   "match_score": 16.4,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Erika Mocci (Ambulatorio veterinario Geavet)",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-14",
+   "deal_id": null,
+   "id": "c3negsic8uteh7n9kf3qnokkjg",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Federica",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-10-14",
+   "deal_id": "526185736427",
+   "id": "hg0a2fjp9rv83nd7kqv627dirs",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Maurizio Curreli",
+   "time": "14:40"
+  },
+  {
+   "date": "2026-10-14",
+   "deal_id": "526864216272",
+   "id": "5qks6c7mecnqnossudj1a67pj4",
+   "kind": "demo",
+   "match_score": 9.34,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Antonio Lo Grasso",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-10-14",
+   "deal_id": "527005191372",
+   "id": "2215284s4bcqk6rslqd3t8n3bo",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Corlazzoli",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-10-14",
+   "deal_id": "526958208207",
+   "id": "fghcv0g2tiaa462e7i4ho91mbc",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Fernando Cavacece",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-10-15",
+   "deal_id": "525450191081",
+   "id": "7ub5j2pnl92ui9jespqrj0ruot",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Cravedi",
+   "time": "09:00"
+  },
+  {
+   "date": "2026-10-15",
+   "deal_id": "509862415598",
+   "id": "0hh2j8711a4bfho97f975u9v6m",
+   "kind": "valutazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Alident - Valutazione risultati",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-15",
+   "deal_id": null,
+   "id": "6kc4qm51qhl859mmjqpq57vhed",
+   "kind": "attivazione",
+   "match_score": 0,
+   "summary": "HelloSmile per OdontoTeam - Attivazione prova gratuita",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-15",
+   "deal_id": null,
+   "id": "49gn15640pk7c2v424ha47f7tm",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo: HelloSmile per Dottoressa Agata Di Dio",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-15",
+   "deal_id": "526967341255",
+   "id": "o6fg79nmqaa9moii0comn9sg4g",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Sebastiano Giordano",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-15",
+   "deal_id": "527144276211",
+   "id": "p827cnk3lolqvldc1md0eiddls",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Savio Pandolfo",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-15",
+   "deal_id": "526961971434",
+   "id": "56h5rnkgcak11ptblrb115qa94",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Aldo Alibrandi",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-15",
+   "deal_id": "527144276211",
+   "id": "592828bouk8spc3otoquauj794",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Savio Pandolfo",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-10-16",
+   "deal_id": "525450063079",
+   "id": "k1mvbe1gn6tq3i0ajhuj3idd7g",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Alessandra Giacalone",
+   "time": "09:40"
+  },
+  {
+   "date": "2026-10-16",
+   "deal_id": null,
+   "id": "254dt8bpbsit1k3rld4df0vttc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "L’85% delle demo non compra ancora",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-16",
+   "deal_id": "527001208009",
+   "id": "b6qtj5bcb0on5dg3lfai9go518",
+   "kind": "demo",
+   "match_score": 15.03,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Carlo Emanuele Sala",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-16",
+   "deal_id": "525449659636",
+   "id": "4cq0j9iv53gn09km52qgq4a0t0",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Dottoressa Clemente attivazione prova",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-16",
+   "deal_id": "525796268221",
+   "id": "mhrc511p0rj79cdc3ei43dpa4c",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Luigi Cetta",
+   "time": "14:00"
+  },
+  {
+   "date": "2026-10-16",
+   "deal_id": "527152700605",
+   "id": "t5g2hlhquusbga23uk4e77sk3s",
+   "kind": "cancellato",
+   "match_score": 10.94,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Doc Calogero Vicari",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-10-19",
+   "deal_id": "527141937364",
+   "id": "k34afh10vbhctcne35rpu8qjoc",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Luigi Calasanzio",
+   "time": "09:30"
+  },
+  {
+   "date": "2026-10-19",
+   "deal_id": "526999639243",
+   "id": "09j5da13u1rdskma0886a031r4",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc nicola minerva",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-19",
+   "deal_id": null,
+   "id": "vn6t16ksl73f486l7i8qoca0g8",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Raffaele",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-19",
+   "deal_id": "525450069192",
+   "id": "phkvitcclbl7qsggab9v55p5hk",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Rausa Nicola",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-19",
+   "deal_id": "525452000448",
+   "id": "1e3nhtb102tevonkthh2c98ri8",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Gianluca Bozzolo",
+   "time": "14:30"
+  },
+  {
+   "date": "2026-10-19",
+   "deal_id": "526947159226",
+   "id": "19p8u9gc5pci69t4hvpubjjmdg",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Asia Carletti",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-20",
+   "deal_id": "526190801101",
+   "id": "2shhe6m638qu07nj721ths22lg",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile per Dott. Mattia Sagona",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-20",
+   "deal_id": "527004846305",
+   "id": "8f11056gmkb3dl4q5jjma37dfo",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Alessia Serra",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-20",
+   "deal_id": "525431837937",
+   "id": "e8tihn8al87n4ob4e6rm8er46k",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Celeste Tanzini",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-20",
+   "deal_id": "527162118340",
+   "id": "pvoep0hkpqtuv2vmgcmula941g",
+   "kind": "demo",
+   "match_score": 8.65,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Giuseppe Costa",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-10-20",
+   "deal_id": "525796404452",
+   "id": "2b2ofef6teuuqd3ee6b27o4v71",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Polispecialistico Manzoni | Attivazione Prova gratuita di Betta",
+   "time": "15:45"
+  },
+  {
+   "date": "2026-10-21",
+   "deal_id": "520187600064",
+   "id": "7pjt1f5738jv2qa0u3870jtn6h",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per CMO Nisseno - Rapida attivazione",
+   "time": "09:45"
+  },
+  {
+   "date": "2026-10-21",
+   "deal_id": "527340567791",
+   "id": "3hu4s6gqueerqr8qsda1ic8bis",
+   "kind": "cancellato",
+   "match_score": 21.87,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Doc Linfocare di Guido Aurelio Benedetto",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-21",
+   "deal_id": "520168486080",
+   "id": "0msllvfk80ct988euei0rm600l",
+   "kind": "valutazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Clinica Veterinaria Città di Fermo Ciribè - Valutazione risultati e prossimi passi",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-21",
+   "deal_id": null,
+   "id": "e5h9ukggmg78dq64rbbsi2aifs",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Lorenzo Taraboi",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-21",
+   "deal_id": "526962044141",
+   "id": "s8j3rv5l9a5aagjpibfjhi47ck",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Costantino Melis",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-21",
+   "deal_id": "520332026061",
+   "id": "61ihenlk0qst83jm5leolrpd1f",
+   "kind": "valutazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Ambulatorio Veterinario Summano - Valutazione risultati e prossimi passi",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-21",
+   "deal_id": "527144276211",
+   "id": "2cd6jlk4rms2pvj3nthdn1sdd0",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Savio Pandolfo",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-10-21",
+   "deal_id": "529401230565",
+   "id": "ffdlf6v019ujit350rnsb3bvr4",
+   "kind": "demo",
+   "match_score": 9.16,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Luigi di Bari",
+   "time": "18:15"
+  },
+  {
+   "date": "2026-10-22",
+   "deal_id": null,
+   "id": "je8mc0ov23n7i03vcb1dd9ud2g",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per San Prisco Vet",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-22",
+   "deal_id": null,
+   "id": "nnff224n51ubvd0j7m5n8m1d14",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Francesca",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-22",
+   "deal_id": "529916750042",
+   "id": "j6d3ts48gpq646thl9paifmid0",
+   "kind": "demo",
+   "match_score": 9.02,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Marco Licata",
+   "time": "18:00"
+  },
+  {
+   "date": "2026-10-23",
+   "deal_id": null,
+   "id": "dusi8631v87uo33l3uq3h1p86k",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Giuseppe Sito",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-23",
+   "deal_id": "527340941538",
+   "id": "9br8i7ekn98n9tsms24s3077eo",
+   "kind": "cancellato",
+   "match_score": 5.47,
+   "summary": "Cancellato: Demo HelloSmile: Assistente Virtuale per Doc Marianna Cozzolino",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-23",
+   "deal_id": "525795164363",
+   "id": "02gornsnrf78n6nacsafo0vom7",
+   "kind": "valutazione",
+   "match_score": 10.25,
+   "summary": "HelloSmile per Doc Paolo Losi valutazione risultati prova",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-23",
+   "deal_id": "526878455025",
+   "id": "9c2gapemo6gvj9bg83k6aj30fk",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Simone Vintrici",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-23",
+   "deal_id": "526961971434",
+   "id": "cs3olp4723r0p7m1i30s3mii34",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Aldo Giancotti",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-23",
+   "deal_id": "530354789579",
+   "id": "c0h3ul6vmmblod3panvaic260o",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Nicola Gagliardo",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-10-23",
+   "deal_id": null,
+   "id": "rkt49cjrns3ds720o1rb174g0c",
+   "kind": "valutazione",
+   "match_score": 0,
+   "summary": "HelloVet per Poliambulatorio Vet - Valutazione risultati e prossimi passi",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-23",
+   "deal_id": "530448999660",
+   "id": "64ml9fv9cug2l8tp54v6sij5fg",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Andrea Sibaud",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": null,
+   "id": "6rul8nsjjv5k3mkvlvta3aq1gj",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Valeria e Mike | Check demo",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": null,
+   "id": "js5sjkbiviph7s4bkokcb1281k",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Valeria",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": "526967413950",
+   "id": "0ujm47ijk8ubm1pr8pbvcdiu5q",
+   "kind": "attivazione",
+   "match_score": 10.25,
+   "summary": "Francesca Studio Monja - feedback su attivazione prova gratuita",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": "529986574564",
+   "id": "ci3q2k4skkt0t27orf3e7d20m8",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Albertini Massimiliano",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": null,
+   "id": "ar0v55hniur8is5opetuv6mbqk",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Miriam",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": "530042455267",
+   "id": "g28fdcnkk2sfsl8aasnlestrf0",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc StudioTia",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": "529554960619",
+   "id": "njolv3f7hl8rk9gsh72vjhaueo",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Fabrizio Montilla",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": "527158669543",
+   "id": "eoau3lrl95pksok9nloevcmavo",
+   "kind": "demo",
+   "match_score": 9.56,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Alessandra Rigoni",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": "525770884320",
+   "id": "5rsf8s9ktdfsbc0ersejlvjdrc",
+   "kind": "demo",
+   "match_score": 9.85,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Elena Nannelli",
+   "time": "16:30"
+  },
+  {
+   "date": "2026-10-26",
+   "deal_id": "527340567792",
+   "id": "dnr2fnsi0d854n6h74liempi54",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Cinzia Di Gregorio",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-10-27",
+   "deal_id": null,
+   "id": "lpep1vis0oprr4qi6ncs10re9o",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Ticca Studi Odontoiatrici S.R.L.",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-27",
+   "deal_id": "527302769895",
+   "id": "7md5ej0vme2bu4kl0r9rfeb8go",
+   "kind": "demo",
+   "match_score": 9.34,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Chiara Lagorio",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-27",
+   "deal_id": "529879764161",
+   "id": "2gf9fdgdvcrpp9ahm65mte4v68",
+   "kind": "demo",
+   "match_score": 8.65,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Dr.Francesco Gennaro",
+   "time": "11:30"
+  },
+  {
+   "date": "2026-10-27",
+   "deal_id": "527140643045",
+   "id": "iirovis594jjip5ggt36r4n464",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Leonardo Procopio",
+   "time": "15:30"
+  },
+  {
+   "date": "2026-10-27",
+   "deal_id": "525753815267",
+   "id": "6j6g9e50b9ngk63l6c8rfj6bee",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "Dottoressa Rondinelli e HelloSmile - attivazione prova gratuita",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-10-28",
+   "deal_id": "526994669794",
+   "id": "rt8flpbi939eftmhic9oihokjg",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Rossella",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-10-28",
+   "deal_id": "529855391976",
+   "id": "6op541ce39upjmthghbhtudtik",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Italo Gosetti",
+   "time": "10:30"
+  },
+  {
+   "date": "2026-10-28",
+   "deal_id": null,
+   "id": "f9e0lihebsa0576sa52a6q19n4",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Alisea Melidei",
+   "time": "11:00"
+  },
+  {
+   "date": "2026-10-28",
+   "deal_id": null,
+   "id": "cpdh0g4tj63e8rol5kj9bdati8",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Valerio Marzano",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-28",
+   "deal_id": null,
+   "id": "pufmehshv654ffb64d6jb97rdc",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Loredana",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-28",
+   "deal_id": "526185736429",
+   "id": "0c1pkd80bt212g17ut8eeg6qka",
+   "kind": "attivazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Doc Maristella Zambelli feedback attivazione prova",
+   "time": "17:00"
+  },
+  {
+   "date": "2026-10-28",
+   "deal_id": "530018075874",
+   "id": "nl3sgatj203ng4ht2bq6rpf89g",
+   "kind": "demo",
+   "match_score": 10.25,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Lorella Zanini",
+   "time": "17:30"
+  },
+  {
+   "date": "2026-10-29",
+   "deal_id": "525450063079",
+   "id": "24a49a0ijerumh32ppflbf1p97",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Dottoressa Giacalone - attivazione Maria in prova",
+   "time": "13:00"
+  },
+  {
+   "date": "2026-10-29",
+   "deal_id": null,
+   "id": "ma6khnehd6arj7m3pgt70eel7g",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Nicola",
+   "time": "13:30"
+  },
+  {
+   "date": "2026-10-29",
+   "deal_id": "526901655756",
+   "id": "1244nbfppg2imejctak7r3gn1g",
+   "kind": "demo",
+   "match_score": 4.78,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Stefania",
+   "time": "15:00"
+  },
+  {
+   "date": "2026-10-29",
+   "deal_id": null,
+   "id": "kuk3cpm4dn1sere5rblf177vjk",
+   "kind": "demo",
+   "match_score": 0,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Diana",
+   "time": "16:00"
+  },
+  {
+   "date": "2026-10-29",
+   "deal_id": "529947782351",
+   "id": "lepf75s6vpvpcdtuvi02j5clc4",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Dottor Piazza",
+   "time": "16:30"
+  },
+  {
+   "date": "2026-10-30",
+   "deal_id": "525449659636",
+   "id": "2kgo0arnfu7tt96kfn80us24ma",
+   "kind": "demo",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Dottoressa Clemente - Aggiornamento su linea",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-11-02",
+   "deal_id": "530448999660",
+   "id": "16igdqq1roqfqhi7jg7apb6p7n",
+   "kind": "attivazione",
+   "match_score": 5.47,
+   "summary": "Dr Sibaud - attivazione Ambra in prova gratuita",
+   "time": "12:30"
+  },
+  {
+   "date": "2026-11-03",
+   "deal_id": "526962044141",
+   "id": "48aa220nntnum4uohq8il8tdn7",
+   "kind": "valutazione",
+   "match_score": 10.94,
+   "summary": "HelloVet e Veterinaria Monti Parioli - valutazione prova e prossimi passi",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-11-03",
+   "deal_id": "525796404452",
+   "id": "10ejjn3m7suc7ldhj6ff8t1oot",
+   "kind": "valutazione",
+   "match_score": 10.94,
+   "summary": "HelloSmile per Polispecialistico Manzoni | Valutazione risultati e prossimi passi",
+   "time": "15:45"
+  },
+  {
+   "date": "2026-11-05",
+   "deal_id": "530619275511",
+   "id": "a67397i7igqjuala6bntbr3djc",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Simona Fiori e Natalina de Palma e Riccardi Alfredo",
+   "time": "10:00"
+  },
+  {
+   "date": "2026-11-11",
+   "deal_id": "525384808664",
+   "id": "4e0fvbp71irob2b9iag9ea91vj",
+   "kind": "valutazione",
+   "match_score": 5.47,
+   "summary": "HelloSmile per Clinica Pangea - Valutazione risultati e prossimi passi",
+   "time": "12:00"
+  },
+  {
+   "date": "2026-11-12",
+   "deal_id": "528738867418",
+   "id": "p4ocaj61k41sv9kk11m17s7t9g",
+   "kind": "demo",
+   "match_score": 10.94,
+   "summary": "Demo HelloSmile: Assistente Virtuale per Doc Nicole Battaglia",
+   "time": "10:00"
+  }
+ ],
+ "generated_at": "2026-10-23T16:55:45.631Z",
+ "live": true,
+ "snapshot_date": "2026-10-23",
+ "source": {
+  "calendar_events": 681,
+  "calendar_range": [
+   "2026-07-01",
+   "2026-12-03"
+  ],
+  "calendar_stale": false,
+  "hubspot_fetched_at": "2026-10-23T16:55:45.608Z",
+  "hubspot_total": 236
+ }
+}

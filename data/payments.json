@@ -3,7 +3,6 @@
   "plans": {
     "522963976400": {
       "deal_id": "522963976400",
-      "plan": "single",
       "installments": [
         {
           "amount": 900,
@@ -11,11 +10,11 @@
           "status": "expected"
         }
       ],
-      "note": "Non ancora firmato: incasso atteso la prima settimana di novembre"
+      "note": "Non ancora firmato: incasso atteso la prima settimana di novembre",
+      "plan": "single"
     },
     "522642467050": {
       "deal_id": "522642467050",
-      "plan": "quarterly",
       "installments": [
         {
           "amount": 716,
@@ -33,44 +32,44 @@
           "status": "expected"
         }
       ],
-      "note": "Prima rata incassata come acconto"
+      "note": "Prima rata incassata come acconto",
+      "plan": "quarterly"
     },
     "522277450951": {
       "deal_id": "522277450951",
-      "plan": "single",
       "installments": [
         {
           "amount": 2988,
           "date": "2026-10-15",
           "status": "paid"
         }
-      ]
+      ],
+      "plan": "single"
     },
     "521865572564": {
       "deal_id": "521865572564",
-      "plan": "single",
       "installments": [
         {
           "amount": 948,
           "date": "2026-10-15",
           "status": "paid"
         }
-      ]
+      ],
+      "plan": "single"
     },
     "521496546544": {
       "deal_id": "521496546544",
-      "plan": "single",
       "installments": [
         {
           "amount": 1788,
           "date": "2026-10-12",
           "status": "paid"
         }
-      ]
+      ],
+      "plan": "single"
     },
     "521016611027": {
       "deal_id": "521016611027",
-      "plan": "custom",
       "installments": [
         {
           "amount": 5000,
@@ -83,11 +82,11 @@
           "status": "expected"
         }
       ],
-      "note": "Acconto 5.000 incassato; residuo dilazionato, cadenza da definire"
+      "note": "Acconto 5.000 incassato; residuo dilazionato, cadenza da definire",
+      "plan": "custom"
     },
     "520578888919": {
       "deal_id": "520578888919",
-      "plan": "quarterly",
       "installments": [
         {
           "amount": 716,
@@ -105,29 +104,41 @@
           "status": "expected"
         }
       ],
-      "note": "Prima rata incassata"
+      "note": "Prima rata incassata",
+      "plan": "quarterly"
     },
     "510120836313": {
       "deal_id": "510120836313",
-      "plan": "single",
       "installments": [
         {
           "amount": 1788,
           "date": "2026-10-08",
           "status": "paid"
         }
-      ]
+      ],
+      "plan": "single"
     },
     "510122974413": {
       "deal_id": "510122974413",
-      "plan": "single",
       "installments": [
         {
           "amount": 1788,
           "date": "2026-10-12",
           "status": "paid"
         }
-      ]
+      ],
+      "plan": "single"
+    },
+    "523177535703": {
+      "deal_id": "523177535703",
+      "installments": [
+        {
+          "amount": 1788,
+          "date": "2026-11-27",
+          "status": "paid"
+        }
+      ],
+      "plan": "single"
     }
   }
 }
