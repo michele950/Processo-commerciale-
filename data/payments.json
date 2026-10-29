@@ -139,6 +139,18 @@
         }
       ],
       "plan": "single"
+    },
+    "509862415598": {
+      "deal_id": "509862415598",
+      "plan": "single",
+      "installments": [
+        {
+          "amount": 2988,
+          "date": "2026-10-29",
+          "status": "paid"
+        }
+      ],
+      "note": "Incassato il 29/10"
     }
   }
 }
