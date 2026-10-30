@@ -587,8 +587,10 @@ function loadLocalPayments() {
 }
 async function savePayment(id, plan) {
   const doc = { deal_id: String(id), plan: plan.plan, installments: plan.installments, updated_at: new Date().toISOString() };
-  const note = state.payments?.[id]?.note;
-  if (note) doc.note = note;
+  const prev = state.payments?.[id] || {};
+  if (prev.note) doc.note = prev.note;
+  const half = plan.renewal_annual ?? prev.renewal_annual; // rinnovo di un contratto già annuale: conta al 50%
+  if (half) doc.renewal_annual = true;
   state.payments = { ...(state.payments || {}), [id]: doc };
   if (state.db) { await state.db.doc(`payments/${id}`).set(doc); return 'db'; }
   try { localStorage.setItem(PAY_KEY, JSON.stringify(state.payments)); } catch (e) { /* storage non disponibile */ }
@@ -606,10 +608,9 @@ function renderCommissions(latest) {
   const paidOn = (P) => monthLabel(addM(P, 1));
   const months = [];
   for (let m = D.monthStart(analysisStart()); D.month(m) <= D.month(D.addMonths(state.asOf, 2)); m = D.addMonths(m, 1)) months.push(D.month(m));
-  // Base commissioni (accordo art. 6.1): i rinnovi di contratti esistenti valgono il 50% del valore annuo.
-  // Si riconoscono dal nome del deal (config.compensation.renewal_pattern, es. "rinnovo").
-  const renewRx = c.renewal_pattern ? new RegExp(c.renewal_pattern, 'i') : null;
-  const base = (d) => d.amount * (renewRx && renewRx.test(d.name) ? (c.renewal_weight ?? 0.5) : 1);
+  // Base commissioni (accordo art. 6.1): un rinnovo vale il 50% SOLO se rinnova un contratto già annuale.
+  // Il rinnovo di un trimestrale (o altro) conta pieno. Lo si segna a mano sul deal (renewal_annual nel piano di incasso).
+  const base = (d) => d.amount * (state.payments?.[d.id]?.renewal_annual ? (c.renewal_weight ?? 0.5) : 1);
   const rows = months.map((m) => {
     const target = targetOf(m);
     const closed = latest.deals.filter((d) => isWon(d) && d.closedate && D.month(d.closedate) === m).reduce((s, d) => s + base(d), 0);
@@ -687,7 +688,7 @@ function renderCommissions(latest) {
   const partsText = (parts) => Object.entries(parts).filter(([, v]) => v > 0.5).sort().map(([m, v]) => `${eur.format(v)} da ${monthLabel(m)}`).join(' + ') || 'nessuna';
 
   document.getElementById('commHint').innerHTML =
-    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese; i <b>rinnovi contano al 50%</b> (riconosciuti dalla parola "rinnovo" nel nome del deal). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} dal 100% al ${pc(c.upper_pct)} della quota</b>, <b>${pc(c.upper_rate)} oltre il ${pc(c.upper_pct)}</b> (con quota ${eur.format(r.target || 0)}: fino a ${eur.format(r.target || 0)}, da ${eur.format(r.target || 0)} a ${eur.format(upperFrom(r.target))}, oltre ${eur.format(upperFrom(r.target))}). <b>Maturano sul contrattato</b> del mese di firma e <b>si erogano quando il cliente paga</b>: ogni deal porta la sua quota della commissione del mese (in proporzione all'importo) e la versa nelle buste dei mesi di incasso, secondo il piano impostato sotto. La busta del mese si paga la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata, che si assume incassata alla firma.` +
+    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese; un <b>rinnovo conta al 50% solo se rinnova un contratto già annuale</b> (casella sul deal in "Incasso dei deal chiusi"); il rinnovo di un trimestrale conta pieno. Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} dal 100% al ${pc(c.upper_pct)} della quota</b>, <b>${pc(c.upper_rate)} oltre il ${pc(c.upper_pct)}</b> (con quota ${eur.format(r.target || 0)}: fino a ${eur.format(r.target || 0)}, da ${eur.format(r.target || 0)} a ${eur.format(upperFrom(r.target))}, oltre ${eur.format(upperFrom(r.target))}). <b>Maturano sul contrattato</b> del mese di firma e <b>si erogano quando il cliente paga</b>: ogni deal porta la sua quota della commissione del mese (in proporzione all'importo) e la versa nelle buste dei mesi di incasso, secondo il piano impostato sotto. La busta del mese si paga la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata, che si assume incassata alla firma.` +
     (p ? ` Fisso mensile ${eur.format(salaryFor(cur))} = <b>${eur.format(fixedNet)} netti garantiti</b> (accordo con Antonio: escono a prescindere dall'IRPEF) + ${eur.format(mealFor(cur))} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> di commissione in ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno: la parte tassata delle commissioni in busta nel ${cur.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
 
   let next = '', nextVal = '—', nextLabel = 'Prossimo scaglione';
@@ -762,7 +763,7 @@ function renderPaymentPlans(alloc, lag) {
     const tbd = pl.installments.filter((i) => !i.date).length;
     const late = pl.installments.filter((i) => i.date && i.status !== 'paid' && i.date < state.asOf).length;
     h += `<tr data-id="${esc(a.d.id)}"><td class="name"><a href="${HUBSPOT_URL(a.d.id)}" target="_blank" rel="noopener">${esc(a.d.name)}</a></td>
-      <td>${dLabel(a.d.closedate)}</td><td class="n">${eur.format(a.d.amount)}${a.renewal ? '<br><span class="muted">rinnovo: conta 50%</span>' : ''}</td><td class="n">${eur.format(a.gross)}</td>
+      <td>${dLabel(a.d.closedate)}</td><td class="n">${eur.format(a.d.amount)}<br><label class="muted renew"><input type="checkbox" data-renew${a.renewal ? ' checked' : ''}${dis}> rinnovo di annuale (50%)</label></td><td class="n">${eur.format(a.gross)}</td>
       <td><select data-plan${dis}>${Object.entries(PLAN_LABELS).map(([k, v]) => `<option value="${k}"${pl.plan === k ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
       <td class="muted"><button class="pay-toggle" data-toggle aria-expanded="${open ? 'true' : 'false'}">${open ? '▾' : '▸'} ${pl.installments.length} ${pl.installments.length === 1 ? 'rata' : 'rate'}</button> incassato ${eur.format(paid)} su ${eur.format(a.d.amount)}${Math.abs(left) > 0.5 ? ` <span class="flag">${left > 0 ? `${eur.format(left)} senza rata` : `rate oltre l'importo di ${eur.format(-left)}`}</span>` : ''}${tbd ? ` <span class="flag">${tbd} da confermare</span>` : ''}${late ? ` <span class="flag crit">${late} scadut${late === 1 ? 'a' : 'e'}</span>` : ''}${pl.saved ? '' : ' · <span class="muted">predefinito</span>'}${state.payments?.[a.d.id]?.note ? `<br>${esc(state.payments[a.d.id].note)}` : ''}</td></tr>
       <tr class="pay-lines" data-for="${esc(a.d.id)}"${open ? '' : ' hidden'}><td colspan="6"><div class="pay-grid">
@@ -797,6 +798,10 @@ function renderPaymentPlans(alloc, lag) {
     el.querySelector(`tr.pay-lines[data-for="${CSS.escape(id)}"]`).hidden = !open;
     bt.setAttribute('aria-expanded', String(open));
     bt.textContent = bt.textContent.replace(/^[▸▾]/, open ? '▾' : '▸');
+  }));
+  el.querySelectorAll('input[data-renew]').forEach((cb) => cb.addEventListener('change', () => {
+    const a = byId[cb.closest('tr').dataset.id];
+    persist(a.d.id, { plan: a.plan.plan, installments: a.plan.installments, renewal_annual: cb.checked });
   }));
   // Cambio di piano: rigenera le rate dal modello (le date restano poi modificabili a mano).
   // Personalizzato parte dalle rate attuali, così si corregge solo quello che è cambiato.

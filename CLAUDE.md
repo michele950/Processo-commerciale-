@@ -48,7 +48,8 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
 
 - Fonte: "Accordo di trasformazione" del 1/10/2026, art. 6-7 (prima: lettera "Nuove disposizioni concordate").
 - Base di calcolo: valore annuo dei nuovi contratti sottoscritti nel mese (closedate); i rinnovi contano al 50%
-  (riconosciuti dalla parola "rinnovo" nel nome del deal: `renewal_pattern`, `renewal_weight`). Vale solo per le
+  SOLO se rinnovano un contratto già annuale (es. il rinnovo di un trimestrale conta pieno): flag `renewal_annual`
+  sul piano di incasso del deal (casella in "Incasso dei deal chiusi"), peso `renewal_weight`. Vale solo per le
   commissioni: chiuso, ticket e KPI di vendita restano sull'importo pieno.
 - Quote: settembre 14.000, ottobre 20.000, da novembre 25.000 (`default_from`; anche in `settings/targets` del db).
   Quote, soglia e aliquote valide fino al 31/12/2026.

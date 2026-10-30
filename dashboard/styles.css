@@ -210,3 +210,4 @@ td.name a { color: inherit; }
 .pay-k { font-size: 12px; min-width: 52px; }
 .pay-toggle { padding: 1px 8px; font-size: 12px; margin-right: 4px; }
 .tiles.key { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.renew { display: inline-flex; gap: 4px; align-items: center; font-size: 11px; white-space: nowrap; }

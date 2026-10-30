@@ -393,8 +393,8 @@
     },
     "payout_default": "single",
     "_payout_note": "Firmato vs incassato: la commissione matura sul contrattato del mese di firma ed entra in busta nei mesi in cui il cliente paga le rate (data/payments.json + db payments). Senza piano: unica soluzione incassata alla firma.",
-    "renewal_pattern": "rinnovo",
-    "renewal_weight": 0.5
+    "renewal_weight": 0.5,
+    "_renewal_note": "Rinnovi al 50% (renewal_weight) solo se rinnovano un contratto già annuale: flag renewal_annual sul piano di incasso del deal. Il rinnovo di un trimestrale conta pieno."
   },
   "maturity": {
     "_note": "Tassi solo su coorti mature: demo da almeno N giorni per demo->attivazione, prove concluse o attivate da almeno N giorni per attivazione->contratto.",
