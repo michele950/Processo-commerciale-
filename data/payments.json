@@ -238,6 +238,28 @@
       ],
       "note": "Rinnovo in 4 rate, la prima pagata subito (cadenza trimestrale da confermare)",
       "plan": "custom"
+    },
+    "531521814724": {
+      "deal_id": "531521814724",
+      "plan": "quarterly",
+      "installments": [
+        {
+          "amount": 196,
+          "date": "2026-10-30",
+          "status": "paid"
+        },
+        {
+          "amount": 196,
+          "date": "2027-01-30",
+          "status": "expected"
+        },
+        {
+          "amount": 196,
+          "date": "2027-04-30",
+          "status": "expected"
+        }
+      ],
+      "note": "3 rate trimestrali, la prima pagata subito"
     }
   }
 }
