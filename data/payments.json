@@ -131,14 +131,15 @@
     },
     "523177535703": {
       "deal_id": "523177535703",
+      "plan": "single",
       "installments": [
         {
           "amount": 1788,
-          "date": "2026-11-27",
-          "status": "paid"
+          "date": "2026-11-30",
+          "status": "expected"
         }
       ],
-      "plan": "single"
+      "note": "Unica soluzione, pagamento entro fine novembre"
     },
     "509862415598": {
       "deal_id": "509862415598",
