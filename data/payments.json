@@ -142,7 +142,6 @@
     },
     "509862415598": {
       "deal_id": "509862415598",
-      "plan": "single",
       "installments": [
         {
           "amount": 2988,
@@ -150,7 +149,69 @@
           "status": "paid"
         }
       ],
-      "note": "Incassato il 29/10"
+      "note": "Incassato il 29/10",
+      "plan": "single"
+    },
+    "531678380229": {
+      "deal_id": "531678380229",
+      "installments": [
+        {
+          "amount": 1788,
+          "date": "2026-10-30",
+          "status": "paid"
+        }
+      ],
+      "note": "Pagato tutto subito",
+      "plan": "single"
+    },
+    "525762499825": {
+      "deal_id": "525762499825",
+      "installments": [
+        {
+          "amount": 996,
+          "date": "2026-10-30",
+          "status": "paid"
+        },
+        {
+          "amount": 996,
+          "date": "2027-01-30",
+          "status": "expected"
+        },
+        {
+          "amount": 996,
+          "date": "2027-04-30",
+          "status": "expected"
+        }
+      ],
+      "note": "3 rate uguali, la prima pagata subito (cadenza trimestrale da confermare)",
+      "plan": "quarterly"
+    },
+    "531523242172": {
+      "deal_id": "531523242172",
+      "installments": [
+        {
+          "amount": 147,
+          "date": "2026-10-30",
+          "status": "paid"
+        },
+        {
+          "amount": 147,
+          "date": "2027-01-30",
+          "status": "expected"
+        },
+        {
+          "amount": 147,
+          "date": "2027-04-30",
+          "status": "expected"
+        },
+        {
+          "amount": 147,
+          "date": "2027-07-30",
+          "status": "expected"
+        }
+      ],
+      "note": "Rinnovo in 4 rate, la prima pagata subito (cadenza trimestrale da confermare)",
+      "plan": "custom"
     }
   }
 }

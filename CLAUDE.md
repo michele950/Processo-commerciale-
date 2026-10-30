@@ -48,7 +48,8 @@ vecchi di `max_days_before_create` giorni rispetto alla creazione del deal ignor
 
 - Fonte: "Accordo di trasformazione" del 1/10/2026, art. 6-7 (prima: lettera "Nuove disposizioni concordate").
 - Base di calcolo: valore annuo dei nuovi contratti sottoscritti nel mese (closedate); i rinnovi contano al 50%
-  (in HubSpot non sono distinti: oggi tutto conta come nuovo).
+  (riconosciuti dalla parola "rinnovo" nel nome del deal: `renewal_pattern`, `renewal_weight`). Vale solo per le
+  commissioni: chiuso, ticket e KPI di vendita restano sull'importo pieno.
 - Quote: settembre 14.000, ottobre 20.000, da novembre 25.000 (`default_from`; anche in `settings/targets` del db).
   Quote, soglia e aliquote valide fino al 31/12/2026.
 - Commissioni: 0 sotto il 70% della quota; sopra, 8% fino al 100% della quota, 10% dal 100% al 140%

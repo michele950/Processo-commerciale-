@@ -606,10 +606,14 @@ function renderCommissions(latest) {
   const paidOn = (P) => monthLabel(addM(P, 1));
   const months = [];
   for (let m = D.monthStart(analysisStart()); D.month(m) <= D.month(D.addMonths(state.asOf, 2)); m = D.addMonths(m, 1)) months.push(D.month(m));
+  // Base commissioni (accordo art. 6.1): i rinnovi di contratti esistenti valgono il 50% del valore annuo.
+  // Si riconoscono dal nome del deal (config.compensation.renewal_pattern, es. "rinnovo").
+  const renewRx = c.renewal_pattern ? new RegExp(c.renewal_pattern, 'i') : null;
+  const base = (d) => d.amount * (renewRx && renewRx.test(d.name) ? (c.renewal_weight ?? 0.5) : 1);
   const rows = months.map((m) => {
     const target = targetOf(m);
-    const closed = latest.deals.filter((d) => isWon(d) && d.closedate && D.month(d.closedate) === m).reduce((s, d) => s + d.amount, 0);
-    const weighted = m >= cur ? latest.deals.filter((d) => isOpen(d) && d.incasso && D.month(d.incasso) === m).reduce((s, d) => s + d.weighted, 0) : 0;
+    const closed = latest.deals.filter((d) => isWon(d) && d.closedate && D.month(d.closedate) === m).reduce((s, d) => s + base(d), 0);
+    const weighted = m >= cur ? latest.deals.filter((d) => isOpen(d) && d.incasso && D.month(d.incasso) === m).reduce((s, d) => s + d.weighted * base(d) / (d.amount || 1), 0) : 0;
     const forecast = closed + weighted;
     return { m, target, threshold: target ? target * c.threshold_pct : null, closed, forecast,
       comm: commissionFor(closed, target), commF: commissionFor(forecast, target) };
@@ -620,9 +624,9 @@ function renderCommissions(latest) {
   // FIRMATO: la commissione del mese di firma si ripartisce sui deal in proporzione all'importo.
   const alloc = latest.deals.filter((d) => isWon(d) && d.closedate && rowOf[D.month(d.closedate)]).map((d) => {
     const x = rowOf[D.month(d.closedate)];
-    const gross = x.closed ? (x.comm * d.amount) / x.closed : 0;
-    const grossF = x.m >= cur && x.forecast ? (x.commF * d.amount) / x.forecast : gross;
-    return { d, m: x.m, gross, grossF, plan: payPlan(d) };
+    const gross = x.closed ? (x.comm * base(d)) / x.closed : 0;
+    const grossF = x.m >= cur && x.forecast ? (x.commF * base(d)) / x.forecast : gross;
+    return { d, m: x.m, gross, grossF, plan: payPlan(d), renewal: base(d) < d.amount };
   }).sort((a, b) => b.d.closedate.localeCompare(a.d.closedate));
   // INCASSATO: ogni rata porta la sua quota di commissione (importo rata / importo deal) nella busta del mese
   // in cui il cliente paga. gross = erogato (rate incassate), grossF = erogato + previsto (rate da incassare),
@@ -683,7 +687,7 @@ function renderCommissions(latest) {
   const partsText = (parts) => Object.entries(parts).filter(([, v]) => v > 0.5).sort().map(([m, v]) => `${eur.format(v)} da ${monthLabel(m)}`).join(' + ') || 'nessuna';
 
   document.getElementById('commHint').innerHTML =
-    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese (i rinnovi contano al 50%; in HubSpot non sono distinti, quindi qui tutto conta come nuovo). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} dal 100% al ${pc(c.upper_pct)} della quota</b>, <b>${pc(c.upper_rate)} oltre il ${pc(c.upper_pct)}</b> (con quota ${eur.format(r.target || 0)}: fino a ${eur.format(r.target || 0)}, da ${eur.format(r.target || 0)} a ${eur.format(upperFrom(r.target))}, oltre ${eur.format(upperFrom(r.target))}). <b>Maturano sul contrattato</b> del mese di firma e <b>si erogano quando il cliente paga</b>: ogni deal porta la sua quota della commissione del mese (in proporzione all'importo) e la versa nelle buste dei mesi di incasso, secondo il piano impostato sotto. La busta del mese si paga la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata, che si assume incassata alla firma.` +
+    `Da contratto: base di calcolo = valore annuo dei nuovi contratti firmati nel mese; i <b>rinnovi contano al 50%</b> (riconosciuti dalla parola "rinnovo" nel nome del deal). Le commissioni scattano al <b>${pc(c.threshold_pct)} della quota</b> del mese; poi <b>${pc(c.base_rate)} fino alla quota</b>, <b>${pc(c.quota_rate)} dal 100% al ${pc(c.upper_pct)} della quota</b>, <b>${pc(c.upper_rate)} oltre il ${pc(c.upper_pct)}</b> (con quota ${eur.format(r.target || 0)}: fino a ${eur.format(r.target || 0)}, da ${eur.format(r.target || 0)} a ${eur.format(upperFrom(r.target))}, oltre ${eur.format(upperFrom(r.target))}). <b>Maturano sul contrattato</b> del mese di firma e <b>si erogano quando il cliente paga</b>: ogni deal porta la sua quota della commissione del mese (in proporzione all'importo) e la versa nelle buste dei mesi di incasso, secondo il piano impostato sotto. La busta del mese si paga la prima settimana del mese successivo. Il previsto usa chiuso + pipeline pesata, che si assume incassata alla firma.` +
     (p ? ` Fisso mensile ${eur.format(salaryFor(cur))} = <b>${eur.format(fixedNet)} netti garantiti</b> (accordo con Antonio: escono a prescindere dall'IRPEF) + ${eur.format(mealFor(cur))} di buoni pasto esenti. <b>Netto commissioni stimato</b> (ipotesi ${p.hypothesis}: ${p.hypotheses[p.hypothesis].label}): i primi <b>${eur.format(p.commission_benefit_monthly || 0)}</b> di commissione in ogni busta arrivano come benefit esenti, quindi netti. Sul resto l'IRPEF si calcola sul reddito dell'anno: la parte tassata delle commissioni in busta nel ${cur.slice(0, 4)} (≈ ${eur.format(yr.annual)} lordi) paga in media il <b>${pct(yr.rate)}</b> tra contributi INPS, IRPEF e addizionali (queste trattenute l'anno dopo). È una stima: va verificata sulla busta paga.` : ` Stipendio netto fisso ${eur.format(c.net_salary)} al mese.`);
 
   let next = '', nextVal = '—', nextLabel = 'Prossimo scaglione';
@@ -758,7 +762,7 @@ function renderPaymentPlans(alloc, lag) {
     const tbd = pl.installments.filter((i) => !i.date).length;
     const late = pl.installments.filter((i) => i.date && i.status !== 'paid' && i.date < state.asOf).length;
     h += `<tr data-id="${esc(a.d.id)}"><td class="name"><a href="${HUBSPOT_URL(a.d.id)}" target="_blank" rel="noopener">${esc(a.d.name)}</a></td>
-      <td>${dLabel(a.d.closedate)}</td><td class="n">${eur.format(a.d.amount)}</td><td class="n">${eur.format(a.gross)}</td>
+      <td>${dLabel(a.d.closedate)}</td><td class="n">${eur.format(a.d.amount)}${a.renewal ? '<br><span class="muted">rinnovo: conta 50%</span>' : ''}</td><td class="n">${eur.format(a.gross)}</td>
       <td><select data-plan${dis}>${Object.entries(PLAN_LABELS).map(([k, v]) => `<option value="${k}"${pl.plan === k ? ' selected' : ''}>${v}</option>`).join('')}</select></td>
       <td class="muted"><button class="pay-toggle" data-toggle aria-expanded="${open ? 'true' : 'false'}">${open ? '▾' : '▸'} ${pl.installments.length} ${pl.installments.length === 1 ? 'rata' : 'rate'}</button> incassato ${eur.format(paid)} su ${eur.format(a.d.amount)}${Math.abs(left) > 0.5 ? ` <span class="flag">${left > 0 ? `${eur.format(left)} senza rata` : `rate oltre l'importo di ${eur.format(-left)}`}</span>` : ''}${tbd ? ` <span class="flag">${tbd} da confermare</span>` : ''}${late ? ` <span class="flag crit">${late} scadut${late === 1 ? 'a' : 'e'}</span>` : ''}${pl.saved ? '' : ' · <span class="muted">predefinito</span>'}${state.payments?.[a.d.id]?.note ? `<br>${esc(state.payments[a.d.id].note)}` : ''}</td></tr>
       <tr class="pay-lines" data-for="${esc(a.d.id)}"${open ? '' : ' hidden'}><td colspan="6"><div class="pay-grid">

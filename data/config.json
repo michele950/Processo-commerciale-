@@ -392,7 +392,9 @@
       "_net_fixed_note": "1.600 € netti garantiti ogni mese; le commissioni portano solo la loro tassazione marginale (IRPEF sul reddito annuo: RAL 24.000 + commissioni)."
     },
     "payout_default": "single",
-    "_payout_note": "Firmato vs incassato: la commissione matura sul contrattato del mese di firma ed entra in busta nei mesi in cui il cliente paga le rate (data/payments.json + db payments). Senza piano: unica soluzione incassata alla firma."
+    "_payout_note": "Firmato vs incassato: la commissione matura sul contrattato del mese di firma ed entra in busta nei mesi in cui il cliente paga le rate (data/payments.json + db payments). Senza piano: unica soluzione incassata alla firma.",
+    "renewal_pattern": "rinnovo",
+    "renewal_weight": 0.5
   },
   "maturity": {
     "_note": "Tassi solo su coorti mature: demo da almeno N giorni per demo->attivazione, prove concluse o attivate da almeno N giorni per attivazione->contratto.",
