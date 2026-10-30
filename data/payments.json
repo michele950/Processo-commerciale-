@@ -70,6 +70,7 @@
     },
     "521016611027": {
       "deal_id": "521016611027",
+      "plan": "custom",
       "installments": [
         {
           "amount": 5000,
@@ -77,13 +78,37 @@
           "status": "paid"
         },
         {
-          "amount": 4478,
-          "date": "",
+          "amount": 746,
+          "date": "2026-11-15",
+          "status": "expected"
+        },
+        {
+          "amount": 746,
+          "date": "2026-12-15",
+          "status": "expected"
+        },
+        {
+          "amount": 746,
+          "date": "2027-01-15",
+          "status": "expected"
+        },
+        {
+          "amount": 746,
+          "date": "2027-02-15",
+          "status": "expected"
+        },
+        {
+          "amount": 746,
+          "date": "2027-03-15",
+          "status": "expected"
+        },
+        {
+          "amount": 748,
+          "date": "2027-04-15",
           "status": "expected"
         }
       ],
-      "note": "Acconto 5.000 incassato; residuo dilazionato, cadenza da definire",
-      "plan": "custom"
+      "note": "Acconto 5.000 incassato; residuo 4.478 in 6 rate mensili da novembre ad aprile"
     },
     "520578888919": {
       "deal_id": "520578888919",
