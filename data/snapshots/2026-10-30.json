@@ -372,17 +372,17 @@
   {
    "activation_date": null,
    "amount": 588,
-   "closedate": "2026-11-06",
+   "closedate": "2026-10-30",
    "createdate": "2026-10-27",
    "demo_date": null,
    "demo_date_source": "createdate",
    "evaluation_date": null,
    "events": [],
    "id": "531521814724",
-   "lastmod": "2026-10-28",
+   "lastmod": "2026-10-30",
    "lost_reason": null,
    "name": "Clinica Veterinaria dello Stretto - rinnovo n.12 mesi",
-   "stage": "4431899834"
+   "stage": "4961139914"
   },
   {
    "activation_date": null,
