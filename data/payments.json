@@ -3,15 +3,15 @@
   "plans": {
     "522963976400": {
       "deal_id": "522963976400",
+      "plan": "single",
       "installments": [
         {
-          "amount": 900,
-          "date": "2026-11-02",
-          "status": "expected"
+          "amount": 894,
+          "date": "2026-10-21",
+          "status": "paid"
         }
       ],
-      "note": "Non ancora firmato: incasso atteso la prima settimana di novembre",
-      "plan": "single"
+      "note": "Pagato a ottobre (unica soluzione)"
     },
     "522642467050": {
       "deal_id": "522642467050",
